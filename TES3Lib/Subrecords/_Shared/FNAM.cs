@@ -11,7 +11,7 @@ namespace TES3Lib.Subrecords.Shared
     [DebuggerDisplay("{Name}")]
     public class FNAM : Subrecord
     {
-        public new string Name { get; set; }
+        public string FileName { get; set; }
 
         public FNAM()
         {
@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.Shared
         public FNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Name = reader.ReadBytes<string>(base.Data, base.Size);
+            FileName = reader.ReadBytes<string>(base.Data, base.Size);
         }
     }
 }
