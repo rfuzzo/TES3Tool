@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using TES4Lib.Records;
 using TES3Lib.Enums.Flags;
 using TES4Lib.Enums.Flags;
+using Tes3Tool.TES3Utilities;
 
 namespace TES3Tool.TES4RecordConverter.Records
 {
@@ -133,7 +134,16 @@ namespace TES3Tool.TES4RecordConverter.Records
             if (recordType.Equals("ENCH"))
             {
                 var mwENCH = ConvertENCH((TES4Lib.Records.ENCH)obRecord);
+                if (mwENCH.ENAM.Count.Equals(0)) return null;
                 return new ConvertedRecordData(obRecord.FormId, mwENCH.GetType().Name, mwENCH.NAME.EditorId, mwENCH);
+            }
+
+            //SPELLS
+            if (recordType.Equals("SPEL"))
+            {
+                var mwSPEL = ConvertSPEL((TES4Lib.Records.SPEL)obRecord);
+                if (mwSPEL.ENAM.Count.Equals(0)) return null;
+                return new ConvertedRecordData(obRecord.FormId, mwSPEL.GetType().Name, mwSPEL.NAME.EditorId, mwSPEL);
             }
 
             //ALCHEMY
@@ -213,7 +223,116 @@ namespace TES3Tool.TES4RecordConverter.Records
                 return new ConvertedRecordData(obRecord.FormId, mwCLAS.GetType().Name, mwCLAS.NAME.EditorId, mwCLAS);
             }
 
+            //FACTION
+            if (recordType.Equals("FACT"))
+            {
+                var mwFACT = ConvertFACT((TES4Lib.Records.FACT)obRecord);
+                return new ConvertedRecordData(obRecord.FormId, mwFACT.GetType().Name, mwFACT.NAME.EditorId, mwFACT);
+            }
+
             return null;
+        }
+
+        private static TES3Lib.Records.FACT ConvertFACT(TES4Lib.Records.FACT obFACT)
+        {
+            var mwFACT = new TES3Lib.Records.FACT
+            {
+                NAME = new TES3Lib.Subrecords.Shared.NAME { EditorId = EditorIdFormater(obFACT.EDID.EditorId) },
+                FNAM = new TES3Lib.Subrecords.Shared.FNAM { Name = !IsNull(obFACT.FULL) ? NameFormater(obFACT.FULL.DisplayName) : EditorIdFormater(obFACT.EDID.EditorId) },
+                FADT = new TES3Lib.Subrecords.FACT.FADT
+                {
+                    FirstAttribute = TES3Lib.Enums.Attribute.Strength,
+                    SecondAttributre = TES3Lib.Enums.Attribute.Intelligence,
+                    IsHiddenFromPlayer = obFACT.DATA.Flags.Contains(TES4Lib.Enums.Flags.FactionFlag.HiddenFromPlayer) ? true : false,
+                    FavoredSkills = new TES3Lib.Enums.Skill[]
+                    {
+                        TES3Lib.Enums.Skill.LongBlade,
+                        TES3Lib.Enums.Skill.Destruction,
+                        TES3Lib.Enums.Skill.MediumArmor,
+                        TES3Lib.Enums.Skill.HeavyArmor,
+                        TES3Lib.Enums.Skill.LightArmor,
+                        TES3Lib.Enums.Skill.Axe,
+                        TES3Lib.Enums.Skill.Restoration,
+                    },
+                    RankData = new TES3Lib.Subrecords.FACT.FADT.RankRequirement[obFACT.RNKS.Count]
+                },
+                RNAM = new List<TES3Lib.Subrecords.FACT.RNAM>()              
+            };
+
+            for (int i = 0; i < obFACT.RNKS.Count; i++)
+            {
+                mwFACT.RNAM.Add(new TES3Lib.Subrecords.FACT.RNAM { RankName = !IsNull(obFACT.RNKS[i].MNAM) ? obFACT.RNKS[i].MNAM.MaleRankTitle : "\0" }); //yes im totally assuming your gender here
+                mwFACT.FADT.RankData[i].FirstAttribute = 0;
+                mwFACT.FADT.RankData[i].SecondAttribute = 0;
+                mwFACT.FADT.RankData[i].FirstSkill = 0;
+                mwFACT.FADT.RankData[i].SecondSkill = 0;
+                mwFACT.FADT.RankData[i].Reputation = 0;
+            };
+
+            mwFACT.FactionsAttitudes = new List<(TES3Lib.Subrecords.Shared.ANAM name, TES3Lib.Subrecords.FACT.INTV value)>();
+            //foreach (var factionDisp in obFACT.XNAM)
+            //{
+            //    mwFACT.FactionsAttitudes.Add((new TES3Lib.Subrecords.Shared.ANAM { EditorId = "shieeeeeeeeit" },new TES3Lib.Subrecords.FACT.INTV { FactionReactionValue = factionDisp.Disposition}));
+            //}
+
+            return mwFACT;
+        }
+
+        private static void ConvertLVSP(TES4Lib.Records.LVSP obLVSP)
+        {
+            // need a plan for that
+            // 1 loop over contents
+            // 2 check what entry is, leveled spells are prefixed with LL or SELL for SI
+            // 3 if its leveled list, dig in deeper, if its spell pick one
+
+            foreach (var leveledSpell in obLVSP.LVLO)
+            {
+                // need grab without converting
+                var spell = TES4Lib.TES4.TES4RecordIndex[leveledSpell.ItemFormId]; //could be LVSP or SPELL record
+                var editorId = spell.GetEditorId();
+                if(editorId.StartsWith("SELL") || editorId.StartsWith("SELL"))
+                {
+                    //go deeper
+                }
+
+
+            }
+        }
+
+        private static TES3Lib.Records.SPEL ConvertSPEL(TES4Lib.Records.SPEL obSPEL)
+        {
+            var mwSPEL = new TES3Lib.Records.SPEL
+            {
+                NAME = new TES3Lib.Subrecords.Shared.NAME { EditorId = EditorIdFormater(obSPEL.EDID.EditorId) },
+                FNAM = new TES3Lib.Subrecords.Shared.FNAM { Name = !IsNull(obSPEL.FULL) ? NameFormater(obSPEL.FULL.DisplayName) : "\0" },
+                SPDT = new TES3Lib.Subrecords.SPEL.SPDT
+                {
+                    Type = CastSpellTypeToMW(obSPEL.SPIT.Type),
+                    SpellCost = obSPEL.SPIT.SpellCost,
+                    Flags = CastSpellFlagToMW(obSPEL.SPIT.Flags)
+                }
+            };
+
+            mwSPEL.ENAM = new List<TES3Lib.Subrecords.SPEL.ENAM>();
+            foreach (var effect in obSPEL.EFFECT)
+            {
+                var enam = new TES3Lib.Subrecords.SPEL.ENAM
+                {
+                    MagicEffect = CastMagicEffectToMW(effect.EFIT.MagicEffect),
+                    Area = effect.EFIT.Area,
+                    Duration = effect.EFIT.Duration,
+                    SpellRange = (TES3Lib.Enums.SpellRange)((int)effect.EFIT.SpellRange),
+                    MinMagnitude = effect.EFIT.Magnitude / 2,
+                    MaxMagnitude = effect.EFIT.Magnitude
+                };
+                enam.Skill = CastActorValueToSkillEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
+                enam.Attribute = CastActorValueToAttributeEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
+
+                if (!enam.MagicEffect.Equals(TES3Lib.Enums.MagicEffect.None))
+                    mwSPEL.ENAM.Add(enam);
+            }
+
+            return mwSPEL;
         }
 
         private static TES3Lib.Records.RACE ConvertRACE(TES4Lib.Records.RACE obRACE)
@@ -253,10 +372,13 @@ namespace TES3Tool.TES4RecordConverter.Records
                     },
                     SkillBonuses = new TES3Lib.Subrecords.RACE.RADT.SkillBonus[7],
                     Flags = new HashSet<RaceFlags>()
-                    
+
                 },
                 NPCS = new List<TES3Lib.Subrecords.Shared.NPCS>()
             };
+
+            for (int i = 0; i < 7; i++)
+                mwRACE.RADT.SkillBonuses[i] = new TES3Lib.Subrecords.RACE.RADT.SkillBonus();
 
             if (obRACE.DATA.IsPlayable) mwRACE.RADT.Flags.Add(TES3Lib.Enums.Flags.RaceFlags.Playable);
 
@@ -265,7 +387,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                 mwRACE.RADT.SkillBonuses[i].Skill = CastActorValueToSkillMW(obRACE.DATA.SkillBoosts[i].Skill);
                 mwRACE.RADT.SkillBonuses[i].Bonus = obRACE.DATA.SkillBoosts[i].Bonus;
             }
-             
+
             if (!IsNull(obRACE.SPLO))
             {
                 foreach (var spell in obRACE.SPLO)
@@ -277,6 +399,8 @@ namespace TES3Tool.TES4RecordConverter.Records
                     }
                 }
             }
+
+            CreateRaceBodyParts(mwRACE);
 
             return mwRACE;
         }
@@ -293,7 +417,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                     PrimaryAttribute1 = CastActorValueToAttributeMW(obCLAS.DATA.PrimaryAttribute1),
                     PrimaryAttribute2 = CastActorValueToAttributeMW(obCLAS.DATA.PrimaryAttribute2),
                     Specialization = (TES3Lib.Enums.Specialization)obCLAS.DATA.Specialization,
-                    IsPlayable = obCLAS.DATA.Flags.Contains(ClassFlag.Playable) ? 1 : 0,
+                    IsPlayable = obCLAS.DATA.Flags.Contains(ClassFlag.Playable) ? true : false,
                     Services = CastServicesToMW(obCLAS.DATA.Services),
                     Major1 = CastActorValueToSkillMW(obCLAS.DATA.MajorSkills[0]),
                     Major2 = CastActorValueToSkillMW(obCLAS.DATA.MajorSkills[1]),
@@ -332,8 +456,10 @@ namespace TES3Tool.TES4RecordConverter.Records
                     Alarm = obNPC.AIDT.Responsibility,
                     Flags = CastServicesToMW(obNPC.AIDT.Services)
                 },
-              
             };
+
+            if (mwNPC.FLAG.Flags.Contains(TES3Lib.Enums.Flags.NPCFlag.AutoCalc))
+                mwNPC.AIDT.Flags.Add(TES3Lib.Enums.Flags.ServicesFlag.AutoCalc);
 
             string ClassName = GetBaseId(obNPC.CNAM.FormId);
             if (!string.IsNullOrEmpty(ClassName))
@@ -354,20 +480,17 @@ namespace TES3Tool.TES4RecordConverter.Records
             if (!IsNull(obNPC.SNAM))
             {
                 string FactionId = GetBaseId(obNPC.SNAM[0].FormId);
-                mwNPC.ANAM.EditorId = FactionId;
+                if (!string.IsNullOrEmpty(FactionId))
+                {
+                    mwNPC.ANAM.EditorId = FactionId;
+                }
             }
 
-            //oblivion actors have many factions, im getting just first one
-            if (!IsNull(obNPC.SNAM))
-            {
-                string FactionId = GetBaseId(obNPC.SNAM[0].FormId);
-                mwNPC.ANAM.EditorId = FactionId;
-            }
-
+            var gender = obNPC.ACBS.Flags.Contains(TES4Lib.Enums.Flags.NPCFlag.Female) ? "F" : "M";
             if (IsStandardMWRace(RaceId))
             {
                 var rnd = new Random(DateTime.Now.Millisecond);
-                var gender = obNPC.ACBS.Flags.Contains(TES4Lib.Enums.Flags.NPCFlag.Female) ? 'F' : 'M';
+                
                 var key = $"{RaceId} {gender}";
                 int headTypesCount = Config.MWRaceFaces[key].Count;
                 int hairTypesCount = Config.MWRaceHairs[key].Count;
@@ -375,6 +498,14 @@ namespace TES3Tool.TES4RecordConverter.Records
                 mwNPC.KNAM = new TES3Lib.Subrecords.NPC_.KNAM { HairModel = Config.MWRaceHairs[key][rnd.Next(0, hairTypesCount)] };
                 mwNPC.BNAM = new TES3Lib.Subrecords.Shared.BNAM { EditorId = Config.MWRaceFaces[key][rnd.Next(0, headTypesCount)] };
             }
+            else
+            {
+                var editorIdBase = $"{Config.convertedExtraEditorIdPrefix}b_n_{mwNPC.RNAM.RaceName.TrimEnd('\0')}_{gender.ToLower()}";
+                mwNPC.KNAM = new TES3Lib.Subrecords.NPC_.KNAM { HairModel = $"{editorIdBase}_hair01\0"};
+                mwNPC.BNAM = new TES3Lib.Subrecords.Shared.BNAM { EditorId = $"{editorIdBase}_head01\0"};
+            }
+
+
             mwNPC.NPDT = new TES3Lib.Subrecords.NPC_.NPDT
             {
                 Level = obNPC.ACBS.Flags.Contains(TES4Lib.Enums.Flags.NPCFlag.PCLevelOffset) ? (short)Math.Max(obNPC.ACBS.CalcMax, obNPC.ACBS.CalcMin) : (short)obNPC.ACBS.Level,
@@ -489,7 +620,12 @@ namespace TES3Tool.TES4RecordConverter.Records
                 },
                 XSCL = !IsNull(obCREA.BNAM) && !obCREA.BNAM.BaseScale.Equals(1.0f) ? new TES3Lib.Subrecords.Shared.XSCL { Scale = obCREA.BNAM.BaseScale } : null
             };
-
+            //if (mwCREA.FLAG.Flags.Contains(TES3Lib.Enums.Flags.CreatureFlag.AutoCalc))
+            //{
+            //    mwCREA.AIDT.Flags.Add(TES3Lib.Enums.Flags.ServicesFlag.AutoCalc);
+            //}
+                
+       
             if (mwCREA.FLAG.Flags.Contains(TES3Lib.Enums.Flags.CreatureFlag.Biped))
             {
                 mwCREA.MODL.ModelPath = Config.CREABiped;
@@ -746,9 +882,9 @@ namespace TES3Tool.TES4RecordConverter.Records
                     MagicEffect = CastMagicEffectToMW(effect.EFIT.MagicEffect),
                     Duration = effect.EFIT.Duration,
                     Magnitude = effect.EFIT.Magnitude,
-                    Unknown1 = 1,
-                    Unknown2 = 2,
-                    Unknown3 = 3,
+                    Unknown1 = 0,
+                    Unknown2 = 0,
+                    Unknown3 = 0,
                 };
                 enam.Skill = CastActorValueToSkillEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
                 enam.Attribute = CastActorValueToAttributeEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
@@ -765,11 +901,16 @@ namespace TES3Tool.TES4RecordConverter.Records
                 ENDT = new TES3Lib.Subrecords.ENCH.ENDT
                 {
                     Type = CastEnchantmentTypeToMW(obENCH.ENIT.EnchantmentType),
-                    AutoCalc = (int)obENCH.ENIT.Flags,
+                    AutoCalculate = obENCH.ENIT.Flags.Equals(0) ? AutoCalculateFlag.On : AutoCalculateFlag.Off,
                     Charge = obENCH.ENIT.Charge,
                     EnchantCost = obENCH.ENIT.EnchantCost,
                 }
             };
+
+            if(mwENCH.ENDT.Type.Equals(TES3Lib.Enums.EnchantmentType.ConstantEffect))
+            {
+                mwENCH.ENDT.AutoCalculate = AutoCalculateFlag.Unavailable;
+            }
 
             mwENCH.ENAM = new List<TES3Lib.Subrecords.ENCH.ENAM>();
             foreach (var effect in obENCH.EFCT)
@@ -785,7 +926,9 @@ namespace TES3Tool.TES4RecordConverter.Records
                 };
                 enam.Skill = CastActorValueToSkillEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
                 enam.Attribute = CastActorValueToAttributeEffectMW(effect.EFIT.ActorValue, enam.MagicEffect);
-                mwENCH.ENAM.Add(enam);
+
+                if(!enam.MagicEffect.Equals(TES3Lib.Enums.MagicEffect.None))
+                    mwENCH.ENAM.Add(enam);
             }
 
             return mwENCH;
@@ -853,8 +996,8 @@ namespace TES3Tool.TES4RecordConverter.Records
                 else
                 {
                     IRDT.EffectIds[i] = TES3Lib.Enums.MagicEffect.None;
-                    IRDT.SkillIds[i] = TES3Lib.Enums.Skill.Unused;
-                    IRDT.AttributeIds[i] = TES3Lib.Enums.Attribute.Unused;
+                    IRDT.SkillIds[i] = TES3Lib.Enums.Skill.None;
+                    IRDT.AttributeIds[i] = TES3Lib.Enums.Attribute.None;
                 }
             }
             return mwINGR;

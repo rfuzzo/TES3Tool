@@ -11,7 +11,7 @@ namespace TES3Tool
         public static int cellShiftY = 50;
 
         public static string convertedRootFolder = "SI";
-
+        public static string convertedExtraEditorIdPrefix = "SE";
         //path for records
         public static string ARMOPath = "a";
         public static string MISCPath = "m";
@@ -30,6 +30,7 @@ namespace TES3Tool
         public static string BOOKPath = "p";
         public static string ALCHPath = "h";
         public static string APPAPath = "h";
+        public static string RACEPath = "b";
 
         public static string CREABiped = "r\\Skeleton.NIF\0";
         public static string CREAamphibious = "r\\swimmer.NIF\0";
@@ -108,7 +109,7 @@ namespace TES3Tool
                 {"000982E6","Monk\0"},
                 {"00093488","Blade\0"},
                 {"00092D99","Mage\0"},
-                {"0004B90A","Conjurer\0"},
+                //{"0004B90A","Conjurer\0"},
                 {"0003D7FC","Guard\0"},
                 {"0003D06A","Thief Service\0"},
                 {"00034521","Warrior\0"},
@@ -201,6 +202,13 @@ namespace TES3Tool
             MWRaceHairs.Add("Wood Elf F", new List<string>());
             MWRaceHairs.Add("High Elf M", new List<string>());
             MWRaceHairs.Add("High Elf F", new List<string>());
+
+            MWRaceHairs.Add("DarkSeducer M", new List<string>());
+            MWRaceHairs.Add("GoldenSaint F", new List<string>());
+            MWRaceHairs.Add("DarkSeducer F", new List<string>());
+            MWRaceHairs.Add("GoldenSaint M", new List<string>());
+            MWRaceHairs.Add("Sheogorath M", new List<string>());
+            MWRaceHairs.Add("Sheogorath F", new List<string>());
 
             MWRaceHairs["Dark Elf M"].Add("b_n_dark elf_m_hair_01\0");
             MWRaceHairs["Dark Elf M"].Add("b_n_dark elf_m_hair_02\0");
@@ -382,6 +390,13 @@ namespace TES3Tool
             MWRaceFaces.Add("Wood Elf F", new List<string>());
             MWRaceFaces.Add("High Elf M", new List<string>());
             MWRaceFaces.Add("High Elf F", new List<string>());
+
+            MWRaceFaces.Add("DarkSeducer M", new List<string>());
+            MWRaceFaces.Add("GoldenSaint F", new List<string>());
+            MWRaceFaces.Add("DarkSeducer F", new List<string>());
+            MWRaceFaces.Add("GoldenSaint M", new List<string>());
+            MWRaceFaces.Add("Sheogorath M", new List<string>());
+            MWRaceFaces.Add("Sheogorath F", new List<string>());
 
             MWRaceFaces["Breton M"].Add("b_n_breton_m_head_01\0");
             MWRaceFaces["Dark Elf M"].Add("b_n_dark elf_m_head_01\0");
@@ -604,14 +619,14 @@ namespace TES3Tool
                 {"Weapons\\DarkSeducer\\Shortsword.NIF\0","SI\\w\\DarkShortSword.NIF\0"},
                 {"Staffs\\TestStaff.NIF\0","SI\\w\\TestStaff.NIF\0"},
                 {"Weapons\\KnightofOrder\\Longsword.NIF\0","SI\\w\\KnightofOrderBlade.NIF\0"},
-                {"Weapons\\Gromite\\ObeliskPriestStaff01.NIF\0","SI\\w\\ObeliskPriestStaff.NIF\0"},
+                {"Weapons\\Gromite\\ObeliskPriestStaff01.NIF\0","SI\\w\\obeliskprieststaff01.NIF\0"},
                 {"Weapons\\Madness\\Longsword.NIF\0","SI\\w\\MadnessLongsword.NIF\0"},
                 {"Weapons\\Madness\\Claymore.NIF\0","SI\\w\\MadnessClaymore.NIF\0"},
                 {"Weapons\\Madness\\Bow.NIF\0","SI\\w\\MadnessBow.NIF\0"},
                 {"Weapons\\Madness\\WarAxe.NIF\0","SI\\w\\MadnessWarAxe.NIF\0"},
                 {"Weapons\\Gromite\\GromiteMace.NIF\0","SI\\w\\GromiteMace.NIF\0"},
                 {"Weapons\\Gromite\\GromiteCleaver.NIF\0","SI\\w\\GromiteCleaver.NIF\0"},
-                {"Weapons\\Gromite\\GromiteBow.NIF\0","SI\\w\\GromiteBow1.NIF\0"},
+                {"Weapons\\Gromite\\GromiteBow.NIF\0","SI\\w\\GromiteBow.NIF\0"},
                 {"Weapons\\GoldenSaint\\Bow.NIF\0","SI\\w\\GoldenSaintBow.NIF\0"},
                 {"Weapons\\GoldenSaint\\Longsword.NIF\0","SI\\w\\GoldenSaintLongsword.NIF\0"},
                 {"Weapons\\GoldenSaint\\Shortsword.NIF\0","SI\\w\\GoldenSaintShortsword.NIF\0"},
@@ -631,8 +646,8 @@ namespace TES3Tool
                 {"Weapons\\Blacksword\\Longsword.NIF\0","SI\\w\\Blacksword.NIF\0"},
                 {"Weapons\\BlackAxe\\BattleAxe.NIF\0","SI\\w\\BlackAxe.NIF\0"},
                 {"Weapons\\Apostle\\ApostleDagger.NIF\0","SI\\w\\ApostleDagger.NIF\0"},
-                {"Weapons\\SylsWarhammer\\SylsWarhammer.NIF\0","SI\\w\\Se07SylsWarhammer.NIF\0"},
-                {"Weapons\\Gromite\\ObeliskStaff01.NIF\0","SI\\w\\ObeliskStaff.NIF\0"},
+                {"Weapons\\SylsWarhammer\\SylsWarhammer.NIF\0","SI\\w\\SylsWarhammer.NIF\0"},
+                {"Weapons\\Gromite\\ObeliskStaff01.NIF\0","SI\\w\\obeliskstaff01.NIF\0"},
                 {"Weapons\\Adventurer\\TsaesciDuskBlade.NIF\0","SI\\w\\TsaesciDuskBlade.NIF\0"},
                 {"Weapons\\Adventurer\\AdventurersSword1.NIF\0","SI\\w\\AdventurersSword.NIF\0"},
                 {"Staffs\\TestStaff02.NIF\0","SI\\w\\TestStaff02.NIF\0"},
@@ -646,13 +661,13 @@ namespace TES3Tool
                 {"Weapons\\Glass\\Arrow.NIF\0","SI\\w\\GlassArrow.NIF\0"},
                 {"Weapons\\Ebony\\Arrow.NIF\0","SI\\w\\EbonyArrow.NIF\0"},
                 {"Weapons\\Daedric\\Arrow.NIF\0","SI\\w\\DaedricArrow.NIF\0"},
-                {"Weapons\\Gromite\\GromiteQuiver.NIF\0","SI\\w\\GromiteArrow1.NIF\0"},
+                {"Weapons\\Gromite\\GromiteQuiver.NIF\0","SI\\w\\GromiteArrow.NIF\0"},
                 {"Weapons\\GoldenSaint\\Arrow.NIF\0","SI\\w\\GoldenSaintArrow.NIF\0"},
                 {"Weapons\\DarkSeducer\\Arrow.NIF\0","SI\\w\\DarkArrows.NIF\0"},
                 {"Weapons\\SE32GhostlyDagger\\SE32GhostlyArrow.NIF\0","SI\\w\\se32ghostlyarrow.NIF\0"},
-                {"Weapons\\Madness\\Arrow.NIF\0","SI\\w\\IconMadnessArrow.NIF\0"},
+                {"Weapons\\Madness\\Arrow.NIF\0","SI\\w\\MadnessArrow.NIF\0"},
                 {"Weapons\\Amber\\Arrow.NIF\0","SI\\w\\AmberArrow.NIF\0"},
-                {"Weapons\\Bone\\Arrow.NIF\0","SI\\w\\BoneQuiver.NIF\0"},
+                {"Weapons\\Bone\\Arrow.NIF\0","SI\\w\\BoneArrow.NIF\0"},
             };
         }
     }

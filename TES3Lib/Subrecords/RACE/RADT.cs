@@ -24,6 +24,14 @@ namespace TES3Lib.Subrecords.RACE
 
         public RADT()
         {
+            SkillBonuses = new SkillBonus[7];
+
+            for (int i = 0; i < 7; i++)
+                SkillBonuses[i] = new SkillBonus();
+
+            Male = new Attributes();
+            Female = new Attributes();
+            Flags = new HashSet<RaceFlags>();
         }
 
         public RADT(byte[] rawData) : base(rawData)
@@ -33,7 +41,8 @@ namespace TES3Lib.Subrecords.RACE
             SkillBonuses = new SkillBonus[7];
             for (int i = 0; i < 7; i++)
             {
-                SkillBonuses[i].Skill = (Skill)reader.ReadBytes<int>(base.Data);
+                SkillBonuses[i] = new SkillBonus();
+                SkillBonuses[i].Skill = reader.ReadBytes<Skill>(base.Data);
                 SkillBonuses[i].Bonus = reader.ReadBytes<int>(base.Data);
             }
 
@@ -79,8 +88,8 @@ namespace TES3Lib.Subrecords.RACE
 
             for (int i = 0; i < 7; i++)
             {
-                data.AddRange(SkillBonuses[i].Skill.Equals(Skill.Unused) ? new byte[] { 255, 255, 255, 255 } : ByteWriter.ToBytes((int)SkillBonuses[i].Skill, typeof(int)));
-                data.AddRange(ByteWriter.ToBytes((int)SkillBonuses[i].Bonus, typeof(int)));
+                data.AddRange(ByteWriter.ToBytes(SkillBonuses[i].Skill, typeof(uint)));
+                data.AddRange(ByteWriter.ToBytes(SkillBonuses[i].Bonus, typeof(int)));
             }
             data.AddRange(ByteWriter.ToBytes(Male.Strength, typeof(int)));
             data.AddRange(ByteWriter.ToBytes(Female.Strength, typeof(int)));
@@ -110,10 +119,16 @@ namespace TES3Lib.Subrecords.RACE
             return serialized;
         }
 
-        public struct SkillBonus
+        public class SkillBonus
         {
             public Skill Skill;
             public int Bonus;
+
+            public SkillBonus()
+            {
+                Skill = Skill.None;
+                Bonus = 0;
+            }
         }
 
         public class Attributes
@@ -128,6 +143,20 @@ namespace TES3Lib.Subrecords.RACE
             public int Luck { get; set; }
             public float Weight { get; set; }
             public float Height { get; set; }
+
+            public Attributes()
+            {
+                Strength = 50;
+                Intelligence = 50;
+                Willpower = 50;
+                Agility = 50;
+                Speed = 50;
+                Endurance = 50;
+                Personality = 50;
+                Luck = 50;
+                Weight = 1;
+                Height = 1;
+            }
         }
     }
 }

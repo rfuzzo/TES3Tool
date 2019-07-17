@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TES3Lib.Base;
+﻿using TES3Lib.Base;
 using TES3Lib.Enums;
 using Utility;
+using Utility.Attributes;
 using Attribute = TES3Lib.Enums.Attribute;
 
 namespace TES3Lib.Subrecords.ENCH
@@ -14,16 +11,19 @@ namespace TES3Lib.Subrecords.ENCH
     /// </summary>
     public class ENAM : Subrecord
     {
+        [SizeInBytes(2)]
         public MagicEffect MagicEffect { get; set; }
 
         /// <summary>
-        /// for skill related effects, -1/0 otherwise
+        /// for skill related effects, 0xFFFFFFFF otherwise
         /// </summary>
+        [SizeInBytes(1)]
         public Skill Skill { get; set; }
 
         /// <summary>
-        /// for attribute related effects, -1/0 otherwise
+        /// for attribute related effects, 0xFFFFFFFF otherwise
         /// </summary>
+        [SizeInBytes(1)]
         public Attribute Attribute { get; set; }
 
         public SpellRange SpellRange { get; set; }
@@ -43,34 +43,14 @@ namespace TES3Lib.Subrecords.ENCH
         public ENAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            MagicEffect = reader.ReadBytes<MagicEffect>(base.Data);
-            Skill = reader.ReadBytes<Skill>(base.Data);
-            Attribute = reader.ReadBytes<Attribute>(base.Data);
+            MagicEffect = reader.ReadBytes<MagicEffect>(base.Data,2);
+            Skill = reader.ReadBytes<Skill>(base.Data, 1);
+            Attribute = reader.ReadBytes<Attribute>(base.Data,1);
             SpellRange = reader.ReadBytes<SpellRange>(base.Data);
             Area = reader.ReadBytes<int>(base.Data);
             Duration = reader.ReadBytes<int>(base.Data);
             MinMagnitude = reader.ReadBytes<int>(base.Data);
             MaxMagnitude = reader.ReadBytes<int>(base.Data);
         }
-
-        //just in case...
-        //public override byte[] SerializeSubrecord()
-        //{
-        //    List<byte> data = new List<byte>();
-
-        //    data.AddRange(ByteWriter.ToBytes((short)MagicEffect, typeof(short)));
-        //    data.AddRange(ByteWriter.ToBytes((byte)Skill, typeof(byte)));
-        //    data.AddRange(ByteWriter.ToBytes((byte)Attribute, typeof(byte)));
-        //    data.AddRange(ByteWriter.ToBytes(Unknown1, typeof(int)));
-        //    data.AddRange(ByteWriter.ToBytes(Unknown2, typeof(int)));
-        //    data.AddRange(ByteWriter.ToBytes(Duration, typeof(int)));
-        //    data.AddRange(ByteWriter.ToBytes(Magnitude, typeof(int)));
-        //    data.AddRange(ByteWriter.ToBytes(Unknown3, typeof(int)));
-
-        //    var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-        //       .Concat(BitConverter.GetBytes(data.Count()))
-        //       .Concat(data).ToArray();
-        //    return serialized;
-        //}
     }
 }

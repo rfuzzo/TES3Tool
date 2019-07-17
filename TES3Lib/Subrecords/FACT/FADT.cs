@@ -5,6 +5,8 @@ using System.Text;
 using TES3Lib.Base;
 using TES3Lib.Enums;
 using Utility;
+using Utility.Attributes;
+using static Utility.Common;
 using Attribute = TES3Lib.Enums.Attribute;
 
 namespace TES3Lib.Subrecords.FACT
@@ -19,12 +21,8 @@ namespace TES3Lib.Subrecords.FACT
 
         public Skill[] FavoredSkills { get; set; }
 
-        public int Unknown { get; set; }
-
-        /// <summary>
-        /// 0 or 1
-        /// </summary>
-        public HashSet<FactionFlags> Flags { get; set; }
+        [SizeInBytes(4)]
+        public bool IsHiddenFromPlayer { get; set; }
 
         public FADT()
         {
@@ -34,8 +32,8 @@ namespace TES3Lib.Subrecords.FACT
         {
             var reader = new ByteReader();
 
-            FirstAttribute = (Attribute)reader.ReadBytes<int>(base.Data);
-            SecondAttributre = (Attribute)reader.ReadBytes<int>(base.Data);
+            FirstAttribute = reader.ReadBytes<Attribute>(base.Data);
+            SecondAttributre = reader.ReadBytes<Attribute>(base.Data);
 
             RankData = new RankRequirement[10];
             for (int i = 0; i < RankData.Length; i++)
@@ -47,14 +45,13 @@ namespace TES3Lib.Subrecords.FACT
                 RankData[i].Reputation = reader.ReadBytes<int>(base.Data);
             }
 
-            FavoredSkills = new Skill[6];
+            FavoredSkills = new Skill[7];
             for (int i = 0; i < FavoredSkills.Length; i++)
             {
-                FavoredSkills[i] = (Skill)reader.ReadBytes<int>(rawData);
+                FavoredSkills[i] = reader.ReadBytes<Skill>(base.Data);
             }
 
-            Unknown = reader.ReadBytes<int>(base.Data);
-            Flags = reader.ReadFlagBytes<FactionFlags>(base.Data);
+            IsHiddenFromPlayer = reader.ReadBytes<int>(base.Data) == 0 ? false : true;
         }
 
         public override byte[] SerializeSubrecord()
@@ -68,8 +65,8 @@ namespace TES3Lib.Subrecords.FACT
 
             List<byte> data = new List<byte>();
          
-            data.AddRange(ByteWriter.ToBytes(FirstAttribute, typeof(int)));
-            data.AddRange(ByteWriter.ToBytes(SecondAttributre, typeof(int)));
+            data.AddRange(ByteWriter.ToBytes(FirstAttribute, typeof(uint)));
+            data.AddRange(ByteWriter.ToBytes(SecondAttributre, typeof(uint)));
 
             for (int i = 0; i < RankData.Length; i++)
             {
@@ -82,11 +79,11 @@ namespace TES3Lib.Subrecords.FACT
 
             for (int i = 0; i < FavoredSkills.Length; i++)
             {
-                data.AddRange(ByteWriter.ToBytes(FavoredSkills[i], typeof(int)));
+                data.AddRange(ByteWriter.ToBytes(FavoredSkills[i], typeof(uint)));
             }
 
-            data.AddRange(ByteWriter.ToBytes(Unknown, typeof(int)));
-            data.AddRange(ByteWriter.ToBytes(SerializeFlag(Flags), typeof(FactionFlags)));
+           var getSizeProp = GetAttributeFromType<SizeInBytesAttribute>(this.GetType().GetProperty("IsHiddenFromPlayer"));
+           data.AddRange(ByteWriter.ToBytes(IsHiddenFromPlayer, typeof(bool), getSizeProp));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count()))
@@ -104,11 +101,6 @@ namespace TES3Lib.Subrecords.FACT
             public int FirstSkill;
             public int SecondSkill;
             public int Reputation;
-        }
-
-        public enum FactionFlags : int
-        {
-            IsHiddenFromPlayer = 0x00001,
         }
     }
 }

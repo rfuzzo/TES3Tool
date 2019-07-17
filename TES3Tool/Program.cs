@@ -14,7 +14,7 @@ namespace TES3Tool
 
            //OblivionLoadTest();
 
-           MWLoadTest();
+           //MWLoadTest();
 
 
 
@@ -29,8 +29,8 @@ namespace TES3Tool
             var stat = TES4Load(fileESM, new List<string> {
                 "STAT","SOUN", "MISC","KEYM","FURN","ACTI","LIGH","CONT",
                 "FLOR","WEAP","INGR","BOOK","ENCH","ALCH","AMMO","APPA", "ARMO",
-                "CLOT","CREA","DOOR","FACT","CLAS","LVLC","LVLI","NPC_",
-                "RACE","CLAS","CELL","WRLD"
+                "CLOT","DOOR","LVLC","LVLI",
+                "RACE","CELL","WRLD","SPEL","NPC_","CREA","CLAS","FACT"
             });
             var testEX = ConvertInteriorsAndExteriors(stat);
             testEX.TES3Save("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Morrowind\\Data Files\\SI.esp");
@@ -38,9 +38,9 @@ namespace TES3Tool
 
         public static void MWLoadTest()
         {
-            string fileESM = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Morrowind\\Data Files\\morrowind.esm";
+            string fileESM = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Morrowind\\Data Files\\weap.ESP";
 
-            var tes3 = TES3Load(fileESM, new List<string> { "RACE","SPEL"});
+            var tes3 = TES3Load(fileESM, new List<string> { "WEAP"});
 
 
             //foreach (var item in tes3.Records)
@@ -69,7 +69,7 @@ namespace TES3Tool
             //    }
             //}
 
-            tes3.TES3Save("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Morrowind\\Data Files\\x2.esp");
+            tes3.TES3Save("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Morrowind\\Data Files\\weap_out.esp");
         }
 
         public static void OblivionLoadTest()

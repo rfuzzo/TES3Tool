@@ -440,7 +440,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                 magicEffect.Equals(TES3Lib.Enums.MagicEffect.DrainAttribute) ||
                 magicEffect.Equals(TES3Lib.Enums.MagicEffect.FortifyAttribute) ||
                 magicEffect.Equals(TES3Lib.Enums.MagicEffect.RestoreAttribute);
-            if (!isAttributeEffect) return TES3Lib.Enums.Attribute.Unused;
+            if (!isAttributeEffect) return TES3Lib.Enums.Attribute.None;
 
             return (TES3Lib.Enums.Attribute)Enum.Parse(typeof(TES3Lib.Enums.Attribute), actorValue.ToString());
         }
@@ -453,7 +453,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                magicEffect.Equals(TES3Lib.Enums.MagicEffect.DrainSkill) ||
                magicEffect.Equals(TES3Lib.Enums.MagicEffect.FortifySkill) ||
                magicEffect.Equals(TES3Lib.Enums.MagicEffect.RestoreSkill);
-            if (!isSkillEffect) return TES3Lib.Enums.Skill.Unused;
+            if (!isSkillEffect) return TES3Lib.Enums.Skill.None;
 
             var rnd = new Random(DateTime.Now.Millisecond).Next(0, 2);
             switch (actorValue)
@@ -501,7 +501,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                 case TES4Lib.Enums.ActorValue.Speechcraft:
                     return TES3Lib.Enums.Skill.Speechcraft;
                 default:
-                    return TES3Lib.Enums.Skill.Unused;
+                    return TES3Lib.Enums.Skill.None;
             }
         }
 
@@ -552,7 +552,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                 case ActorValue.Speechcraft:
                     return TES3Lib.Enums.Skill.Speechcraft;
                 default:
-                    return TES3Lib.Enums.Skill.Unused;
+                    return TES3Lib.Enums.Skill.None;
             }
         }
 
@@ -629,7 +629,7 @@ namespace TES3Tool.TES4RecordConverter.Records
                 case TES4Lib.Enums.Skill.Speechcraft:
                     return TES3Lib.Enums.Skill.Speechcraft;
                 default:
-                    return TES3Lib.Enums.Skill.Unused;
+                    return TES3Lib.Enums.Skill.None;
             }
         }
 
@@ -669,6 +669,44 @@ namespace TES3Tool.TES4RecordConverter.Records
                 default:
                     return TES3Lib.Enums.EnchantmentType.CastWhenUsed;
             }
+        }
+
+        public static TES3Lib.Enums.SpellType CastSpellTypeToMW(TES4Lib.Enums.SpellType spellType)
+        {
+            switch (spellType)
+            {
+                case TES4Lib.Enums.SpellType.Spell:
+                    return TES3Lib.Enums.SpellType.Spell;
+                case TES4Lib.Enums.SpellType.Disease:
+                    return TES3Lib.Enums.SpellType.Disease;
+                case TES4Lib.Enums.SpellType.Power:
+                    return TES3Lib.Enums.SpellType.Power;
+                case TES4Lib.Enums.SpellType.LesserPower:
+                    return TES3Lib.Enums.SpellType.Power;
+                case TES4Lib.Enums.SpellType.Ability:
+                    return TES3Lib.Enums.SpellType.Ability;
+                case TES4Lib.Enums.SpellType.Poision:
+                    return TES3Lib.Enums.SpellType.Spell;
+                default:
+                    return TES3Lib.Enums.SpellType.Spell;
+            }
+        }
+
+        public static HashSet<TES3Lib.Enums.Flags.SpellFlag> CastSpellFlagToMW(HashSet<TES4Lib.Enums.Flags.SpellFlag> obFlag)
+        {
+            var mwFlags = new HashSet<TES3Lib.Enums.Flags.SpellFlag>();
+
+            if (!obFlag.Contains(TES4Lib.Enums.Flags.SpellFlag.ManualSpellCost))
+            {
+                mwFlags.Add(TES3Lib.Enums.Flags.SpellFlag.AutoCalc);
+            }
+
+            if(obFlag.Contains(TES4Lib.Enums.Flags.SpellFlag.PlayerStartSpell))
+            {
+                mwFlags.Add(TES3Lib.Enums.Flags.SpellFlag.PlayerStartSpell);
+            }
+
+            return mwFlags;
         }
 
         public static HashSet<TES3Lib.Enums.Flags.ServicesFlag> CastServicesToMW(HashSet<TES4Lib.Enums.Flags.ServicesFlag> obFlag)

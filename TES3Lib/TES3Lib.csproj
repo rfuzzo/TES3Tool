@@ -48,8 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Flags\AutoCalculateFlag.cs" />
     <Compile Include="Enums\Flags\ContainerFlag.cs" />
     <Compile Include="Enums\Flags\RaceFlags.cs" />
+    <Compile Include="Enums\Flags\WeaponFlag.cs" />
     <Compile Include="Enums\GenderType.cs" />
     <Compile Include="Enums\ArmorType.cs" />
     <Compile Include="Enums\Attributre.cs" />
@@ -125,9 +127,10 @@
     <Compile Include="Subrecords\CONT\CNDT.cs" />
     <Compile Include="Subrecords\CONT\FLAG.cs" />
     <Compile Include="Subrecords\CREA\CNAM.cs" />
+    <Compile Include="Subrecords\CREA\CNDT.cs" />
     <Compile Include="Subrecords\DIAL\DATA.cs" />
-    <Compile Include="Subrecords\ENCH\ENDT.cs" />
     <Compile Include="Subrecords\ENCH\ENAM.cs" />
+    <Compile Include="Subrecords\ENCH\ENDT.cs" />
     <Compile Include="Subrecords\FACT\INTV.cs" />
     <Compile Include="Subrecords\FACT\FADT.cs" />
     <Compile Include="Subrecords\FACT\RNAM.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Subrecords\LEVC\CNAM.cs" />
     <Compile Include="Subrecords\LEVC\INDX.cs" />
     <Compile Include="Subrecords\LEVC\INTV.cs" />
+    <Compile Include="Subrecords\NPC_\CNDT.cs" />
     <Compile Include="Subrecords\PGRD\PGRC.cs" />
     <Compile Include="Subrecords\PGRD\PGRP.cs" />
     <Compile Include="Subrecords\PGRD\DATA.cs" />
@@ -169,8 +173,10 @@
     <Compile Include="Subrecords\REFR\XCHG.cs" />
     <Compile Include="Subrecords\SNDG\CNAM.cs" />
     <Compile Include="Subrecords\SNDG\DATA.cs" />
+    <Compile Include="Subrecords\SPEL\ENAM.cs" />
     <Compile Include="Subrecords\_Shared\ANAM.cs" />
     <Compile Include="Subrecords\_Shared\BNAM.cs" />
+    <Compile Include="Base\IAIPackage.cs" />
     <Compile Include="Subrecords\_Shared\NNAM.cs" />
     <Compile Include="Subrecords\LOCK\LKDT.cs" />
     <Compile Include="Subrecords\LTEX\INTV.cs" />
@@ -184,7 +190,6 @@
     <Compile Include="Subrecords\SKIL\SKDT.cs" />
     <Compile Include="Subrecords\SKIL\INDX.cs" />
     <Compile Include="Subrecords\SPEL\SPDT.cs" />
-    <Compile Include="Subrecords\SPEL\ENAM.cs" />
     <Compile Include="Subrecords\_Shared\AIDT.cs" />
     <Compile Include="Subrecords\CREA\FLAG.cs" />
     <Compile Include="Subrecords\CREA\NPDT.cs" />
@@ -210,7 +215,6 @@
     <Compile Include="Subrecords\_Shared\AI_T.cs" />
     <Compile Include="Subrecords\_Shared\AI_W.cs" />
     <Compile Include="Subrecords\NPC_\CNAM.cs" />
-    <Compile Include="Subrecords\NPC_\CNDT.cs" />
     <Compile Include="Subrecords\_Shared\DNAM.cs" />
     <Compile Include="Subrecords\_Shared\DODT.cs" />
     <Compile Include="Subrecords\NPC_\FLAG.cs" />

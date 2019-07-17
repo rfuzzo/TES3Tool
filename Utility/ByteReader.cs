@@ -104,10 +104,28 @@ namespace Utility
                 Type enumValueType = Enum.GetUnderlyingType(t);
                 int enumValueSize = Marshal.SizeOf(enumValueType);
 
+                if (enumValueType == typeof(uint) && bytesToRead != null)
+                {
+                    var slicedData = data.Skip(offset).Take((int)bytesToRead).ToArray();
+                    Array.Resize(ref slicedData, 4);
+
+                    var converted = BitConverter.ToUInt32(slicedData, 0);
+                    offset += (int)bytesToRead;
+                    return (T)Enum.ToObject(t, converted);
+                }
                 if (enumValueType == typeof(uint))
                 {
                     var converted = BitConverter.ToUInt32(data, offset);
                     offset += enumValueSize;
+                    return (T)Enum.ToObject(t, converted);
+                }
+                if (enumValueType == typeof(int) && bytesToRead != null)
+                {
+                    var slicedData = data.Skip(offset).Take((int)bytesToRead).ToArray();
+                    Array.Resize(ref slicedData, 4);
+
+                    var converted = BitConverter.ToInt32(slicedData, 0);
+                    offset += (int)bytesToRead;
                     return (T)Enum.ToObject(t, converted);
                 }
                 if (enumValueType == typeof(int))
@@ -181,7 +199,8 @@ namespace Utility
             var enumValues = Enum.GetValues(typeof(T));
             foreach (var enumVal in enumValues)
             {
-                if ((converted & Convert.ToUInt32(enumVal)) != 0)
+                var flag = Convert.ToUInt32(enumVal);
+                if ((converted & flag) == flag)
                 {
                     setOfEnum.Add((T)Enum.ToObject(enumType, enumVal));
                 }
