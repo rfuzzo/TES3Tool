@@ -4,32 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{647BF9DF-7C62-49DF-8E17-57F9F953B78F}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Tes3Tool</RootNamespace>
-    <AssemblyName>TES3Tool</AssemblyName>
+    <ProjectGuid>{73EE8CFD-CB48-4BDA-A5F5-EF1A2400662A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TES3Oblivion</RootNamespace>
+    <AssemblyName>TES3Oblivion</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -37,18 +21,14 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -61,20 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TES3Utilities\RaceCreator.cs" />
-    <Compile Include="TES4RecordConverter\Config.cs" />
-    <Compile Include="TES4RecordConverter\Oblivion2Morrowind.cs" />
-    <Compile Include="TES4RecordConverter\Records\Converters.cs" />
-    <Compile Include="TES4RecordConverter\Records\Helpers.cs" />
-    <Compile Include="TES4RecordConverter\Records\TypeConverters.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Converters\CellConverter.cs" />
+    <Compile Include="Converters\RecordConverter.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="SIPostProcessing\Definitions\BodyParts.cs" />
+    <Compile Include="SIPostProcessing\Definitions\EquipementProcessMap.cs" />
+    <Compile Include="SIPostProcessing\EquipementSplitter.cs" />
+    <Compile Include="SIPostProcessing\EquipementProcessor.cs" />
+    <Compile Include="Converters\TypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\TES3Lib.Functions\TES3Lib.Functions.csproj">
+      <Project>{d8bacebe-c3a3-45ca-8318-d29ae9063026}</Project>
+      <Name>TES3Lib.Functions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TES3Lib\TES3Lib.csproj">
       <Project>{eb6c834a-b58e-4bbf-8bc5-4dee6a925b4b}</Project>
       <Name>TES3Lib</Name>
@@ -89,16 +71,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <Folder Include="Records\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
