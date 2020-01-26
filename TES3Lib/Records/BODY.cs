@@ -36,7 +36,7 @@ namespace TES3Lib.Records
         {
             NAME = new NAME();
             MODL = new MODL() { ModelPath = "\0" };
-            FNAM = new FNAM() { Name = "Argonian\0" };
+            FNAM = new FNAM() { FileName = "Argonian\0" };
             BYDT = new BYDT();
         }
 
