@@ -1,4 +1,8 @@
-﻿using TES3Lib.Base;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TES3Lib.Base;
 using Utility;
 
 namespace TES3Lib.Subrecords.LAND
@@ -24,16 +28,36 @@ namespace TES3Lib.Subrecords.LAND
         {
             var reader = new ByteReader();
             normals = new normal[size,size];
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
-                for (int y = 0; y < size; y++)
+                for (int x = 0; x < size; x++)
                 {
                     var bytes = reader.ReadBytes<byte[]>(base.Data, 3);
-                    normals[x, y].x = bytes[0];
-                    normals[x, y].y = bytes[1];
-                    normals[x, y].z = bytes[2];
+                    normals[y, x].x = bytes[0];
+                    normals[y, x].y = bytes[1];
+                    normals[y, x].z = bytes[2];
                 }
             }
+        }
+
+        public override byte[] SerializeSubrecord()
+        {
+            List<byte> data = new List<byte>();
+
+            for (int y = 0; y < normals.GetLength(0); y++)
+            {
+                for (int x = 0; x < normals.GetLength(1); x++)
+                {
+                    data.AddRange(ByteWriter.ToBytes(normals[y, x].x, typeof(byte)));
+                    data.AddRange(ByteWriter.ToBytes(normals[y, x].y, typeof(byte)));
+                    data.AddRange(ByteWriter.ToBytes(normals[y, x].z, typeof(byte)));
+                }
+            }
+
+            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(data).ToArray();
+            return serialized;
         }
     }
 

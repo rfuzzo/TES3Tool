@@ -7,6 +7,11 @@ namespace Utility
 {
     public static class ByteWriter
     {
+        static ByteWriter()
+        {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+        }
+
         public static byte[] ToBytes(object data, Type type, SizeInBytesAttribute size = null)
         {
             byte[] bytes;
@@ -14,22 +19,26 @@ namespace Utility
                 bytes = (byte[])data;
             else if (type == typeof(byte))
                 bytes = new byte[] { Convert.ToByte(data) };
+            else if (type == typeof(sbyte))
+                bytes = new byte[] { unchecked((byte)(sbyte)data) };
             else if (type == typeof(bool))
                 bytes = new byte[] { Convert.ToByte(data) };
             else if (type == typeof(int))
                 bytes = BitConverter.GetBytes(Convert.ToInt32(data));
+            else if (type == typeof(uint))
+                bytes = BitConverter.GetBytes((uint)data);
             else if (type == typeof(float))
                 bytes = BitConverter.GetBytes((float)data);
             else if (type == typeof(short))
                 bytes = BitConverter.GetBytes((short)data);
+            else if (type == typeof(ushort))
+                bytes = BitConverter.GetBytes((ushort)data);
             else if (type == typeof(string))
-                bytes = WriteStringBytes((string)data);             
+                bytes = WriteStringBytes((string)data);
             else if (type == typeof(long))
                 bytes = BitConverter.GetBytes((long)data);
             else if (type == typeof(ulong))
-                bytes = BitConverter.GetBytes((ulong)data);
-            else if (type == typeof(uint))
-                bytes = BitConverter.GetBytes((uint)data);
+                bytes = BitConverter.GetBytes((ulong)data);   
             else if (type.IsEnum)
                 bytes = ToBytes(data, type.GetEnumUnderlyingType());
             else
@@ -37,7 +46,7 @@ namespace Utility
 
             if (IsNull(size))
                 return bytes;
-       
+
             Array.Resize(ref bytes, size.TypeSize);
             return bytes;
         }
