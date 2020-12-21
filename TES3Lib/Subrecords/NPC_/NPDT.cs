@@ -10,6 +10,8 @@ namespace TES3Lib.Subrecords.NPC_
 {
     public class NPDT : Subrecord
     {
+        public Records.NPC_ NPC { get; set; }
+
         public short Level { get; set; }
 
         public byte Strength { get; set; }
@@ -98,7 +100,7 @@ namespace TES3Lib.Subrecords.NPC_
         public override byte[] SerializeSubrecord()
         {
             List<byte> data = new List<byte>();
-            if(Skills == null)
+            if (NPC.FLAG.Flags.Contains(Enums.Flags.NPCFlag.AutoCalc))
             {
                 data.AddRange(ByteWriter.ToBytes(Level, typeof(short)));
                 data.AddRange(ByteWriter.ToBytes(Disposition, typeof(byte)));

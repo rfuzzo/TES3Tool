@@ -143,6 +143,8 @@ namespace TES3Lib.Records
                     break;
                 }
             }
+
+            NPDT.NPC = this;
         }
 
         public override byte[] SerializeRecord()
