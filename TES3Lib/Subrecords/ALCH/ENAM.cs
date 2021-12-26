@@ -26,14 +26,29 @@ namespace TES3Lib.Subrecords.ALCH
         [SizeInBytes(1)]
         public Attribute Attribute { get; set; }
 
-        public int Unknown1 { get; set; }
+        /// <summary>
+        /// This is typically not used. It cannot be defined in the CS, but will function in-game.
+        /// </summary>
+        public SpellRange SpellRange { get; set; }
 
-        public int Unknown2 { get; set; }
+        /// <summary>
+        /// This is typically not used. It cannot be defined in the CS, but will function in-game.
+        /// </summary>
+        public int Area { get; set; }
 
         public int Duration { get; set; }
 
-        public int Unknown3 { get; set; }
+        /// <summary>
+        /// The minimum magnitude. For effects with non-variable magnitudes, use <see cref="Magnitude"/>.
+        /// 
+        /// This is typically not used. It cannot be defined in the CS, but will function in-game.
+        /// </summary>
+        public int MinMagnitude { get; set; }
 
+
+        /// <summary>
+        /// The magnitude. For effects with variable magnitudes, this is the maximum magnitude. See also: <seealso cref="MinMagnitude"/>.
+        /// </summary>
         public int Magnitude { get; set; }
 
         public ENAM()
@@ -46,10 +61,10 @@ namespace TES3Lib.Subrecords.ALCH
             MagicEffect = reader.ReadBytes<MagicEffect>(base.Data,2);
             Skill = reader.ReadBytes<Skill>(base.Data,1);
             Attribute = reader.ReadBytes<Attribute>(base.Data,1);
-            Unknown1 = reader.ReadBytes<int>(base.Data);
-            Unknown2 = reader.ReadBytes<int>(base.Data);
+            SpellRange = reader.ReadBytes<SpellRange>(base.Data);
+            Area = reader.ReadBytes<int>(base.Data);
             Duration = reader.ReadBytes<int>(base.Data);
-            Unknown3 = reader.ReadBytes<int>(base.Data);
+            MinMagnitude = reader.ReadBytes<int>(base.Data);
             Magnitude = reader.ReadBytes<int>(base.Data);
         }
     }
