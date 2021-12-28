@@ -1,9 +1,8 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.Shared;
+﻿using System.Diagnostics;
+using TES3Lib.Base;
 using TES3Lib.Subrecords.GLOB;
+using TES3Lib.Subrecords.Shared;
 using FNAM = TES3Lib.Subrecords.GLOB.FNAM;
-using static Utility.Common;
-using System.Diagnostics;
 
 namespace TES3Lib.Records
 {

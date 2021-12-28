@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.LAND
         /// <summary>
         /// 0 - is NOTEX,so in reality indices are +1 values from LTEX
         /// </summary>
-        public ushort[,] TexIndices { get; set; }      
+        public ushort[,] TexIndices { get; set; }
 
         public VTEX()
         {

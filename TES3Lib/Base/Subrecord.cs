@@ -90,7 +90,7 @@ namespace TES3Lib.Base
                     continue;
                 }
 
-                data.AddRange(ByteWriter.ToBytes(value, property.PropertyType, sizeAttribute));          
+                data.AddRange(ByteWriter.ToBytes(value, property.PropertyType, sizeAttribute));
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)

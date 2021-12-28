@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.LAND
     {
         const int size = 65;
 
-        public normal[,] normals {get;set;}
+        public normal[,] normals { get; set; }
 
         public VNML()
         {
@@ -27,7 +27,7 @@ namespace TES3Lib.Subrecords.LAND
         public VNML(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            normals = new normal[size,size];
+            normals = new normal[size, size];
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)

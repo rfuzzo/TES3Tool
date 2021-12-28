@@ -1,12 +1,12 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.Shared;
+﻿using System.Diagnostics;
+using TES3Lib.Base;
 using TES3Lib.Subrecords.CLAS;
-using System.Diagnostics;
+using TES3Lib.Subrecords.Shared;
 
 namespace TES3Lib.Records
 {
     [DebuggerDisplay("{NAME.EditorId}")]
-    public class CLAS: Record
+    public class CLAS : Record
     {
         /// <summary>
         /// EditorId

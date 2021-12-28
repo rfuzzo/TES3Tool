@@ -1,11 +1,8 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.Shared;
-using TES3Lib.Subrecords.CONT;
-using System.Collections.Generic;
-using Utility;
-using System;
-using static Utility.Common;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using TES3Lib.Base;
+using TES3Lib.Subrecords.CONT;
+using TES3Lib.Subrecords.Shared;
 
 namespace TES3Lib.Records
 {

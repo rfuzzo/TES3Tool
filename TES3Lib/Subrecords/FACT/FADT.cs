@@ -64,7 +64,7 @@ namespace TES3Lib.Subrecords.FACT
                                .ToList();
 
             List<byte> data = new List<byte>();
-         
+
             data.AddRange(ByteWriter.ToBytes(FirstAttribute, typeof(uint)));
             data.AddRange(ByteWriter.ToBytes(SecondAttributre, typeof(uint)));
 
@@ -82,8 +82,8 @@ namespace TES3Lib.Subrecords.FACT
                 data.AddRange(ByteWriter.ToBytes(FavoredSkills[i], typeof(uint)));
             }
 
-           var getSizeProp = GetAttributeFromType<SizeInBytesAttribute>(this.GetType().GetProperty("IsHiddenFromPlayer"));
-           data.AddRange(ByteWriter.ToBytes(IsHiddenFromPlayer, typeof(bool), getSizeProp));
+            var getSizeProp = GetAttributeFromType<SizeInBytesAttribute>(this.GetType().GetProperty("IsHiddenFromPlayer"));
+            data.AddRange(ByteWriter.ToBytes(IsHiddenFromPlayer, typeof(bool), getSizeProp));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count()))

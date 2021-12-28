@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TES3Lib.Base;
+﻿using TES3Lib.Base;
 using TES3Lib.Enums;
 using Utility;
 
@@ -27,6 +25,6 @@ namespace TES3Lib.Subrecords.APPA
             Quality = reader.ReadBytes<float>(base.Data);
             Weight = reader.ReadBytes<float>(base.Data);
             Value = reader.ReadBytes<int>(base.Data);
-        }      
+        }
     }
 }

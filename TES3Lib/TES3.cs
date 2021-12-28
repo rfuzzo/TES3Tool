@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using TES3Lib.Base;
 using Utility;
@@ -23,11 +20,11 @@ namespace TES3Lib
 
         public static TES3 TES3Load(string filePath, List<string> filteredGrops = null)
         {
-            if (filteredGrops == null) filteredGrops = new List<string>(); 
-       
+            if (filteredGrops == null) filteredGrops = new List<string>();
+
             var TES3 = new TES3() { Path = filePath };
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-        
+
             var header = new byte[HeaderSize];
             List<Task> tasks = new List<Task>();
             while (fileStream.Read(header, 0, HeaderSize) != 0)
@@ -40,14 +37,14 @@ namespace TES3Lib
 
                 if (!name.Equals("TES3") && filteredGrops.Count > 0 && !filteredGrops.Contains(name))
                 {
-                    fileStream.Position += +HeaderSize+size;
+                    fileStream.Position += +HeaderSize + size;
                     continue;
                 }
 
                 var data = new byte[HeaderSize + size];
                 fileStream.Read(data, 0, HeaderSize + size);
 
-                
+
                 TES3.Records.Add(null);
                 int index = TES3.Records.Count - 1;
                 tasks.Add(new Task(() => RecordBuildTask(name, data, TES3.Records, index)));

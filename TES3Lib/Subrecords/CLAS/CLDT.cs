@@ -64,7 +64,7 @@ namespace TES3Lib.Subrecords.CLAS
             Major4 = reader.ReadBytes<Skill>(base.Data);
             Minor5 = reader.ReadBytes<Skill>(base.Data);
             Major5 = reader.ReadBytes<Skill>(base.Data);
-            IsPlayable = reader.ReadBytes<int>(base.Data,4) == 1 ? true : false;
+            IsPlayable = reader.ReadBytes<int>(base.Data, 4) == 1 ? true : false;
             Services = reader.ReadFlagBytes<ServicesFlag>(base.Data);
         }
 

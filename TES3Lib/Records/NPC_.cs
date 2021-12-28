@@ -104,7 +104,7 @@ namespace TES3Lib.Records
                 var subrecordName = GetRecordName(readerData);
                 var subrecordSize = GetRecordSize(readerData);
                 try
-                {               
+                {
                     if (subrecordName.Equals("DODT"))
                     {
                         TravelService.Add((new DODT(readerData.ReadBytes<byte[]>(Data, subrecordSize)), null));
@@ -134,7 +134,7 @@ namespace TES3Lib.Records
                         AIPackages.Add((aiPackage, CNDT));
                         continue;
                     }
-                    
+
                     ReadSubrecords(readerData, subrecordName, subrecordSize);
                 }
                 catch (Exception e)

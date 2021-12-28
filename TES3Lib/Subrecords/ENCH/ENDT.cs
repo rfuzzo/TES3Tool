@@ -2,7 +2,6 @@
 using TES3Lib.Enums;
 using TES3Lib.Enums.Flags;
 using Utility;
-using Utility.Attributes;
 
 namespace TES3Lib.Subrecords.ENCH
 {

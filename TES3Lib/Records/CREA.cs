@@ -1,17 +1,17 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.Shared;
-using TES3Lib.Subrecords.CREA;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using System;
-using System.Text;
-using Utility;
-using TES3Lib.Enums.Flags;
-using static Utility.Common;
+﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using TES3Lib.Base;
 using TES3Lib.Base.Interfaces;
+using TES3Lib.Enums.Flags;
+using TES3Lib.Subrecords.CREA;
+using TES3Lib.Subrecords.Shared;
+using Utility;
+using static Utility.Common;
 
 namespace TES3Lib.Records
 {

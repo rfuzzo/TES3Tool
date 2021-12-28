@@ -1,9 +1,8 @@
-﻿using TES3Lib.Base;
+﻿using System.Diagnostics;
+using TES3Lib.Base;
 using TES3Lib.Subrecords.REGN;
 using TES3Lib.Subrecords.Shared;
 using SNAM = TES3Lib.Subrecords.REGN.SNAM;
-using static Utility.Common;
-using System.Diagnostics;
 
 namespace TES3Lib.Records
 {

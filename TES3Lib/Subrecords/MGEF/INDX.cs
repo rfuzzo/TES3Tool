@@ -1,7 +1,6 @@
 ﻿using TES3Lib.Base;
 using TES3Lib.Enums;
 using Utility;
-using Utility.Attributes;
 
 namespace TES3Lib.Subrecords.MGEF
 {

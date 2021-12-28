@@ -9,7 +9,7 @@ namespace TES3Lib.Records
     /// Script Record
     /// </summary>
     [DebuggerDisplay("{SCHD.Name}")]
-    public class SCPT: Record
+    public class SCPT : Record
     {
         public SCHD SCHD { get; set; }
 

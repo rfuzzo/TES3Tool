@@ -9,7 +9,7 @@ namespace Utility
 
         public static T GetAttributeFromType<T>(PropertyInfo property) where T : Attribute
         {
-            T Attrib = (T)property.GetCustomAttribute(typeof(T),true);
+            T Attrib = (T)property.GetCustomAttribute(typeof(T), true);
             if (IsNull(Attrib)) throw new Exception("No such attribute");
             return Attrib;
         }

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using TES3Lib.Base;
+﻿using TES3Lib.Base;
 using TES3Lib.Enums;
 using Utility;
 

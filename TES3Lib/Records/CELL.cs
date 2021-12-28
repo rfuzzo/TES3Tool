@@ -6,9 +6,9 @@ using System.Text;
 using TES3Lib.Base;
 using TES3Lib.Enums.Flags;
 using TES3Lib.Subrecords.CELL;
-using static Utility.Common;
-using Utility;
 using TES3Lib.Subrecords.Shared;
+using Utility;
+using static Utility.Common;
 
 namespace TES3Lib.Records
 {
@@ -114,7 +114,7 @@ namespace TES3Lib.Records
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
-    
+
             List<byte> data = new List<byte>();
             foreach (PropertyInfo property in properties)
             {
@@ -125,7 +125,7 @@ namespace TES3Lib.Records
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
-            if(REFR.Count() > 0)
+            if (REFR.Count() > 0)
             {
                 List<byte> cellReferences = new List<byte>();
                 foreach (var refr in REFR)

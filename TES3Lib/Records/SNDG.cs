@@ -1,8 +1,7 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.SNDG;
+﻿using System.Diagnostics;
+using TES3Lib.Base;
 using TES3Lib.Subrecords.Shared;
-using static Utility.Common;
-using System.Diagnostics;
+using TES3Lib.Subrecords.SNDG;
 
 namespace TES3Lib.Records
 {

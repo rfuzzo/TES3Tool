@@ -25,14 +25,14 @@ namespace TES3Lib.Subrecords.PGRD
         public PGRC(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Edges = new int[base.Data.Length/sizeof(int)];
+            Edges = new int[base.Data.Length / sizeof(int)];
 
 
             for (int i = 0; i < Edges.GetLength(0); i++)
             {
                 Edges[i] = reader.ReadBytes<int>(base.Data);
             }
-            
+
         }
 
         public override byte[] SerializeSubrecord()

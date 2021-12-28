@@ -3,8 +3,8 @@
     public enum CreatureType : int
     {
         Creature = 0,
-	    Daedra = 1,
-	    Undead = 2,
-	    Humanoid = 3,
+        Daedra = 1,
+        Undead = 2,
+        Humanoid = 3,
     }
 }

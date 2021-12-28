@@ -9,7 +9,6 @@ using TES3Lib.Enums.Flags;
 using TES3Lib.Subrecords.LEVC;
 using TES3Lib.Subrecords.Shared;
 using Utility;
-using static Utility.Common;
 
 namespace TES3Lib.Records
 {

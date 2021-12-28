@@ -13,7 +13,7 @@ namespace TES3Lib.Subrecords.LAND
     public class VHGT : Subrecord
     {
         public const int CELL_SIDE = 65;
-        public const int CELL_SIZE = CELL_SIDE* CELL_SIDE;
+        public const int CELL_SIZE = CELL_SIDE * CELL_SIDE;
 
         /// <summary>
         /// A height offset for the entire cell.
@@ -50,7 +50,7 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < CELL_SIDE; x++)
                 {
-                    HeightDelta[y,x] = reader.ReadBytes<sbyte>(base.Data);
+                    HeightDelta[y, x] = reader.ReadBytes<sbyte>(base.Data);
                 }
             }
 
@@ -67,8 +67,8 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < HeightDelta.GetLength(1); x++)
                 {
-                    data.AddRange(ByteWriter.ToBytes(HeightDelta[y,x], typeof(sbyte)));
-                }            
+                    data.AddRange(ByteWriter.ToBytes(HeightDelta[y, x], typeof(sbyte)));
+                }
             }
             data.AddRange(ByteWriter.ToBytes(Unknown1, typeof(short)));
             data.AddRange(ByteWriter.ToBytes(Unknown2, typeof(byte)));

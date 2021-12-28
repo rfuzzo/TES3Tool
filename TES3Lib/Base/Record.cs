@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using static Utility.Common;
-using TES3Lib.Subrecords.REFR;
-using Utility;
-using System.Collections;
 using TES3Lib.Enums.Flags;
+using TES3Lib.Subrecords.REFR;
 using TES3Lib.Subrecords.Shared;
+using Utility;
+using static Utility.Common;
 
 namespace TES3Lib.Base
 {
@@ -60,7 +60,7 @@ namespace TES3Lib.Base
 
         #endregion
 
-        public Record() 
+        public Record()
         {
             Header = 0;
             Flags = new HashSet<RecordFlag>();

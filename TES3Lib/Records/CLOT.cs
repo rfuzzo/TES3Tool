@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using TES3Lib.Base;
+using TES3Lib.Subrecords.ARMO;
 using TES3Lib.Subrecords.CLOT;
 using TES3Lib.Subrecords.Shared;
-using static Utility.Common;
 using TES3Lib.Subrecords.Shared.Item;
 using Utility;
-using System.Diagnostics;
-using TES3Lib.Subrecords.ARMO;
+using static Utility.Common;
 using BNAM = TES3Lib.Subrecords.ARMO.BNAM;
 
 namespace TES3Lib.Records

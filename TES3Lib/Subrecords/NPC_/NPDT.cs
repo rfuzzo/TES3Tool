@@ -62,7 +62,7 @@ namespace TES3Lib.Subrecords.NPC_
         public NPDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            if(base.Size.Equals(52))
+            if (base.Size.Equals(52))
             {
                 Level = reader.ReadBytes<short>(base.Data);
                 Strength = reader.ReadBytes<byte>(base.Data);
@@ -113,7 +113,7 @@ namespace TES3Lib.Subrecords.NPC_
             }
             else
             {
-                data.AddRange(ByteWriter.ToBytes(Level,typeof(short)));
+                data.AddRange(ByteWriter.ToBytes(Level, typeof(short)));
                 data.AddRange(ByteWriter.ToBytes(Strength, typeof(byte)));
                 data.AddRange(ByteWriter.ToBytes(Intelligence, typeof(byte)));
                 data.AddRange(ByteWriter.ToBytes(Willpower, typeof(byte)));

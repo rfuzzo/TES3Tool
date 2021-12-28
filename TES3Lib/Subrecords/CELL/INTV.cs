@@ -19,6 +19,6 @@ namespace TES3Lib.Subrecords.CELL
         {
             var reader = new ByteReader();
             WaterHeight = reader.ReadBytes<int>(base.Data);
-        }       
+        }
     }
 }

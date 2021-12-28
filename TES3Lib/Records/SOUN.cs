@@ -2,7 +2,6 @@
 using TES3Lib.Base;
 using TES3Lib.Subrecords.Shared;
 using TES3Lib.Subrecords.SOUN;
-using static Utility.Common;
 
 namespace TES3Lib.Records
 {

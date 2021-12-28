@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TES3Lib.Base;
-using TES3Lib.Enums;
 using Utility;
 
 namespace TES3Lib.Subrecords.PGRD
@@ -33,7 +32,7 @@ namespace TES3Lib.Subrecords.PGRD
                 Points[i].Unknown1 = reader.ReadBytes<byte>(base.Data);
                 Points[i].Unknown2 = reader.ReadBytes<byte>(base.Data);
             }
-            
+
         }
 
         public struct Point

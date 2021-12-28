@@ -2,7 +2,6 @@
 using TES3Lib.Base;
 using TES3Lib.Subrecords.LOCK;
 using TES3Lib.Subrecords.Shared;
-using static Utility.Common;
 
 namespace TES3Lib.Records
 {

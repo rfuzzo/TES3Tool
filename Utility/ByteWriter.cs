@@ -38,7 +38,7 @@ namespace Utility
             else if (type == typeof(long))
                 bytes = BitConverter.GetBytes((long)data);
             else if (type == typeof(ulong))
-                bytes = BitConverter.GetBytes((ulong)data);   
+                bytes = BitConverter.GetBytes((ulong)data);
             else if (type.IsEnum)
                 bytes = ToBytes(data, type.GetEnumUnderlyingType());
             else

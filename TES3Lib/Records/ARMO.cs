@@ -1,15 +1,15 @@
-﻿using TES3Lib.Base;
-using TES3Lib.Subrecords.Shared;
-using TES3Lib.Subrecords.ARMO;
+﻿using System;
 using System.Collections.Generic;
-using Utility;
-using System;
-using System.Reflection;
-using System.Linq;
-using System.Text;
-using TES3Lib.Subrecords.Shared.Item;
-using static Utility.Common;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using TES3Lib.Base;
+using TES3Lib.Subrecords.ARMO;
+using TES3Lib.Subrecords.Shared;
+using TES3Lib.Subrecords.Shared.Item;
+using Utility;
+using static Utility.Common;
 using BNAM = TES3Lib.Subrecords.ARMO.BNAM;
 
 namespace TES3Lib.Records
@@ -82,7 +82,7 @@ namespace TES3Lib.Records
                 var subrecordName = GetRecordName(reader);
                 var subrecordSize = GetRecordSize(reader);
                 try
-                { 
+                {
                     if (subrecordName.Equals("INDX"))
                     {
                         BPSL.Add((new INDX(reader.ReadBytes<byte[]>(Data, subrecordSize)), null, null));
@@ -137,7 +137,7 @@ namespace TES3Lib.Records
                             if (!IsNull(bpsl.BNAM)) containerItems.AddRange(bpsl.BNAM.SerializeSubrecord());
                             if (!IsNull(bpsl.CNAM)) containerItems.AddRange(bpsl.CNAM.SerializeSubrecord());
                         }
-                        data.AddRange(containerItems.ToArray());                   
+                        data.AddRange(containerItems.ToArray());
                     }
                     continue;
                 }

@@ -37,7 +37,7 @@ namespace TES3Lib.Subrecords.RACE
         public RADT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            
+
             SkillBonuses = new SkillBonus[7];
             for (int i = 0; i < 7; i++)
             {

@@ -16,6 +16,6 @@ namespace TES3Lib.Subrecords.REFR
         {
             var reader = new ByteReader();
             NumberOfUses = reader.ReadBytes<int>(base.Data);
-        }       
+        }
     }
 }

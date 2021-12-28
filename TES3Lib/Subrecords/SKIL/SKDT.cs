@@ -40,7 +40,7 @@ namespace TES3Lib.Subrecords.SKILL
             List<byte> data = new List<byte>();
             data.AddRange(ByteWriter.ToBytes(Attribute, typeof(int)));
             data.AddRange(ByteWriter.ToBytes(Specialization, typeof(Specialization)));
-            
+
             for (int i = 0; i < UseValue.Length; i++)
             {
                 data.AddRange(ByteWriter.ToBytes(UseValue[i], typeof(float)));

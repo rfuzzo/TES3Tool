@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using TES3Lib.Base;
 using Utility;
@@ -39,7 +38,7 @@ namespace TES3Lib.Subrecords.TES3
         }
 
         public override byte[] SerializeSubrecord()
-        { 
+        {
             //being lazy here...
             byte[] nameBytes = new byte[32];
             byte[] descBytes = new byte[256];

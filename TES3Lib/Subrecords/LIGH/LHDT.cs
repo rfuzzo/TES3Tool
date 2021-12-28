@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.LIGH
         public int Time { get; set; }
 
         public int Radius { get; set; }
-        
+
         /// <summary>
         /// RGB 1 byte per color with 4th unknown
         /// </summary>

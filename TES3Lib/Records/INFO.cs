@@ -4,7 +4,6 @@ using TES3Lib.Subrecords.INFO;
 using TES3Lib.Subrecords.NPC_;
 using TES3Lib.Subrecords.Shared;
 using NNAM = TES3Lib.Subrecords.INFO.NNAM;
-using static Utility.Common;
 
 namespace TES3Lib.Records
 {
@@ -95,7 +94,7 @@ namespace TES3Lib.Records
         /// <summary>
         /// Function/variable choice (can hold up to 6 entries)
         /// </summary>
-        public List<(SCVR function, INTV value )> SCVR { get; set; }
+        public List<(SCVR function, INTV value)> SCVR { get; set; }
 
         /// <summary>
         /// Result text (not compiled)

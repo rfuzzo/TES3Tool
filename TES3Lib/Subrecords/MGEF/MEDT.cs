@@ -5,7 +5,7 @@ namespace TES3Lib.Subrecords.MGEF
 {
     public class MEDT : Subrecord
     {
-        public  SpellSchool SpellSchool { get; set; }
+        public SpellSchool SpellSchool { get; set; }
 
         public float BaseCost { get; set; }
 
@@ -34,7 +34,7 @@ namespace TES3Lib.Subrecords.MGEF
             SpellSchool = (SpellSchool)reader.ReadBytes<int>(base.Data);
             BaseCost = reader.ReadBytes<float>(base.Data);
             Flags = reader.ReadBytes<int>(base.Data);
-            Red = reader.ReadBytes<int>(base.Data); 
+            Red = reader.ReadBytes<int>(base.Data);
             Green = reader.ReadBytes<int>(base.Data);
             Blue = reader.ReadBytes<int>(base.Data);
             SpeedMultiplier = reader.ReadBytes<float>(base.Data);

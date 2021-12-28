@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.CELL
         public int GridY { get; set; }
 
         public DATA()
-        {           
+        {
         }
 
         public DATA(byte[] rawData) : base(rawData)

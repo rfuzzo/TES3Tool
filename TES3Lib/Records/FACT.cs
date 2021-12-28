@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using TES3Lib.Base;
+using TES3Lib.Enums.Flags;
 using TES3Lib.Subrecords.FACT;
 using TES3Lib.Subrecords.Shared;
 using Utility;
-using TES3Lib.Enums.Flags;
-using System.Diagnostics;
 
 namespace TES3Lib.Records
 {
@@ -65,7 +65,7 @@ namespace TES3Lib.Records
             {
                 var subrecordName = GetRecordName(reader);
                 var subrecordSize = GetRecordSize(reader);
-          
+
                 try
                 {
                     if (subrecordName.Equals("RNAM"))

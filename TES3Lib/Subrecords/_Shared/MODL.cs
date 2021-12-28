@@ -13,7 +13,7 @@ namespace TES3Lib.Subrecords.Shared
         public string ModelPath { get; set; }
 
         public MODL()
-        {        
+        {
         }
 
         public MODL(byte[] rawData) : base(rawData)
