@@ -3,6 +3,7 @@ using TES3Lib.Base;
 using TES3Lib.Subrecords.MISC;
 using TES3Lib.Subrecords.Shared;
 using static Utility.Common;
+using TES3Lib.Subrecords.Shared.Item;
 
 namespace TES3Lib.Records
 {

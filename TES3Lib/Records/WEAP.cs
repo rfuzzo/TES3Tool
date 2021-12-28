@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
 using TES3Lib.Subrecords.Shared;
+using TES3Lib.Subrecords.Shared.Item;
 using TES3Lib.Subrecords.WEAP;
 using static Utility.Common;
 

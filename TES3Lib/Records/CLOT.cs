@@ -7,6 +7,7 @@ using TES3Lib.Base;
 using TES3Lib.Subrecords.CLOT;
 using TES3Lib.Subrecords.Shared;
 using static Utility.Common;
+using TES3Lib.Subrecords.Shared.Item;
 using Utility;
 using System.Diagnostics;
 using TES3Lib.Subrecords.ARMO;

@@ -7,6 +7,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using System.Text;
+using TES3Lib.Subrecords.Shared.Item;
 using static Utility.Common;
 using System.Diagnostics;
 using BNAM = TES3Lib.Subrecords.ARMO.BNAM;

@@ -4,6 +4,7 @@ using TES3Lib.Base;
 using TES3Lib.Subrecords.ENCH;
 using TES3Lib.Subrecords.Shared;
 using static Utility.Common;
+using TES3Lib.Subrecords.Shared.Castable;
 
 namespace TES3Lib.Records
 {

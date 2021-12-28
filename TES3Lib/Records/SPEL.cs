@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using TES3Lib.Base;
 using TES3Lib.Subrecords.Shared;
+using TES3Lib.Subrecords.Shared.Castable;
 using TES3Lib.Subrecords.SPEL;
 using Utility;
 using static Utility.Common;
