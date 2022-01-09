@@ -122,7 +122,8 @@ namespace TES3Lib.Base
             foreach (PropertyInfo property in properties)
             {
                 var thisValue = property.GetValue(this);
-                var objValue = obj != null ? property.GetValue(obj) : null;
+                var otherValue = property.GetValue(obj);
+                var objValue = obj != null ? otherValue : null;
                 if (!thisValue.Equals(objValue))
                 {
                     return false;
