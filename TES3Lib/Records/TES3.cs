@@ -60,7 +60,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -73,16 +73,16 @@ namespace TES3Lib.Records
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (IsNull(subrecord)) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
-            if (!IsNull(Masters) && Masters.Count > 0)
+            if (Masters is not null && Masters.Count > 0)
             {
                 foreach (var master in Masters)
                 {
@@ -92,7 +92,7 @@ namespace TES3Lib.Records
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
                 .Concat(data).ToArray();

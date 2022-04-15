@@ -110,7 +110,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -123,32 +123,32 @@ namespace TES3Lib.Records
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name.Equals("BPSL"))
                 {
-                    if (BPSL.Count() > 0)
+                    if (BPSL.Count > 0)
                     {
-                        List<byte> containerItems = new List<byte>();
+                        List<byte> containerItems = new();
                         foreach (var bpsl in BPSL)
                         {
                             containerItems.AddRange(bpsl.INDX.SerializeSubrecord());
-                            if (!IsNull(bpsl.BNAM)) containerItems.AddRange(bpsl.BNAM.SerializeSubrecord());
-                            if (!IsNull(bpsl.CNAM)) containerItems.AddRange(bpsl.CNAM.SerializeSubrecord());
+                            if (bpsl.BNAM is not null) containerItems.AddRange(bpsl.BNAM.SerializeSubrecord());
+                            if (bpsl.CNAM is not null) containerItems.AddRange(bpsl.CNAM.SerializeSubrecord());
                         }
                         data.AddRange(containerItems.ToArray());
                     }
                     continue;
                 }
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (IsNull(subrecord)) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
                 .Concat(data).ToArray();

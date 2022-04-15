@@ -8,7 +8,6 @@ using TES3Lib.Enums.Flags;
 using TES3Lib.Subrecords.CELL;
 using TES3Lib.Subrecords.Shared;
 using Utility;
-using static Utility.Common;
 
 namespace TES3Lib.Records
 {
@@ -98,11 +97,11 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    if (!IsNull(NAME))
+                    if (NAME is not null)
                     {
                         Console.WriteLine(NAME.EditorId);
                     }
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -115,19 +114,19 @@ namespace TES3Lib.Records
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name == "REFR") continue;
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (IsNull(subrecord)) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
-            if (REFR.Count() > 0)
+            if (REFR.Count > 0)
             {
-                List<byte> cellReferences = new List<byte>();
+                List<byte> cellReferences = new();
                 foreach (var refr in REFR)
                 {
                     cellReferences.AddRange(refr.SerializeRecord());
@@ -136,7 +135,7 @@ namespace TES3Lib.Records
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
                 .Concat(data).ToArray();
@@ -156,7 +155,7 @@ namespace TES3Lib.Records
         {
             if (DATA.Flags.Contains(CellFlag.IsInteriorCell))
             {
-                return !IsNull(NAME) ? NAME.EditorId : null;
+                return NAME?.EditorId;
             }
             else
             {

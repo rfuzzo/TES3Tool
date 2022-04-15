@@ -30,7 +30,7 @@ namespace TES3Lib.Subrecords.REGN
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
 
             byte[] soundIdbytes = ASCIIEncoding.ASCII.GetBytes(SoundId);
             Array.Resize(ref soundIdbytes, 32);

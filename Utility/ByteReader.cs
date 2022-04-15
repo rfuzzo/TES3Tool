@@ -70,13 +70,13 @@ namespace Utility
                 offset += sizeof(uint);
                 return (T)Convert.ChangeType(converted, typeof(T));
             }
-            if (t == typeof(byte[]) && bytesToRead != null)
+            if (t == typeof(byte[]) && bytesToRead is not null)
             {
                 var converted = data.Skip(offset).Take(bytesToRead.Value).ToArray();
                 offset += bytesToRead.Value;
                 return (T)(object)converted;
             }
-            if (t == typeof(string) && bytesToRead != null)
+            if (t == typeof(string) && bytesToRead is not null)
             {
                 var converted = ReadStringBytes(data.Skip(offset).Take((bytesToRead.Value)).ToArray());
                 offset += bytesToRead.Value;
@@ -115,7 +115,7 @@ namespace Utility
                 Type enumValueType = Enum.GetUnderlyingType(t);
                 int enumValueSize = Marshal.SizeOf(enumValueType);
 
-                if (enumValueType == typeof(uint) && bytesToRead != null)
+                if (enumValueType == typeof(uint) && bytesToRead is not null)
                 {
                     var slicedData = data.Skip(offset).Take((int)bytesToRead).ToArray();
                     Array.Resize(ref slicedData, 4);
@@ -130,7 +130,7 @@ namespace Utility
                     offset += enumValueSize;
                     return (T)Enum.ToObject(t, converted);
                 }
-                if (enumValueType == typeof(int) && bytesToRead != null)
+                if (enumValueType == typeof(int) && bytesToRead is not null)
                 {
                     var slicedData = data.Skip(offset).Take((int)bytesToRead).ToArray();
                     Array.Resize(ref slicedData, 4);

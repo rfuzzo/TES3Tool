@@ -40,7 +40,7 @@ namespace TES3Lib.Records
 
         public override string GetEditorId()
         {
-            return !IsNull(INDX) ? $"MagicEffect#{INDX.EffectId}" : null;
+            return INDX is not null ? $"MagicEffect#{INDX.EffectId}" : null;
         }
     }
 }

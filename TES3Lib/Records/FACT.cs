@@ -101,13 +101,13 @@ namespace TES3Lib.Records
                                System.Reflection.BindingFlags.Instance |
                                System.Reflection.BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
 
                 if (property.Name == "RNAM")
                 {
-                    List<byte> ranks = new List<byte>();
+                    List<byte> ranks = new();
                     foreach (var rnam in RNAM)
                     {
                         ranks.AddRange(rnam.SerializeSubrecord());
@@ -118,9 +118,9 @@ namespace TES3Lib.Records
 
                 if (property.Name == "FactionsAttitudes")
                 {
-                    if (FactionsAttitudes.Count() > 0)
+                    if (FactionsAttitudes.Count > 0)
                     {
-                        List<byte> facDisp = new List<byte>();
+                        List<byte> facDisp = new();
                         foreach (var attitude in FactionsAttitudes)
                         {
                             facDisp.AddRange(attitude.name.SerializeSubrecord());
@@ -133,7 +133,7 @@ namespace TES3Lib.Records
                 }
 
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord == null) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
@@ -145,7 +145,7 @@ namespace TES3Lib.Records
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(flagSerialized))
                 .Concat(data).ToArray();

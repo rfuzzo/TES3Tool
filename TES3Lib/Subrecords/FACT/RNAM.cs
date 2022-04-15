@@ -26,7 +26,7 @@ namespace TES3Lib.Subrecords.FACT
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
 
             byte[] ranknameBytes = ASCIIEncoding.ASCII.GetBytes(RankName);
             Array.Resize(ref ranknameBytes, 32);

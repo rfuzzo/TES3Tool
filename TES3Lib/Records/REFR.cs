@@ -94,7 +94,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} eighter not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} eighter not implemented or borked {e}");
                     break;
                 }
 
@@ -111,11 +111,11 @@ namespace TES3Lib.Records
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord == null) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }

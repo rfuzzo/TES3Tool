@@ -31,7 +31,7 @@ namespace TES3Lib.Records
 
         public override string GetEditorId()
         {
-            return !IsNull(SCHD) ? SCHD.Name : null;
+            return SCHD?.Name;
         }
     }
 }

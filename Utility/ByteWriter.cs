@@ -44,7 +44,7 @@ namespace Utility
             else
                 throw new Exception($"Unsupported conversion type of type {type}");
 
-            if (IsNull(size))
+            if (size is null)
                 return bytes;
 
             Array.Resize(ref bytes, size.TypeSize);

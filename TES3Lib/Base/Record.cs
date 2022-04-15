@@ -96,7 +96,7 @@ namespace TES3Lib.Base
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -108,7 +108,7 @@ namespace TES3Lib.Base
             if (subrecordProp.PropertyType.IsGenericType)
             {
                 var listType = subrecordProp.PropertyType.GetGenericArguments()[0];
-                if (IsNull(subrecordProp.GetValue(this)))
+                if (subrecordProp.GetValue(this) is null)
                 {
                     var IListRef = typeof(List<>);
                     Type[] IListParam = { listType };
@@ -141,13 +141,13 @@ namespace TES3Lib.Base
                 properties.Insert(++index, this.GetType().GetProperty("DELE"));
             }
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 if (property.PropertyType.IsGenericType)
                 {
                     var subrecordList = property.GetValue(this) as IEnumerable;
-                    if (IsNull(subrecordList)) continue;
+                    if (subrecordList is null) continue;
                     foreach (var sub in subrecordList)
                     {
                         data.AddRange((sub as Subrecord).SerializeSubrecord());
@@ -155,13 +155,13 @@ namespace TES3Lib.Base
                     continue;
                 }
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (IsNull(subrecord)) continue;
+                if (subrecord is null) continue;
                 var subbytes = subrecord.SerializeSubrecord();
                 data.AddRange(subbytes);
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
                 .Concat(data).ToArray();
@@ -200,7 +200,7 @@ namespace TES3Lib.Base
         public virtual string GetEditorId()
         {
             PropertyInfo name = this.GetType().GetProperty("NAME");
-            if (!IsNull(name))
+            if (name is not null)
             {
                 var NAME = (NAME)name.GetValue(this);
                 return NAME.EditorId;
@@ -220,7 +220,7 @@ namespace TES3Lib.Base
         public override bool Equals(object obj)
         {
             PropertyInfo name = GetType().GetProperty("NAME");
-            if (!IsNull(name))
+            if (name is not null)
             {
                 var NAME1 = (NAME)name.GetValue(this);
                 var NAME2 = (NAME)obj.GetType().GetProperty("NAME").GetValue(obj);
@@ -246,7 +246,7 @@ namespace TES3Lib.Base
             foreach (PropertyInfo property in properties)
             {
                 var value = property.GetValue(this);
-                if (value != null)
+                if (value is not null)
                 {
                     hash += i * property.GetValue(this).GetHashCode();
                 }

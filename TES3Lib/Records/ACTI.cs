@@ -43,7 +43,7 @@ namespace TES3Lib.Records
 
         public override string GetEditorId()
         {
-            return !IsNull(NAME) ? NAME.EditorId : null;
+            return NAME is null ? NAME.EditorId : null;
         }
     }
 }

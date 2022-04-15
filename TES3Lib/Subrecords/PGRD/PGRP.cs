@@ -48,7 +48,7 @@ namespace TES3Lib.Subrecords.PGRD
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (Point gridNode in Points)
             {
                 data.AddRange(ByteWriter.ToBytes(gridNode.X, typeof(int)));
@@ -61,7 +61,7 @@ namespace TES3Lib.Subrecords.PGRD
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

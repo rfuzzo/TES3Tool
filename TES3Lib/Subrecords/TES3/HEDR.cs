@@ -46,7 +46,7 @@ namespace TES3Lib.Subrecords.TES3
             Encoding.ASCII.GetBytes(Description).CopyTo(descBytes, 0);
 
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             data.AddRange(BitConverter.GetBytes(Version));
             data.AddRange(BitConverter.GetBytes(ESMFlag));
             data.AddRange(nameBytes);
@@ -54,7 +54,7 @@ namespace TES3Lib.Subrecords.TES3
             data.AddRange(BitConverter.GetBytes(NumRecords));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

@@ -55,7 +55,7 @@ namespace TES3Lib.Base
 
         public Subrecord()
         {
-            Name = this.GetType().Name;
+            Name = GetType().Name;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace TES3Lib.Base
                                .OrderBy(x => x.MetadataToken)
                                .ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 object value = property.GetValue(this);
@@ -94,17 +94,17 @@ namespace TES3Lib.Base
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }
 
-        protected uint SerializeFlag(object value)
+        protected static uint SerializeFlag(object value)
         {
             uint flag = 0;
             foreach (Enum flagElement in value as IEnumerable)
             {
-                flag = flag | Convert.ToUInt32(flagElement);
+                flag |= Convert.ToUInt32(flagElement);
             }
 
             return flag;
@@ -123,7 +123,7 @@ namespace TES3Lib.Base
             {
                 var thisValue = property.GetValue(this);
                 var otherValue = property.GetValue(obj);
-                var objValue = obj != null ? otherValue : null;
+                var objValue = obj is not null ? otherValue : null;
                 if (!thisValue.Equals(objValue))
                 {
                     return false;

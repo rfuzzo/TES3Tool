@@ -86,7 +86,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -99,14 +99,14 @@ namespace TES3Lib.Records
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name == "CRIT")
                 {
-                    if (CRIT.Count() > 0)
+                    if (CRIT.Count > 0)
                     {
-                        List<byte> containerItems = new List<byte>();
+                        List<byte> containerItems = new();
                         foreach (var crit in CRIT)
                         {
                             containerItems.AddRange(crit.CNAM.SerializeSubrecord());
@@ -118,7 +118,7 @@ namespace TES3Lib.Records
                     continue;
                 }
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord == null) continue;
+                if (subrecord is null) continue;
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
@@ -130,7 +130,7 @@ namespace TES3Lib.Records
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(flagSerialized))
                 .Concat(data).ToArray();

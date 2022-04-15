@@ -47,7 +47,7 @@ namespace TES3Lib.Subrecords.BOOK
             var tes1 = (int)Flag;
             var tes2 = (int)Skill;
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             data.AddRange(ByteWriter.ToBytes(Weight, typeof(float)));
             data.AddRange(ByteWriter.ToBytes(Value, typeof(int)));
             data.AddRange(ByteWriter.ToBytes((int)Flag, typeof(int)));
@@ -55,7 +55,7 @@ namespace TES3Lib.Subrecords.BOOK
             data.AddRange(ByteWriter.ToBytes(EnchantPoints, typeof(int)));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

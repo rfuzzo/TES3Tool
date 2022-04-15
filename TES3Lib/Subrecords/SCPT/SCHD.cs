@@ -41,7 +41,7 @@ namespace TES3Lib.Subrecords.SCPT
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             byte[] nameBytes = ASCIIEncoding.ASCII.GetBytes(Name);
             Array.Resize(ref nameBytes, 32);
 
@@ -53,7 +53,7 @@ namespace TES3Lib.Subrecords.SCPT
             data.AddRange(ByteWriter.ToBytes(LocalVarSize, LocalVarSize.GetType()));
 
             var serialized = Encoding.ASCII.GetBytes("SCHD")
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

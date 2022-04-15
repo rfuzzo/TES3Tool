@@ -151,7 +151,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType().ToString()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -165,19 +165,19 @@ namespace TES3Lib.Records
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 if (property.Name.Equals("TravelService"))
                 {
-                    if (TravelService.Count() > 0)
+                    if (TravelService.Count > 0)
                     {
-                        List<byte> travelDest = new List<byte>();
+                        List<byte> travelDest = new();
                         foreach (var destination in TravelService)
                         {
                             travelDest.AddRange(destination.coordinates.SerializeSubrecord());
 
-                            if (!IsNull(destination.cell))
+                            if (destination.cell is not null)
                                 travelDest.AddRange(destination.cell.SerializeSubrecord());
 
                         }
@@ -190,12 +190,12 @@ namespace TES3Lib.Records
                 {
                     if (AIPackages.Count > 0)
                     {
-                        List<byte> aiPackagesBytes = new List<byte>();
+                        List<byte> aiPackagesBytes = new();
                         foreach (var aiPackage in AIPackages)
                         {
                             aiPackagesBytes.AddRange(aiPackage.AIPackage.SerializeSubrecord());
 
-                            if (!IsNull(aiPackage.CNDT))
+                            if (aiPackage.CNDT is not null)
                                 aiPackagesBytes.AddRange(aiPackage.CNDT.SerializeSubrecord());
 
                         }
@@ -207,7 +207,7 @@ namespace TES3Lib.Records
                 if (property.PropertyType.IsGenericType)
                 {
                     var subrecordList = property.GetValue(this) as IEnumerable;
-                    if (IsNull(subrecordList)) continue;
+                    if (subrecordList is null) continue;
                     foreach (var sub in subrecordList)
                     {
                         data.AddRange((sub as Subrecord).SerializeSubrecord());
@@ -215,7 +215,7 @@ namespace TES3Lib.Records
                     continue;
                 }
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord == null) continue;
+                if (subrecord is null) continue;
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
@@ -226,7 +226,7 @@ namespace TES3Lib.Records
             }
 
             return Encoding.ASCII.GetBytes(this.GetType().Name)
-                .Concat(BitConverter.GetBytes(data.Count()))
+                .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(flagSerialized))
                 .Concat(data).ToArray();
@@ -234,7 +234,7 @@ namespace TES3Lib.Records
 
         public override string GetEditorId()
         {
-            return !IsNull(NAME) ? NAME.EditorId : null;
+            return NAME?.EditorId;
         }
     }
 }

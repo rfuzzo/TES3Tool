@@ -99,7 +99,7 @@ namespace TES3Lib.Subrecords.NPC_
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             if (NPC.FLAG.Flags.Contains(Enums.Flags.NPCFlag.AutoCalc))
             {
                 data.AddRange(ByteWriter.ToBytes(Level, typeof(short)));
@@ -138,7 +138,7 @@ namespace TES3Lib.Subrecords.NPC_
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

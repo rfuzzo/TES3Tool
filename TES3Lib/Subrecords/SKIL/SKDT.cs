@@ -37,7 +37,7 @@ namespace TES3Lib.Subrecords.SKILL
                                .OrderBy(x => x.MetadataToken)
                                .ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             data.AddRange(ByteWriter.ToBytes(Attribute, typeof(int)));
             data.AddRange(ByteWriter.ToBytes(Specialization, typeof(Specialization)));
 
@@ -47,7 +47,7 @@ namespace TES3Lib.Subrecords.SKILL
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

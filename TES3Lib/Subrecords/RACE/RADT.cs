@@ -84,7 +84,7 @@ namespace TES3Lib.Subrecords.RACE
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
 
             for (int i = 0; i < 7; i++)
             {
@@ -114,7 +114,7 @@ namespace TES3Lib.Subrecords.RACE
             data.AddRange(ByteWriter.ToBytes(SerializeFlag(Flags), typeof(int)));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

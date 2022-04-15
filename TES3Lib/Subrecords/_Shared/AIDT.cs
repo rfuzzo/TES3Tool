@@ -61,7 +61,7 @@ namespace TES3Lib.Subrecords.Shared
                                .OrderBy(x => x.MetadataToken)
                                .ToList();
 
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
                 object value = property.GetValue(this);
@@ -83,7 +83,7 @@ namespace TES3Lib.Subrecords.Shared
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

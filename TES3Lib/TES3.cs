@@ -20,13 +20,13 @@ namespace TES3Lib
 
         public static TES3 TES3Load(string filePath, List<string> filteredGrops = null)
         {
-            if (filteredGrops == null) filteredGrops = new List<string>();
+            if (filteredGrops is null) filteredGrops = new List<string>();
 
             var TES3 = new TES3() { Path = filePath };
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
             var header = new byte[HeaderSize];
-            List<Task> tasks = new List<Task>();
+            List<Task> tasks = new();
             while (fileStream.Read(header, 0, HeaderSize) != 0)
             {
                 fileStream.Position -= HeaderSize;

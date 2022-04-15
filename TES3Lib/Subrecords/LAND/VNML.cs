@@ -42,7 +42,7 @@ namespace TES3Lib.Subrecords.LAND
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
 
             for (int y = 0; y < normals.GetLength(0); y++)
             {
@@ -55,7 +55,7 @@ namespace TES3Lib.Subrecords.LAND
             }
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

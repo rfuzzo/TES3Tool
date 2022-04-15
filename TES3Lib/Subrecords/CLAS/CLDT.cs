@@ -70,7 +70,7 @@ namespace TES3Lib.Subrecords.CLAS
 
         public override byte[] SerializeSubrecord()
         {
-            List<byte> data = new List<byte>();
+            List<byte> data = new();
 
             data.AddRange(ByteWriter.ToBytes(PrimaryAttribute1, typeof(int)));
             data.AddRange(ByteWriter.ToBytes(PrimaryAttribute2, typeof(int)));
@@ -89,7 +89,7 @@ namespace TES3Lib.Subrecords.CLAS
             data.AddRange(ByteWriter.ToBytes(SerializeFlag(Services), typeof(int)));
 
             var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
-               .Concat(BitConverter.GetBytes(data.Count()))
+               .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
         }

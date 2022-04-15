@@ -20,7 +20,7 @@ namespace TES3Lib.Records
 
         public override string GetEditorId()
         {
-            return !IsNull(INDX) ? $"Skill#{INDX.Skill}" : null;
+            return INDX is not null ? $"Skill#{INDX.Skill}" : null;
         }
     }
 }
