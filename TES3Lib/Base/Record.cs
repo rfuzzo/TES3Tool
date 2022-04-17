@@ -96,7 +96,7 @@ namespace TES3Lib.Base
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -104,7 +104,7 @@ namespace TES3Lib.Base
 
         protected void ReadSubrecords(ByteReader readerData, string subrecordName, int subrecordSize)
         {
-            PropertyInfo subrecordProp = this.GetType().GetProperty(subrecordName);
+            PropertyInfo subrecordProp = GetType().GetProperty(subrecordName);
             if (subrecordProp.PropertyType.IsGenericType)
             {
                 var listType = subrecordProp.PropertyType.GetGenericArguments()[0];
@@ -128,7 +128,7 @@ namespace TES3Lib.Base
         {
             if (!IsImplemented) return RawData;
 
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly)
@@ -138,7 +138,7 @@ namespace TES3Lib.Base
             if (properties.Any(x => x.Name.Equals("NAME")))
             {
                 var index = properties.FindIndex(x => x.Name.Equals("NAME"));
-                properties.Insert(++index, this.GetType().GetProperty("DELE"));
+                properties.Insert(++index, GetType().GetProperty("DELE"));
             }
 
             List<byte> data = new();
@@ -160,7 +160,7 @@ namespace TES3Lib.Base
                 data.AddRange(subbytes);
             }
 
-            return Encoding.ASCII.GetBytes(this.GetType().Name)
+            return Encoding.ASCII.GetBytes(GetType().Name)
                 .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
@@ -199,7 +199,7 @@ namespace TES3Lib.Base
         /// </summary>
         public virtual string GetEditorId()
         {
-            PropertyInfo name = this.GetType().GetProperty("NAME");
+            PropertyInfo name = GetType().GetProperty("NAME");
             if (name is not null)
             {
                 var NAME = (NAME)name.GetValue(this);
@@ -235,7 +235,7 @@ namespace TES3Lib.Base
         {
             int hash = 0;
 
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly)

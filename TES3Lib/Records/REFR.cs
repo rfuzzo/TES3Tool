@@ -88,13 +88,13 @@ namespace TES3Lib.Records
                 var subrecordSize = GetRecordSize(reader, data);
                 try
                 {
-                    var subrecordProp = this.GetType().GetProperty(subrecordName);
+                    var subrecordProp = GetType().GetProperty(subrecordName);
                     object subrecord = Activator.CreateInstance(subrecordProp.PropertyType, new object[] { reader.ReadBytes<byte[]>(data, subrecordSize) });
                     subrecordProp.SetValue(this, subrecord);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} eighter not implemented or borked {e}");
+                    Console.WriteLine($"error in building {GetType()} on {subrecordName} eighter not implemented or borked {e}");
                     break;
                 }
 
@@ -105,7 +105,7 @@ namespace TES3Lib.Records
 
         public byte[] SerializeRecord()
         {
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();

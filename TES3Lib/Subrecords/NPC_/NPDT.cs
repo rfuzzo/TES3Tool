@@ -137,7 +137,7 @@ namespace TES3Lib.Subrecords.NPC_
                 data.AddRange(ByteWriter.ToBytes(Gold, typeof(int)));
             }
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

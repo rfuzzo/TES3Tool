@@ -60,7 +60,7 @@ namespace TES3Lib.Subrecords.PGRD
                 data.Add(gridNode.Unknown2);
             }
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

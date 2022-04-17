@@ -88,7 +88,7 @@ namespace TES3Lib.Subrecords.CLAS
             data.AddRange(ByteWriter.ToBytes(IsPlayable, typeof(int)));
             data.AddRange(ByteWriter.ToBytes(SerializeFlag(Services), typeof(int)));
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

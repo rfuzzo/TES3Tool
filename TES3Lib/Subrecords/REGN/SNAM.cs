@@ -37,7 +37,7 @@ namespace TES3Lib.Subrecords.REGN
             data.AddRange(soundIdbytes);
             data.Add(Chance);
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

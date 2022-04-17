@@ -73,7 +73,7 @@ namespace TES3Lib.Subrecords.LAND
             data.AddRange(ByteWriter.ToBytes(Unknown1, typeof(short)));
             data.AddRange(ByteWriter.ToBytes(Unknown2, typeof(byte)));
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

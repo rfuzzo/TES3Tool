@@ -54,7 +54,7 @@ namespace TES3Lib.Subrecords.BOOK
             data.AddRange(ByteWriter.ToBytes(Skill, typeof(uint)));
             data.AddRange(ByteWriter.ToBytes(EnchantPoints, typeof(int)));
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

@@ -113,7 +113,7 @@ namespace TES3Lib.Subrecords.RACE
             data.AddRange(ByteWriter.ToBytes(Female.Weight, typeof(float)));
             data.AddRange(ByteWriter.ToBytes(SerializeFlag(Flags), typeof(int)));
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

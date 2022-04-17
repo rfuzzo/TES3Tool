@@ -54,7 +54,7 @@ namespace TES3Lib.Subrecords.Shared
         public override byte[] SerializeSubrecord()
         {
 
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly)
@@ -82,7 +82,7 @@ namespace TES3Lib.Subrecords.Shared
                 data.AddRange(ByteWriter.ToBytes(value, property.PropertyType, sizeAttribute));
             }
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

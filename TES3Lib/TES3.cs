@@ -10,13 +10,8 @@ namespace TES3Lib
     public class TES3
     {
         const int HeaderSize = 16;
-        public List<Record> Records { get; set; }
+        public List<Record> Records { get; set; } = new();
         public string Path { get; set; }
-
-        public TES3()
-        {
-            Records = new List<Record>();
-        }
 
         public static TES3 TES3Load(string filePath, List<string> filteredGrops = null)
         {
@@ -43,7 +38,6 @@ namespace TES3Lib
 
                 var data = new byte[HeaderSize + size];
                 fileStream.Read(data, 0, HeaderSize + size);
-
 
                 TES3.Records.Add(null);
                 int index = TES3.Records.Count - 1;

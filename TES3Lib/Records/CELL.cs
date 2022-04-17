@@ -84,13 +84,13 @@ namespace TES3Lib.Records
                 {
                     if (subrecordName.Equals("FRMR"))
                     {
-                        var refrListType = this.GetType().GetProperty("REFR");
+                        var refrListType = GetType().GetProperty("REFR");
                         var reflist = (List<REFR>)refrListType.GetValue(this);
                         reflist.Add(new REFR(Data, readerData));
                     }
                     else
                     {
-                        var subrecordProp = this.GetType().GetProperty(subrecordName);
+                        var subrecordProp = GetType().GetProperty(subrecordName);
                         var subrecord = Activator.CreateInstance(subrecordProp.PropertyType, new object[] { readerData.ReadBytes<byte[]>(Data, subrecordSize) });
                         subrecordProp.SetValue(this, subrecord);
                     }
@@ -101,7 +101,7 @@ namespace TES3Lib.Records
                     {
                         Console.WriteLine(NAME.EditorId);
                     }
-                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -109,7 +109,7 @@ namespace TES3Lib.Records
 
         public override byte[] SerializeRecord()
         {
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
@@ -134,7 +134,7 @@ namespace TES3Lib.Records
                 data.AddRange(cellReferences.ToArray());
             }
 
-            return Encoding.ASCII.GetBytes(this.GetType().Name)
+            return Encoding.ASCII.GetBytes(GetType().Name)
                 .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
@@ -146,9 +146,9 @@ namespace TES3Lib.Records
             var cell = obj as CELL;
             if (cell.DATA.Flags.Contains(CellFlag.IsInteriorCell))
             {
-                return this.NAME.EditorId.Equals(cell.NAME.EditorId);
+                return NAME.EditorId.Equals(cell.NAME.EditorId);
             }
-            return this.DATA.GridX.Equals(cell.DATA.GridX) && this.DATA.GridY.Equals(cell.DATA.GridY);
+            return DATA.GridX.Equals(cell.DATA.GridX) && DATA.GridY.Equals(cell.DATA.GridY);
         }
 
         public override string GetEditorId()

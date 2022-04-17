@@ -151,7 +151,7 @@ namespace TES3Lib.Records
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} either not implemented or borked {e}");
+                    Console.WriteLine($"error in building {GetType()} on {subrecordName} either not implemented or borked {e}");
                     break;
                 }
             }
@@ -159,7 +159,7 @@ namespace TES3Lib.Records
 
         public override byte[] SerializeRecord()
         {
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
@@ -225,7 +225,7 @@ namespace TES3Lib.Records
                 flagSerialized = flagSerialized | (uint)flagElement;
             }
 
-            return Encoding.ASCII.GetBytes(this.GetType().Name)
+            return Encoding.ASCII.GetBytes(GetType().Name)
                 .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(flagSerialized))

@@ -44,7 +44,7 @@ namespace TES3Lib.Subrecords.PGRD
                 data.AddRange(ByteWriter.ToBytes(Edges[i], typeof(int)));
             }
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;

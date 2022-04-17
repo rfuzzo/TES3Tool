@@ -105,14 +105,14 @@ namespace TES3Lib.Records
                         continue;
                     }
 
-                    var subrecordProp = this.GetType().GetProperty(subrecordName);
+                    var subrecordProp = GetType().GetProperty(subrecordName);
                     var subrecord = Activator.CreateInstance(subrecordProp.PropertyType, new object[] { reader.ReadBytes<byte[]>(Data, subrecordSize) });
                     subrecordProp.SetValue(this, subrecord);
 
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"error in building {this.GetType()} on {subrecordName} eighter not implemented or borked {e}");
+                    Console.WriteLine($"error in building {GetType()} on {subrecordName} eighter not implemented or borked {e}");
                     break;
                 }
             }
@@ -120,7 +120,7 @@ namespace TES3Lib.Records
 
         public override byte[] SerializeRecord()
         {
-            var properties = this.GetType()
+            var properties = GetType()
                .GetProperties(BindingFlags.Public |
                               BindingFlags.Instance |
                               BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
@@ -149,7 +149,7 @@ namespace TES3Lib.Records
                 data.AddRange(subrecord.SerializeSubrecord());
             }
 
-            return Encoding.ASCII.GetBytes(this.GetType().Name)
+            return Encoding.ASCII.GetBytes(GetType().Name)
                 .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
                 .Concat(BitConverter.GetBytes(SerializeFlag()))

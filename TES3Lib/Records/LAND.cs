@@ -66,7 +66,7 @@ namespace TES3Lib.Records
             if (obj is LAND)
             {
                 var land2 = obj as LAND;
-                return this.INTV.CellX == land2.INTV.CellX && this.INTV.CellY == land2.INTV.CellY;
+                return INTV.CellX == land2.INTV.CellX && INTV.CellY == land2.INTV.CellY;
 
             }
 

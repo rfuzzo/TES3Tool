@@ -30,7 +30,7 @@ namespace TES3Lib.Subrecords.SKILL
 
         public override byte[] SerializeSubrecord()
         {
-            var properties = this.GetType()
+            var properties = GetType()
                 .GetProperties(System.Reflection.BindingFlags.Public |
                                System.Reflection.BindingFlags.Instance |
                                System.Reflection.BindingFlags.DeclaredOnly)
@@ -46,7 +46,7 @@ namespace TES3Lib.Subrecords.SKILL
                 data.AddRange(ByteWriter.ToBytes(UseValue[i], typeof(float)));
             }
 
-            var serialized = Encoding.ASCII.GetBytes(this.GetType().Name)
+            var serialized = Encoding.ASCII.GetBytes(GetType().Name)
                .Concat(BitConverter.GetBytes(data.Count))
                .Concat(data).ToArray();
             return serialized;
