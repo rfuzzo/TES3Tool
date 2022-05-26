@@ -170,10 +170,16 @@ namespace TES3Lib.Records
 
         public override bool Equals(object obj)
         {
-            var cell = obj as CELL;
-            return cell.DATA.Flags.Contains(CellFlag.IsInteriorCell)
+            return obj is CELL cell && (cell.DATA.Flags.Contains(CellFlag.IsInteriorCell)
                 ? NAME.EditorId.Equals(cell.NAME.EditorId)
-                : DATA.GridX.Equals(cell.DATA.GridX) && DATA.GridY.Equals(cell.DATA.GridY);
+                : DATA.GridX.Equals(cell.DATA.GridX) && DATA.GridY.Equals(cell.DATA.GridY));
+        }
+
+        public override int GetHashCode()
+        {
+            return DATA.Flags.Contains(CellFlag.IsInteriorCell)
+                ? NAME.EditorId.GetHashCode()
+                : Tuple.Create(DATA.GridX, DATA.GridY).GetHashCode();
         }
 
         public override string GetEditorId()
@@ -213,6 +219,7 @@ namespace TES3Lib.Records
                 .Concat(BitConverter.GetBytes(SerializeFlag()))
                 .Concat(data).ToArray();
         }
+
 
     }
 }

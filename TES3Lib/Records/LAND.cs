@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using TES3Lib.Base;
 using TES3Lib.Subrecords.LAND;
 
@@ -71,6 +72,11 @@ namespace TES3Lib.Records
             }
 
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Tuple.Create(INTV.CellX, INTV.CellY).GetHashCode();
         }
     }
 }

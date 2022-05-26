@@ -12,12 +12,12 @@ namespace TES3Lib.Base
     /// <summary>
     /// Base class for TES3 Subrecord
     /// </summary>
-    abstract public class Subrecord
+    public abstract class Subrecord
     {
         /// <summary>
         /// 4 letter subrecord name
         /// </summary>
-        readonly public string Name;
+        public readonly string Name;
 
         /// <summary>
         /// Subrecord size minus header
@@ -50,7 +50,7 @@ namespace TES3Lib.Base
             var reader = new ByteReader();
             Name = reader.ReadBytes<string>(RawData, 4);
             Size = reader.ReadBytes<int>(RawData);
-            Data = reader.ReadBytes<byte[]>(RawData, (int)Size);
+            Data = reader.ReadBytes<byte[]>(RawData, Size);
         }
 
         public Subrecord()
@@ -65,7 +65,10 @@ namespace TES3Lib.Base
         /// <returns>Byte array with serialized subrecord</returns>
         public virtual byte[] SerializeSubrecord()
         {
-            if (!IsImplemented) return RawData;
+            if (!IsImplemented)
+            {
+                return RawData;
+            }
 
             var properties = GetType()
                 .GetProperties(BindingFlags.Public |
@@ -75,16 +78,16 @@ namespace TES3Lib.Base
                                .ToList();
 
             List<byte> data = new();
-            foreach (PropertyInfo property in properties)
+            foreach (var property in properties)
             {
-                object value = property.GetValue(this);
+                var value = property.GetValue(this);
                 var sizeAttribute = property.GetCustomAttributes<SizeInBytesAttribute>().FirstOrDefault();
 
                 //used for flags in subrecords
                 if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(HashSet<>))
                 {
-                    Type enumType = property.PropertyType.GetGenericArguments()[0];
-                    Type enumValueType = Enum.GetUnderlyingType(enumType);
+                    var enumType = property.PropertyType.GetGenericArguments()[0];
+                    var enumValueType = Enum.GetUnderlyingType(enumType);
 
                     data.AddRange(ByteWriter.ToBytes(SerializeFlag(value), enumValueType));
                     continue;
@@ -119,7 +122,7 @@ namespace TES3Lib.Base
                                .OrderBy(x => x.MetadataToken)
                                .ToList();
 
-            foreach (PropertyInfo property in properties)
+            foreach (var property in properties)
             {
                 var thisValue = property.GetValue(this);
                 var otherValue = property.GetValue(obj);
@@ -131,6 +134,11 @@ namespace TES3Lib.Base
             }
 
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
