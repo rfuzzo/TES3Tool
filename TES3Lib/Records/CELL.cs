@@ -37,11 +37,6 @@ namespace TES3Lib.Records
         public INTV INTV { get; set; }
 
         /// <summary>
-        /// Number of references in cell
-        /// </summary>
-        public NAM0 NAM0 { get; set; }
-
-        /// <summary>
         /// Map color
         /// Dont really know what this does
         /// </summary>
@@ -58,9 +53,16 @@ namespace TES3Lib.Records
         public AMBI AMBI { get; set; }
 
         /// <summary>
+        /// Number of references in cell
+        /// </summary>
+        public NAM0 NAM0 { get; set; }
+
+        /// <summary>
         /// Cell references
         /// </summary>
         public List<REFR> REFR { get; set; }
+
+        public int unParsedBytesLen = 0;
 
         public CELL()
         {
@@ -82,12 +84,22 @@ namespace TES3Lib.Records
                 var subrecordSize = GetRecordSize(readerData);
                 try
                 {
-                    if (subrecordName.Equals("FRMR"))
+                    // if FRMR or MVRF then we are at the reference list
+                    // skip parsing references and read as raw bytes
+                    if (subrecordName.Equals("FRMR") || subrecordName.Equals("MVRF"))
                     {
-                        var refrListType = GetType().GetProperty("REFR");
-                        var reflist = (List<REFR>)refrListType.GetValue(this);
-                        reflist.Add(new REFR(Data, readerData));
+                        // read to end
+                        unParsedBytesLen = Data.Length - readerData.offset;
+                        readerData.ShiftForwardBy(unParsedBytesLen);
+
+                        //buffer = readerData.ReadBytes<byte[]>(Data, rest);
                     }
+                    //if (subrecordName.Equals("FRMR") || subrecordName.Equals("MVRF"))
+                    //{
+                    //    var refrListType = GetType().GetProperty("REFR");
+                    //    var reflist = (List<REFR>)refrListType.GetValue(this);
+                    //    reflist.Add(new REFR(Data, readerData));
+                    //}
                     else
                     {
                         var subrecordProp = GetType().GetProperty(subrecordName);
@@ -115,11 +127,18 @@ namespace TES3Lib.Records
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
             List<byte> data = new();
-            foreach (PropertyInfo property in properties)
+            foreach (var property in properties)
             {
-                if (property.Name == "REFR") continue;
+                if (property.Name == "REFR")
+                {
+                    continue;
+                }
+
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
+                if (subrecord is null)
+                {
+                    continue;
+                }
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
@@ -134,6 +153,14 @@ namespace TES3Lib.Records
                 data.AddRange(cellReferences.ToArray());
             }
 
+            // add unparsed buffer
+            var raw = GetRawLoadedBytes();
+            var buffer = raw.Skip(raw.Length - unParsedBytesLen).ToArray();
+            if (REFR.Count == 0 && buffer is not null && buffer.Length > 0)
+            {
+                data.AddRange(buffer);
+            }
+
             return Encoding.ASCII.GetBytes(GetType().Name)
                 .Concat(BitConverter.GetBytes(data.Count))
                 .Concat(BitConverter.GetBytes(Header))
@@ -144,23 +171,48 @@ namespace TES3Lib.Records
         public override bool Equals(object obj)
         {
             var cell = obj as CELL;
-            if (cell.DATA.Flags.Contains(CellFlag.IsInteriorCell))
-            {
-                return NAME.EditorId.Equals(cell.NAME.EditorId);
-            }
-            return DATA.GridX.Equals(cell.DATA.GridX) && DATA.GridY.Equals(cell.DATA.GridY);
+            return cell.DATA.Flags.Contains(CellFlag.IsInteriorCell)
+                ? NAME.EditorId.Equals(cell.NAME.EditorId)
+                : DATA.GridX.Equals(cell.DATA.GridX) && DATA.GridY.Equals(cell.DATA.GridY);
         }
 
         public override string GetEditorId()
         {
-            if (DATA.Flags.Contains(CellFlag.IsInteriorCell))
-            {
-                return NAME?.EditorId;
-            }
-            else
-            {
-                return $"({DATA.GridX},{DATA.GridY})";
-            }
+            return DATA.Flags.Contains(CellFlag.IsInteriorCell) ? (NAME?.EditorId) : $"({DATA.GridX},{DATA.GridY})";
         }
+
+        public byte[] SerializeRecordForMerge()
+        {
+            var properties = GetType()
+                .GetProperties(BindingFlags.Public |
+                               BindingFlags.Instance |
+                               BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
+
+            List<byte> data = new();
+            foreach (var property in properties)
+            {
+                if (property.Name == "REFR")
+                {
+                    continue;
+                }
+
+                var subrecord = (Subrecord)property.GetValue(this);
+                if (subrecord is null)
+                {
+                    continue;
+                }
+
+                data.AddRange(subrecord.SerializeSubrecord());
+            }
+
+            // don't serialize references for merging: skip to end
+
+            return Encoding.ASCII.GetBytes(GetType().Name)
+                .Concat(BitConverter.GetBytes(data.Count))
+                .Concat(BitConverter.GetBytes(Header))
+                .Concat(BitConverter.GetBytes(SerializeFlag()))
+                .Concat(data).ToArray();
+        }
+
     }
 }

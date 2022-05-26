@@ -9,13 +9,16 @@ namespace TES3Lib
 {
     public class TES3
     {
-        const int HeaderSize = 16;
+        private const int HeaderSize = 16;
         public List<Record> Records { get; set; } = new();
         public string Path { get; set; }
 
         public static TES3 TES3Load(string filePath, List<string> filteredGrops = null)
         {
-            if (filteredGrops is null) filteredGrops = new List<string>();
+            if (filteredGrops is null)
+            {
+                filteredGrops = new List<string>();
+            }
 
             var TES3 = new TES3() { Path = filePath };
             var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -40,7 +43,7 @@ namespace TES3Lib
                 fileStream.Read(data, 0, HeaderSize + size);
 
                 TES3.Records.Add(null);
-                int index = TES3.Records.Count - 1;
+                var index = TES3.Records.Count - 1;
                 tasks.Add(new Task(() => RecordBuildTask(name, data, TES3.Records, index)));
                 tasks[index].Start();
             }
@@ -49,24 +52,58 @@ namespace TES3Lib
             return TES3;
         }
 
+        public static TES3 TES3LoadSync(string filePath, List<string> filteredGrops = null)
+        {
+            if (filteredGrops is null)
+            {
+                filteredGrops = new List<string>();
+            }
+
+            var TES3 = new TES3() { Path = filePath };
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+            var header = new byte[HeaderSize];
+            while (fileStream.Read(header, 0, HeaderSize) != 0)
+            {
+                fileStream.Position -= HeaderSize;
+
+                var reader = new ByteReader();
+                var name = reader.ReadBytes<string>(header, 4);
+                var size = reader.ReadBytes<int>(header);
+
+                if (!name.Equals("TES3") && filteredGrops.Count > 0 && !filteredGrops.Contains(name))
+                {
+                    fileStream.Position += +HeaderSize + size;
+                    continue;
+                }
+
+                var data = new byte[HeaderSize + size];
+                fileStream.Read(data, 0, HeaderSize + size);
+
+                TES3.Records.Add(null);
+                var index = TES3.Records.Count - 1;
+                RecordBuildTask(name, data, TES3.Records, index);
+            }
+
+            return TES3;
+        }
+
         public static void RecordBuildTask(string name, byte[] data, List<Record> records, int index)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Record record = assembly
+            var assembly = Assembly.GetExecutingAssembly();
+            var record = assembly
                 .CreateInstance($"TES3Lib.Records.{name}", false, BindingFlags.Default, null, new object[] { data }, null, null) as Record;
             records[index] = record;
         }
 
         public void TES3Save(string filePath)
         {
-            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+            using var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+            foreach (var record in Records)
             {
-                foreach (var record in Records)
-                {
-                    var serializedRecord = record.SerializeRecord();
+                var serializedRecord = record.SerializeRecord();
 
-                    fs.Write(serializedRecord, 0, serializedRecord.Length);
-                }
+                fs.Write(serializedRecord, 0, serializedRecord.Length);
             }
         }
     }
