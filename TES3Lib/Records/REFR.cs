@@ -16,6 +16,18 @@ namespace TES3Lib.Records
     [DebuggerDisplay("{NAME.EditorId}")]
     public class REFR
     {
+        /// <summary>
+        /// Moved Reference
+        /// </summary>
+        public MVRF MVRF { get; set; }
+
+        /// <summary>
+        /// Coordinates in Moved References
+        /// </summary>
+        public CNDT CNDT { get; set; }
+
+
+
         public FRMR FRMR { get; set; }
 
         public NAME NAME { get; set; }
@@ -82,26 +94,37 @@ namespace TES3Lib.Records
 
         public REFR(byte[] data, ByteReader reader)
         {
-            do
+            Parse(data, reader);
+
+            if (MVRF is not null)
             {
-                var subrecordName = GetRecordName(reader, data);
-                var subrecordSize = GetRecordSize(reader, data);
-                try
+                // parse the REFR after MVRF again
+                Parse(data, reader);
+            }
+
+            void Parse(byte[] data, ByteReader reader)
+            {
+                do
                 {
-                    var subrecordProp = GetType().GetProperty(subrecordName);
-                    object subrecord = Activator.CreateInstance(subrecordProp.PropertyType, new object[] { reader.ReadBytes<byte[]>(data, subrecordSize) });
-                    subrecordProp.SetValue(this, subrecord);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"error in building {GetType()} on {subrecordName} eighter not implemented or borked {e}");
-                    break;
-                }
+                    var subrecordName = GetRecordName(reader, data);
+                    var subrecordSize = GetRecordSize(reader, data);
+                    try
+                    {
+                        var subrecordProp = GetType().GetProperty(subrecordName);
+                        var subrecord = Activator.CreateInstance(subrecordProp.PropertyType, new object[] { reader.ReadBytes<byte[]>(data, subrecordSize) });
+                        subrecordProp.SetValue(this, subrecord);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"error in building {GetType()} on {subrecordName} eighter not implemented or borked {e}");
+                        break;
+                    }
 
-            } while (data.Length != reader.offset && !GetRecordName(reader, data).Equals("FRMR") && !GetRecordName(reader, data).Equals("NAM0"));
-
-
+                } while (data.Length != reader.offset && !GetRecordName(reader, data).Equals("FRMR") && !GetRecordName(reader, data).Equals("NAM0"));
+            }
         }
+
+
 
         public byte[] SerializeRecord()
         {
@@ -111,11 +134,17 @@ namespace TES3Lib.Records
                                BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
 
+            // serialize MVRF always first
+            // TODO investigate
+
             List<byte> data = new();
-            foreach (PropertyInfo property in properties)
+            foreach (var property in properties)
             {
                 var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
+                if (subrecord is null)
+                {
+                    continue;
+                }
 
                 data.AddRange(subrecord.SerializeSubrecord());
             }
