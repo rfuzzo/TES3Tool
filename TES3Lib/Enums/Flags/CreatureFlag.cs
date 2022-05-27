@@ -12,8 +12,8 @@ namespace TES3Lib.Enums.Flags
         Flies = 0x0020,
         Walks = 0x0040,
         Essential = 0x0080,
-        SkeletonBlood = 0x0400,
-        MetalBlood = 0x0800
+        //SkeletonBlood = 0x0400,
+        //MetalBlood = 0x0800
     }
 
     public enum BloodType : int
