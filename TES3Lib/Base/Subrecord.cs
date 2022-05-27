@@ -140,5 +140,10 @@ namespace TES3Lib.Base
         {
             return base.GetHashCode();
         }
+
+        public byte[] GetRawLoadedBytes()
+        {
+            return RawData;
+        }
     }
 }
