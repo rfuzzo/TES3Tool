@@ -222,7 +222,7 @@ namespace TES3Lib.Records
             uint flagSerialized = 0;
             foreach (RecordFlag flagElement in Flags)
             {
-                flagSerialized = flagSerialized | (uint)flagElement;
+                flagSerialized |= (uint)flagElement;
             }
 
             return Encoding.ASCII.GetBytes(GetType().Name)

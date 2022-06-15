@@ -172,7 +172,7 @@ namespace TES3Lib.Base
             uint flagSerialized = 0;
             foreach (RecordFlag flagElement in Flags)
             {
-                flagSerialized = flagSerialized | (uint)flagElement;
+                flagSerialized |= (uint)flagElement;
             }
             return flagSerialized;
         }
