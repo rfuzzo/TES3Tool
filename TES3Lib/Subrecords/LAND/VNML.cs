@@ -32,7 +32,7 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < size; x++)
                 {
-                    var bytes = reader.ReadBytes<byte[]>(base.Data, 3);
+                    var bytes = reader.ReadBytes<byte[]>(Data, 3);
                     normals[y, x].x = bytes[0];
                     normals[y, x].y = bytes[1];
                     normals[y, x].z = bytes[2];

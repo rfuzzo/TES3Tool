@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.LEVI
         public INAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ItemEditorId = reader.ReadBytes<string>(base.Data, base.Size);
+            ItemEditorId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

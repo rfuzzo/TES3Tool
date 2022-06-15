@@ -62,30 +62,30 @@ namespace TES3Lib.Subrecords.CREA
         public NPDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CreatureType = (CreatureType)reader.ReadBytes<int>(base.Data);
-            Level = reader.ReadBytes<int>(base.Data);
-            Strength = reader.ReadBytes<int>(base.Data);
-            Intelligence = reader.ReadBytes<int>(base.Data);
-            Willpower = reader.ReadBytes<int>(base.Data);
-            Agility = reader.ReadBytes<int>(base.Data);
-            Speed = reader.ReadBytes<int>(base.Data);
-            Endurance = reader.ReadBytes<int>(base.Data);
-            Personality = reader.ReadBytes<int>(base.Data);
-            Luck = reader.ReadBytes<int>(base.Data);
-            Health = reader.ReadBytes<int>(base.Data);
-            SpellPts = reader.ReadBytes<int>(base.Data);
-            Fatigue = reader.ReadBytes<int>(base.Data);
-            Soul = reader.ReadBytes<int>(base.Data);
-            Combat = reader.ReadBytes<int>(base.Data);
-            Magic = reader.ReadBytes<int>(base.Data);
-            Stealth = reader.ReadBytes<int>(base.Data);
-            AttackMin1 = reader.ReadBytes<int>(base.Data);
-            AttackMax1 = reader.ReadBytes<int>(base.Data);
-            AttackMin2 = reader.ReadBytes<int>(base.Data);
-            AttackMax2 = reader.ReadBytes<int>(base.Data);
-            AttackMin3 = reader.ReadBytes<int>(base.Data);
-            AttackMax3 = reader.ReadBytes<int>(base.Data);
-            Gold = reader.ReadBytes<int>(base.Data);
+            CreatureType = (CreatureType)reader.ReadBytes<int>(Data);
+            Level = reader.ReadBytes<int>(Data);
+            Strength = reader.ReadBytes<int>(Data);
+            Intelligence = reader.ReadBytes<int>(Data);
+            Willpower = reader.ReadBytes<int>(Data);
+            Agility = reader.ReadBytes<int>(Data);
+            Speed = reader.ReadBytes<int>(Data);
+            Endurance = reader.ReadBytes<int>(Data);
+            Personality = reader.ReadBytes<int>(Data);
+            Luck = reader.ReadBytes<int>(Data);
+            Health = reader.ReadBytes<int>(Data);
+            SpellPts = reader.ReadBytes<int>(Data);
+            Fatigue = reader.ReadBytes<int>(Data);
+            Soul = reader.ReadBytes<int>(Data);
+            Combat = reader.ReadBytes<int>(Data);
+            Magic = reader.ReadBytes<int>(Data);
+            Stealth = reader.ReadBytes<int>(Data);
+            AttackMin1 = reader.ReadBytes<int>(Data);
+            AttackMax1 = reader.ReadBytes<int>(Data);
+            AttackMin2 = reader.ReadBytes<int>(Data);
+            AttackMax2 = reader.ReadBytes<int>(Data);
+            AttackMin3 = reader.ReadBytes<int>(Data);
+            AttackMax3 = reader.ReadBytes<int>(Data);
+            Gold = reader.ReadBytes<int>(Data);
         }
     }
 }

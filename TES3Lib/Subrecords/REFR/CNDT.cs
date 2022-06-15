@@ -19,8 +19,8 @@ namespace TES3Lib.Subrecords.REFR
         public CNDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            GridX = reader.ReadBytes<int>(base.Data);
-            GridY = reader.ReadBytes<int>(base.Data);
+            GridX = reader.ReadBytes<int>(Data);
+            GridY = reader.ReadBytes<int>(Data);
         }
     }
 }

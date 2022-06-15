@@ -30,7 +30,7 @@ namespace TES3Lib.Subrecords.NPC_
         public FLAG(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Flags = reader.ReadFlagBytes<NPCFlag>(base.Data);
+            Flags = reader.ReadFlagBytes<NPCFlag>(Data);
         }
     }
 }

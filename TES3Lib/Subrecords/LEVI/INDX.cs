@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.LEVI
         public INDX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ItemCount = reader.ReadBytes<int>(base.Data, base.Size);
+            ItemCount = reader.ReadBytes<int>(Data, Size);
         }
     }
 }

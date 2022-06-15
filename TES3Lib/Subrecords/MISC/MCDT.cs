@@ -20,9 +20,9 @@ namespace TES3Lib.Subrecords.MISC
         public MCDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Unknown = reader.ReadBytes<int>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Unknown = reader.ReadBytes<int>(Data);
         }
     }
 }

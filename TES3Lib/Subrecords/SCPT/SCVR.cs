@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.SCPT
         public SCVR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            LocalScriptVariables = reader.ReadBytes<string>(base.Data, base.Size);
+            LocalScriptVariables = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

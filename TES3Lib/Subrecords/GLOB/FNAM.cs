@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.GLOB
         public FNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            VariableType = (GlobalVariableType)reader.ReadBytes<byte>(base.Data);
+            VariableType = (GlobalVariableType)reader.ReadBytes<byte>(Data);
         }
     }
 }

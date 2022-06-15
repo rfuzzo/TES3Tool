@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public UNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ReferenceBlocked = reader.ReadBytes<byte[]>(base.Data, base.Size)[0];
+            ReferenceBlocked = reader.ReadBytes<byte[]>(Data, Size)[0];
         }
     }
 }

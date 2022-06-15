@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.REFR
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FactionOwnerId = reader.ReadBytes<string>(base.Data, base.Size);
+            FactionOwnerId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.REFR
         public INDX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Unknown = reader.ReadBytes<int>(base.Data, base.Size);
+            Unknown = reader.ReadBytes<int>(Data, Size);
         }
     }
 }

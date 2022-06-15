@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.TES3
         public MAST(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Filename = reader.ReadBytes<string>(base.Data, base.Size);
+            Filename = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

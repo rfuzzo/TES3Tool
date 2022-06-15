@@ -27,10 +27,10 @@ namespace TES3Lib.Subrecords.BODY
         public BYDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            BodyPart = reader.ReadBytes<BodyPart>(base.Data);
-            IsVampire = reader.ReadBytes<byte>(base.Data);
-            Flags = reader.ReadFlagBytes<BodyPartFlag>(base.Data);
-            PartType = reader.ReadBytes<BodyPartType>(base.Data);
+            BodyPart = reader.ReadBytes<BodyPart>(Data);
+            IsVampire = reader.ReadBytes<byte>(Data);
+            Flags = reader.ReadFlagBytes<BodyPartFlag>(Data);
+            PartType = reader.ReadBytes<BodyPartType>(Data);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.INFO
         public PNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            PreviousInfoId = reader.ReadBytes<string>(base.Data, base.Size);
+            PreviousInfoId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

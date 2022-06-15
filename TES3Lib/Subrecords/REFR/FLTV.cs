@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public FLTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            LockLevel = reader.ReadBytes<int>(base.Data);
+            LockLevel = reader.ReadBytes<int>(Data);
         }
     }
 }

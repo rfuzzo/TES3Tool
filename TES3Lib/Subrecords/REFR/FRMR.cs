@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public FRMR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ObjectIndex = reader.ReadBytes<int>(base.Data);
+            ObjectIndex = reader.ReadBytes<int>(Data);
         }
     }
 }

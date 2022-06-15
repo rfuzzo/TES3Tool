@@ -33,12 +33,12 @@ namespace TES3Lib.Subrecords.INFO
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Unknown1 = reader.ReadBytes<int>(base.Data);
-            Disposition = reader.ReadBytes<int>(base.Data);
-            Rank = reader.ReadBytes<byte>(base.Data);
-            Gender = reader.ReadBytes<GenderType>(base.Data);
-            PCRank = reader.ReadBytes<byte>(base.Data);
-            Unknown2 = reader.ReadBytes<byte>(base.Data);
+            Unknown1 = reader.ReadBytes<int>(Data);
+            Disposition = reader.ReadBytes<int>(Data);
+            Rank = reader.ReadBytes<byte>(Data);
+            Gender = reader.ReadBytes<GenderType>(Data);
+            PCRank = reader.ReadBytes<byte>(Data);
+            Unknown2 = reader.ReadBytes<byte>(Data);
         }
     }
 }

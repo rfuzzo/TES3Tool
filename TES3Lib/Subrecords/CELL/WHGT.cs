@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.CELL
         public WHGT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            WaterHeight = reader.ReadBytes<float>(base.Data);
+            WaterHeight = reader.ReadBytes<float>(Data);
         }
     }
 }

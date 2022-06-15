@@ -26,13 +26,13 @@ namespace TES3Lib.Subrecords.REGN
         public WEAT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Clear = reader.ReadBytes<byte>(base.Data);
-            Foggy = reader.ReadBytes<byte>(base.Data);
-            Overcast = reader.ReadBytes<byte>(base.Data);
-            Rain = reader.ReadBytes<byte>(base.Data);
-            Thunder = reader.ReadBytes<byte>(base.Data);
-            Ash = reader.ReadBytes<byte>(base.Data);
-            Blight = reader.ReadBytes<byte>(base.Data);
+            Clear = reader.ReadBytes<byte>(Data);
+            Foggy = reader.ReadBytes<byte>(Data);
+            Overcast = reader.ReadBytes<byte>(Data);
+            Rain = reader.ReadBytes<byte>(Data);
+            Thunder = reader.ReadBytes<byte>(Data);
+            Ash = reader.ReadBytes<byte>(Data);
+            Blight = reader.ReadBytes<byte>(Data);
         }
     }
 }

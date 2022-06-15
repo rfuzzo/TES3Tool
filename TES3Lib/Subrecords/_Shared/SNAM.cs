@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.Shared
         public SNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SoundEditorId = reader.ReadBytes<string>(base.Data, base.Size);
+            SoundEditorId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -24,15 +24,15 @@ namespace TES3Lib.Subrecords.REGN
         public SNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SoundId = reader.ReadBytes<string>(base.Data, 32);
-            Chance = reader.ReadBytes<byte>(base.Data);
+            SoundId = reader.ReadBytes<string>(Data, 32);
+            Chance = reader.ReadBytes<byte>(Data);
         }
 
         public override byte[] SerializeSubrecord()
         {
             List<byte> data = new();
 
-            byte[] soundIdbytes = ASCIIEncoding.ASCII.GetBytes(SoundId);
+            byte[] soundIdbytes = Encoding.ASCII.GetBytes(SoundId);
             Array.Resize(ref soundIdbytes, 32);
             data.AddRange(soundIdbytes);
             data.Add(Chance);

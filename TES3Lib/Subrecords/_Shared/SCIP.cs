@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.Shared
         public SCIP(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ScriptName = reader.ReadBytes<string>(base.Data, base.Size);
+            ScriptName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

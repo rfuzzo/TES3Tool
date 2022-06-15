@@ -23,12 +23,12 @@ namespace TES3Lib.Subrecords.REFR
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            XPos = reader.ReadBytes<float>(base.Data);
-            YPos = reader.ReadBytes<float>(base.Data);
-            ZPos = reader.ReadBytes<float>(base.Data);
-            XRotate = reader.ReadBytes<float>(base.Data);
-            YRotate = reader.ReadBytes<float>(base.Data);
-            ZRotate = reader.ReadBytes<float>(base.Data);
+            XPos = reader.ReadBytes<float>(Data);
+            YPos = reader.ReadBytes<float>(Data);
+            ZPos = reader.ReadBytes<float>(Data);
+            XRotate = reader.ReadBytes<float>(Data);
+            YRotate = reader.ReadBytes<float>(Data);
+            ZRotate = reader.ReadBytes<float>(Data);
         }
     }
 }

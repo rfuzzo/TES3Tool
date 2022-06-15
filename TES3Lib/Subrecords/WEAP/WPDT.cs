@@ -47,20 +47,20 @@ namespace TES3Lib.Subrecords.WEAP
         public WPDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Type = (WeaponType)reader.ReadBytes<short>(base.Data);
-            Health = reader.ReadBytes<short>(base.Data);
-            Speed = reader.ReadBytes<float>(base.Data);
-            Reach = reader.ReadBytes<float>(base.Data);
-            EnchantmentPoints = reader.ReadBytes<short>(base.Data);
-            ChopMin = reader.ReadBytes<byte>(base.Data);
-            ChopMax = reader.ReadBytes<byte>(base.Data);
-            SlashMin = reader.ReadBytes<byte>(base.Data);
-            SlashMax = reader.ReadBytes<byte>(base.Data);
-            ThrustMin = reader.ReadBytes<byte>(base.Data);
-            ThrustMax = reader.ReadBytes<byte>(base.Data);
-            Flags = reader.ReadFlagBytes<WeaponFlag>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Type = (WeaponType)reader.ReadBytes<short>(Data);
+            Health = reader.ReadBytes<short>(Data);
+            Speed = reader.ReadBytes<float>(Data);
+            Reach = reader.ReadBytes<float>(Data);
+            EnchantmentPoints = reader.ReadBytes<short>(Data);
+            ChopMin = reader.ReadBytes<byte>(Data);
+            ChopMax = reader.ReadBytes<byte>(Data);
+            SlashMin = reader.ReadBytes<byte>(Data);
+            SlashMax = reader.ReadBytes<byte>(Data);
+            ThrustMin = reader.ReadBytes<byte>(Data);
+            ThrustMax = reader.ReadBytes<byte>(Data);
+            Flags = reader.ReadFlagBytes<WeaponFlag>(Data);
         }
     }
 }

@@ -31,18 +31,18 @@ namespace TES3Lib.Subrecords.SCPT
         public SCHD(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Name = reader.ReadBytes<string>(base.Data, 32);
-            NumShorts = reader.ReadBytes<int>(base.Data);
-            NumLongs = reader.ReadBytes<int>(base.Data);
-            NumFloats = reader.ReadBytes<int>(base.Data);
-            ScriptDataSize = reader.ReadBytes<int>(base.Data);
-            LocalVarSize = reader.ReadBytes<int>(base.Data);
+            Name = reader.ReadBytes<string>(Data, 32);
+            NumShorts = reader.ReadBytes<int>(Data);
+            NumLongs = reader.ReadBytes<int>(Data);
+            NumFloats = reader.ReadBytes<int>(Data);
+            ScriptDataSize = reader.ReadBytes<int>(Data);
+            LocalVarSize = reader.ReadBytes<int>(Data);
         }
 
         public override byte[] SerializeSubrecord()
         {
             List<byte> data = new();
-            byte[] nameBytes = ASCIIEncoding.ASCII.GetBytes(Name);
+            byte[] nameBytes = Encoding.ASCII.GetBytes(Name);
             Array.Resize(ref nameBytes, 32);
 
             data.AddRange(nameBytes);

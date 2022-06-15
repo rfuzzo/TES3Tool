@@ -28,7 +28,7 @@ namespace TES3Lib.Subrecords.INFO
         public SCVR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FunctionVariables = reader.ReadBytes<string>(base.Data, base.Size);
+            FunctionVariables = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

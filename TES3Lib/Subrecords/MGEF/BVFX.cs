@@ -10,7 +10,7 @@ namespace TES3Lib.Subrecords.MGEF
         public BVFX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            BoltVisual = reader.ReadBytes<string>(base.Data, base.Size);
+            BoltVisual = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

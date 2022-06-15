@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.REFR
         public XCHG(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            EnchantCharge = reader.ReadBytes<float>(base.Data);
+            EnchantCharge = reader.ReadBytes<float>(Data);
         }
     }
 }

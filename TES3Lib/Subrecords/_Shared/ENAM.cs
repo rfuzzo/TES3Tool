@@ -23,7 +23,7 @@ namespace TES3Lib.Subrecords.Shared
             public ENAM(byte[] rawData) : base(rawData)
             {
                 var reader = new ByteReader();
-                EnchantmentId = reader.ReadBytes<string>(base.Data, base.Size);
+                EnchantmentId = reader.ReadBytes<string>(Data, Size);
             }
         }
     }
@@ -82,14 +82,14 @@ namespace TES3Lib.Subrecords.Shared
             public ENAM(byte[] rawData) : base(rawData)
             {
                 var reader = new ByteReader();
-                MagicEffect = reader.ReadBytes<MagicEffect>(base.Data, 2);
-                Skill = reader.ReadBytes<Skill>(base.Data, 1);
-                Attribute = reader.ReadBytes<Attribute>(base.Data, 1);
-                SpellRange = reader.ReadBytes<SpellRange>(base.Data);
-                Area = reader.ReadBytes<int>(base.Data);
-                Duration = reader.ReadBytes<int>(base.Data);
-                MinMagnitude = reader.ReadBytes<int>(base.Data);
-                Magnitude = reader.ReadBytes<int>(base.Data);
+                MagicEffect = reader.ReadBytes<MagicEffect>(Data, 2);
+                Skill = reader.ReadBytes<Skill>(Data, 1);
+                Attribute = reader.ReadBytes<Attribute>(Data, 1);
+                SpellRange = reader.ReadBytes<SpellRange>(Data);
+                Area = reader.ReadBytes<int>(Data);
+                Duration = reader.ReadBytes<int>(Data);
+                MinMagnitude = reader.ReadBytes<int>(Data);
+                Magnitude = reader.ReadBytes<int>(Data);
             }
         }
     }

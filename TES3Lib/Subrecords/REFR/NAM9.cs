@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.REFR
         public NAM9(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Unknown = reader.ReadBytes<int>(base.Data);
+            Unknown = reader.ReadBytes<int>(Data);
         }
     }
 }

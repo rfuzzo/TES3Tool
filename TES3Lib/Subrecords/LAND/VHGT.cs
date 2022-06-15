@@ -44,18 +44,18 @@ namespace TES3Lib.Subrecords.LAND
         public VHGT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            HeightOffset = reader.ReadBytes<float>(base.Data);
+            HeightOffset = reader.ReadBytes<float>(Data);
             HeightDelta = new sbyte[CELL_SIDE, CELL_SIDE];
             for (int y = 0; y < CELL_SIDE; y++)
             {
                 for (int x = 0; x < CELL_SIDE; x++)
                 {
-                    HeightDelta[y, x] = reader.ReadBytes<sbyte>(base.Data);
+                    HeightDelta[y, x] = reader.ReadBytes<sbyte>(Data);
                 }
             }
 
-            Unknown1 = reader.ReadBytes<short>(base.Data);
-            Unknown2 = reader.ReadBytes<byte>(base.Data);
+            Unknown1 = reader.ReadBytes<short>(Data);
+            Unknown2 = reader.ReadBytes<byte>(Data);
         }
 
         public override byte[] SerializeSubrecord()

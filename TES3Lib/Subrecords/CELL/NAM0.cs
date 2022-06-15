@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.CELL
         public NAM0(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ReferenceCount = reader.ReadBytes<int>(base.Data);
+            ReferenceCount = reader.ReadBytes<int>(Data);
         }
     }
 }

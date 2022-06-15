@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public TNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            TrapName = reader.ReadBytes<string>(base.Data, base.Size);
+            TrapName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

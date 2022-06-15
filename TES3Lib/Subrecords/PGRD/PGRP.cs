@@ -19,18 +19,18 @@ namespace TES3Lib.Subrecords.PGRD
         public PGRP(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            int nodeCount = base.Data.Length / 16;
+            int nodeCount = Data.Length / 16;
             Points = new Point[nodeCount];
 
             for (int i = 0; i < nodeCount; i++)
             {
-                Points[i].X = reader.ReadBytes<int>(base.Data);
-                Points[i].Y = reader.ReadBytes<int>(base.Data);
-                Points[i].Z = reader.ReadBytes<int>(base.Data);
-                Points[i].IsUserPoint = reader.ReadBytes<byte>(base.Data);
-                Points[i].EdgeCount = reader.ReadBytes<byte>(base.Data);
-                Points[i].Unknown1 = reader.ReadBytes<byte>(base.Data);
-                Points[i].Unknown2 = reader.ReadBytes<byte>(base.Data);
+                Points[i].X = reader.ReadBytes<int>(Data);
+                Points[i].Y = reader.ReadBytes<int>(Data);
+                Points[i].Z = reader.ReadBytes<int>(Data);
+                Points[i].IsUserPoint = reader.ReadBytes<byte>(Data);
+                Points[i].EdgeCount = reader.ReadBytes<byte>(Data);
+                Points[i].Unknown1 = reader.ReadBytes<byte>(Data);
+                Points[i].Unknown2 = reader.ReadBytes<byte>(Data);
             }
 
         }

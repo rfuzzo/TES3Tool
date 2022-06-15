@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.FACT
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FactionReactionValue = reader.ReadBytes<int>(base.Data);
+            FactionReactionValue = reader.ReadBytes<int>(Data);
         }
     }
 }

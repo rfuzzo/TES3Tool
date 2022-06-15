@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.INFO
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ValueToCompare = reader.ReadBytes<int>(base.Data, base.Size);
+            ValueToCompare = reader.ReadBytes<int>(Data, Size);
         }
     }
 }

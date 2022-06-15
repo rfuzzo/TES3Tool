@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.Shared
         public ITEX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            IconPath = reader.ReadBytes<string>(base.Data, base.Size);
+            IconPath = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

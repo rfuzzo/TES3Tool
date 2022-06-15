@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.SCPT
         public SCTX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ScriptText = reader.ReadBytes<string>(base.Data, base.Size);
+            ScriptText = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

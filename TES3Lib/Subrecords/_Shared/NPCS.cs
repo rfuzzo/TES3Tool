@@ -26,7 +26,7 @@ namespace TES3Lib.Subrecords.Shared
         public NPCS(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SpellId = reader.ReadBytes<string>(base.Data, 32);
+            SpellId = reader.ReadBytes<string>(Data, 32);
         }
 
         //public override byte[] SerializeSubrecord()

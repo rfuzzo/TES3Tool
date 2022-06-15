@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public DELE(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Deleted = reader.ReadBytes<int>(base.Data);
+            Deleted = reader.ReadBytes<int>(Data);
         }
     }
 }

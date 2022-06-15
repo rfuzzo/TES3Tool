@@ -25,9 +25,9 @@ namespace TES3Lib.Subrecords.SPEL
         public SPDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Type = reader.ReadBytes<SpellType>(base.Data);
-            SpellCost = reader.ReadBytes<int>(base.Data);
-            Flags = reader.ReadFlagBytes<SpellFlag>(base.Data);
+            Type = reader.ReadBytes<SpellType>(Data);
+            SpellCost = reader.ReadBytes<int>(Data);
+            Flags = reader.ReadFlagBytes<SpellFlag>(Data);
         }
     }
 }

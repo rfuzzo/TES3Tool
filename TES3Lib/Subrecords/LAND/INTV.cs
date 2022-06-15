@@ -19,8 +19,8 @@ namespace TES3Lib.Subrecords.LAND
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CellX = reader.ReadBytes<int>(base.Data);
-            CellY = reader.ReadBytes<int>(base.Data);
+            CellX = reader.ReadBytes<int>(Data);
+            CellY = reader.ReadBytes<int>(Data);
         }
     }
 }

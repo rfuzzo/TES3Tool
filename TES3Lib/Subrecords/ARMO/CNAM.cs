@@ -23,7 +23,7 @@ namespace TES3Lib.Subrecords.ARMO
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FemalePartName = reader.ReadBytes<string>(base.Data, base.Size);
+            FemalePartName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

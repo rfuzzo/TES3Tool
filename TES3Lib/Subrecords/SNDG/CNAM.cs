@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.SNDG
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CreatureName = reader.ReadBytes<string>(base.Data, base.Size);
+            CreatureName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -24,10 +24,10 @@ namespace TES3Lib.Subrecords.CLOT
         public CTDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Type = reader.ReadBytes<ClothingType>(base.Data);
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<short>(base.Data);
-            EnchancementPoints = reader.ReadBytes<short>(base.Data);
+            Type = reader.ReadBytes<ClothingType>(Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<short>(Data);
+            EnchancementPoints = reader.ReadBytes<short>(Data);
         }
     }
 }

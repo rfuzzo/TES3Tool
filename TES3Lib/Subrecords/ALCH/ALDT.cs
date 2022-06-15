@@ -25,9 +25,9 @@ namespace TES3Lib.Subrecords.ALCH
         public ALDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Flags = reader.ReadBytes<AlchemyFlag>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Flags = reader.ReadBytes<AlchemyFlag>(Data);
         }
     }
 }

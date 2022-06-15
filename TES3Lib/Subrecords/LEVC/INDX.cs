@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.LEVC
         public INDX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CreatureCount = reader.ReadBytes<int>(base.Data, base.Size);
+            CreatureCount = reader.ReadBytes<int>(Data, Size);
         }
     }
 }

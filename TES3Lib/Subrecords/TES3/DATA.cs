@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.TES3
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            MasterDataSize = reader.ReadBytes<long>(base.Data, Size);
+            MasterDataSize = reader.ReadBytes<long>(Data, Size);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.CONT
         public CNDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
         }
     }
 }

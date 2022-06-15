@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.LEVC
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Flag = reader.ReadFlagBytes<LeveledCreatureFlag>(base.Data);
+            Flag = reader.ReadFlagBytes<LeveledCreatureFlag>(Data);
         }
     }
 }

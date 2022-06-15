@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.LAND
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Unknown = reader.ReadBytes<int>(base.Data);
+            Unknown = reader.ReadBytes<int>(Data);
         }
     }
 }

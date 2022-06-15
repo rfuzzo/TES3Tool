@@ -28,7 +28,7 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < size; x++)
                 {
-                    var bytes = reader.ReadBytes<byte[]>(base.Data, 3);
+                    var bytes = reader.ReadBytes<byte[]>(Data, 3);
                     VertexColors[y, x].r = bytes[0];
                     VertexColors[y, x].g = bytes[1];
                     VertexColors[y, x].b = bytes[2];

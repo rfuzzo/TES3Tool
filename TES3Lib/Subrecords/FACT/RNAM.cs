@@ -21,14 +21,14 @@ namespace TES3Lib.Subrecords.FACT
         public RNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            RankName = reader.ReadBytes<string>(base.Data, base.Size);
+            RankName = reader.ReadBytes<string>(Data, Size);
         }
 
         public override byte[] SerializeSubrecord()
         {
             List<byte> data = new();
 
-            byte[] ranknameBytes = ASCIIEncoding.ASCII.GetBytes(RankName);
+            byte[] ranknameBytes = Encoding.ASCII.GetBytes(RankName);
             Array.Resize(ref ranknameBytes, 32);
             data.AddRange(ranknameBytes);
 

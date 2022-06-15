@@ -18,13 +18,13 @@ namespace TES3Lib.Subrecords.SKILL
         public SKDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Attribute = (Attribute)reader.ReadBytes<int>(base.Data);
-            Specialization = (Specialization)reader.ReadBytes<int>(base.Data);
+            Attribute = (Attribute)reader.ReadBytes<int>(Data);
+            Specialization = (Specialization)reader.ReadBytes<int>(Data);
 
             UseValue = new float[4];
             for (int i = 0; i < UseValue.Length; i++)
             {
-                UseValue[i] = reader.ReadBytes<float>(base.Data);
+                UseValue[i] = reader.ReadBytes<float>(Data);
             }
         }
 

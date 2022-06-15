@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.INFO
         public QSTF(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            IsFinished = reader.ReadBytes<bool>(base.Data);
+            IsFinished = reader.ReadBytes<bool>(Data);
         }
     }
 }

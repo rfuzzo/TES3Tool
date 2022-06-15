@@ -24,10 +24,10 @@ namespace TES3Lib.Subrecords.Shared
         public AI_T(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            DestinationX = reader.ReadBytes<float>(base.Data);
-            DestinationY = reader.ReadBytes<float>(base.Data);
-            DestinationZ = reader.ReadBytes<float>(base.Data);
-            Unknown = reader.ReadBytes<int>(base.Data);
+            DestinationX = reader.ReadBytes<float>(Data);
+            DestinationY = reader.ReadBytes<float>(Data);
+            DestinationZ = reader.ReadBytes<float>(Data);
+            Unknown = reader.ReadBytes<int>(Data);
         }
     }
 }

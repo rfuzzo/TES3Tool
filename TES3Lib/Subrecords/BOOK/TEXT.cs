@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.BOOK
         public TEXT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            BookText = reader.ReadBytes<string>(base.Data, base.Size);
+            BookText = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

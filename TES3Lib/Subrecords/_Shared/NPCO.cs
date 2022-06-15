@@ -23,8 +23,8 @@ namespace TES3Lib.Subrecords.Shared
         public NPCO(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Count = reader.ReadBytes<int>(base.Data);
-            ItemId = reader.ReadBytes<string>(base.Data, 32);
+            Count = reader.ReadBytes<int>(Data);
+            ItemId = reader.ReadBytes<string>(Data, 32);
         }
 
         //public override byte[] SerializeSubrecord()

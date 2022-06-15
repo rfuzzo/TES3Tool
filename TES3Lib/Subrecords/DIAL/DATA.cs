@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.DIAL
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            DialogueType = reader.ReadBytes<DialogueType>(base.Data);
+            DialogueType = reader.ReadBytes<DialogueType>(Data);
         }
     }
 }

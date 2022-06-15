@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.LTEX
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            IndexNumber = reader.ReadBytes<int>(base.Data);
+            IndexNumber = reader.ReadBytes<int>(Data);
         }
     }
 }

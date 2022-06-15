@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.Shared
         public MODL(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ModelPath = reader.ReadBytes<string>(base.Data, base.Size);
+            ModelPath = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

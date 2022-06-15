@@ -22,8 +22,8 @@ namespace TES3Lib.Subrecords.Shared
         public AI_A(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            TargetName = reader.ReadBytes<string>(base.Data, 32);
-            Unknown = reader.ReadBytes<byte>(base.Data);
+            TargetName = reader.ReadBytes<string>(Data, 32);
+            Unknown = reader.ReadBytes<byte>(Data);
         }
     }
 }

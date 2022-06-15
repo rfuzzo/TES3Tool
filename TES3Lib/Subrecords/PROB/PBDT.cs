@@ -23,10 +23,10 @@ namespace TES3Lib.Subrecords.PROB
         public PBDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Uses = reader.ReadBytes<int>(base.Data);
-            Quality = reader.ReadBytes<float>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Uses = reader.ReadBytes<int>(Data);
+            Quality = reader.ReadBytes<float>(Data);
         }
     }
 }

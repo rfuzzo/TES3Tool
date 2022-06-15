@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public KNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            DoorKeyId = reader.ReadBytes<string>(base.Data, base.Size);
+            DoorKeyId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

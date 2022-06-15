@@ -23,7 +23,7 @@ namespace TES3Lib.Subrecords.Shared
         public DESC(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Description = reader.ReadBytes<string>(base.Data, base.Size);
+            Description = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

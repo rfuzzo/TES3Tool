@@ -11,7 +11,7 @@ namespace TES3Lib.Subrecords.SKILL
         public INDX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Skill = reader.ReadBytes<Skill>(base.Data);
+            Skill = reader.ReadBytes<Skill>(Data);
         }
     }
 }

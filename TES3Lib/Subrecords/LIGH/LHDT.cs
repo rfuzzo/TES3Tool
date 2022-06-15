@@ -29,12 +29,12 @@ namespace TES3Lib.Subrecords.LIGH
         public LHDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Time = reader.ReadBytes<int>(base.Data);
-            Radius = reader.ReadBytes<int>(base.Data);
-            Color = reader.ReadBytes<int>(base.Data);
-            Flags = reader.ReadFlagBytes<LightFlag>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Time = reader.ReadBytes<int>(Data);
+            Radius = reader.ReadBytes<int>(Data);
+            Color = reader.ReadBytes<int>(Data);
+            Flags = reader.ReadFlagBytes<LightFlag>(Data);
         }
     }
 }

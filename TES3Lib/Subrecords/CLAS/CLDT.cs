@@ -51,21 +51,21 @@ namespace TES3Lib.Subrecords.CLAS
         public CLDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            PrimaryAttribute1 = (Attribute)reader.ReadBytes<int>(base.Data);
-            PrimaryAttribute2 = (Attribute)reader.ReadBytes<int>(base.Data);
-            Specialization = (Specialization)reader.ReadBytes<int>(base.Data);
-            Minor1 = reader.ReadBytes<Skill>(base.Data);
-            Major1 = reader.ReadBytes<Skill>(base.Data);
-            Minor2 = reader.ReadBytes<Skill>(base.Data);
-            Major2 = reader.ReadBytes<Skill>(base.Data);
-            Minor3 = reader.ReadBytes<Skill>(base.Data);
-            Major3 = reader.ReadBytes<Skill>(base.Data);
-            Minor4 = reader.ReadBytes<Skill>(base.Data);
-            Major4 = reader.ReadBytes<Skill>(base.Data);
-            Minor5 = reader.ReadBytes<Skill>(base.Data);
-            Major5 = reader.ReadBytes<Skill>(base.Data);
-            IsPlayable = reader.ReadBytes<int>(base.Data, 4) == 1 ? true : false;
-            Services = reader.ReadFlagBytes<ServicesFlag>(base.Data);
+            PrimaryAttribute1 = (Attribute)reader.ReadBytes<int>(Data);
+            PrimaryAttribute2 = (Attribute)reader.ReadBytes<int>(Data);
+            Specialization = (Specialization)reader.ReadBytes<int>(Data);
+            Minor1 = reader.ReadBytes<Skill>(Data);
+            Major1 = reader.ReadBytes<Skill>(Data);
+            Minor2 = reader.ReadBytes<Skill>(Data);
+            Major2 = reader.ReadBytes<Skill>(Data);
+            Minor3 = reader.ReadBytes<Skill>(Data);
+            Major3 = reader.ReadBytes<Skill>(Data);
+            Minor4 = reader.ReadBytes<Skill>(Data);
+            Major4 = reader.ReadBytes<Skill>(Data);
+            Minor5 = reader.ReadBytes<Skill>(Data);
+            Major5 = reader.ReadBytes<Skill>(Data);
+            IsPlayable = reader.ReadBytes<int>(Data, 4) == 1 ? true : false;
+            Services = reader.ReadFlagBytes<ServicesFlag>(Data);
         }
 
         public override byte[] SerializeSubrecord()

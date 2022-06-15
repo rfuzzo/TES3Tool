@@ -32,7 +32,7 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < size; x++)
                 {
-                    TexIndices[y, x] = reader.ReadBytes<ushort>(base.Data);
+                    TexIndices[y, x] = reader.ReadBytes<ushort>(Data);
                 }
             }
         }

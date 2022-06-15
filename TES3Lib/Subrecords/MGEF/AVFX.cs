@@ -10,7 +10,7 @@ namespace TES3Lib.Subrecords.MGEF
         public AVFX(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            AreaVisual = reader.ReadBytes<string>(base.Data, base.Size);
+            AreaVisual = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

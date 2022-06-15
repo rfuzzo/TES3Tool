@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.INFO
         public INAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            InfoName = reader.ReadBytes<string>(base.Data, base.Size);
+            InfoName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

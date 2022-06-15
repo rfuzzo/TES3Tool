@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.INFO
         public ONAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ActorId = reader.ReadBytes<string>(base.Data, base.Size);
+            ActorId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.BSGN
         public TNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            TexturePath = reader.ReadBytes<string>(base.Data, base.Size);
+            TexturePath = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

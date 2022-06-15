@@ -28,12 +28,12 @@ namespace TES3Lib.Subrecords.Shared
         public DODT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            PositionX = reader.ReadBytes<float>(base.Data);
-            PositionY = reader.ReadBytes<float>(base.Data);
-            PositionZ = reader.ReadBytes<float>(base.Data);
-            RotationX = reader.ReadBytes<float>(base.Data);
-            RotationY = reader.ReadBytes<float>(base.Data);
-            RotationZ = reader.ReadBytes<float>(base.Data);
+            PositionX = reader.ReadBytes<float>(Data);
+            PositionY = reader.ReadBytes<float>(Data);
+            PositionZ = reader.ReadBytes<float>(Data);
+            RotationX = reader.ReadBytes<float>(Data);
+            RotationY = reader.ReadBytes<float>(Data);
+            RotationZ = reader.ReadBytes<float>(Data);
         }
     }
 }

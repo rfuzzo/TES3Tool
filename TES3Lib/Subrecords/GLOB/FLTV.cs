@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.GLOB
         public FLTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FloatValue = reader.ReadBytes<float>(base.Data);
+            FloatValue = reader.ReadBytes<float>(Data);
         }
     }
 }

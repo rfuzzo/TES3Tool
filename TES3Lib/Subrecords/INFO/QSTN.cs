@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.INFO
         public QSTN(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            IsQuestName = reader.ReadBytes<bool>(base.Data);
+            IsQuestName = reader.ReadBytes<bool>(Data);
         }
     }
 }

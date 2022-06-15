@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.LTEX
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            FileName = reader.ReadBytes<string>(base.Data, base.Size);
+            FileName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

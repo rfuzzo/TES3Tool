@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.LEVI
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            PCLevelOfPrevious = reader.ReadBytes<short>(base.Data);
+            PCLevelOfPrevious = reader.ReadBytes<short>(Data);
         }
     }
 }

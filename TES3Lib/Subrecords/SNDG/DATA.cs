@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.SNDG
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SoundType = reader.ReadBytes<SoundGenType>(base.Data);
+            SoundType = reader.ReadBytes<SoundGenType>(Data);
         }
     }
 }

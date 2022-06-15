@@ -33,10 +33,10 @@ namespace TES3Lib.Subrecords.PGRD
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            GridX = reader.ReadBytes<int>(base.Data);
-            GridY = reader.ReadBytes<int>(base.Data);
-            Granularity = reader.ReadBytes<short>(base.Data);
-            Points = reader.ReadBytes<short>(base.Data);
+            GridX = reader.ReadBytes<int>(Data);
+            GridY = reader.ReadBytes<int>(Data);
+            Granularity = reader.ReadBytes<short>(Data);
+            Points = reader.ReadBytes<short>(Data);
         }
     }
 }

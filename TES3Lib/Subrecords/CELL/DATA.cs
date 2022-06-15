@@ -20,9 +20,9 @@ namespace TES3Lib.Subrecords.CELL
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Flags = reader.ReadFlagBytes<CellFlag>(base.Data);
-            GridX = reader.ReadBytes<int>(base.Data);
-            GridY = reader.ReadBytes<int>(base.Data);
+            Flags = reader.ReadFlagBytes<CellFlag>(Data);
+            GridX = reader.ReadBytes<int>(Data);
+            GridY = reader.ReadBytes<int>(Data);
         }
     }
 }

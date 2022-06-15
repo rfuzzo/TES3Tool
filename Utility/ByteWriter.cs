@@ -9,7 +9,7 @@ namespace Utility
     {
         static ByteWriter()
         {
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         public static byte[] ToBytes(object data, Type type, SizeInBytesAttribute size = null)

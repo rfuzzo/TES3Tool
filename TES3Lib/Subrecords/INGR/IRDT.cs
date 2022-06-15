@@ -40,28 +40,28 @@ namespace TES3Lib.Subrecords.INGR
         {
             var reader = new ByteReader();
 
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
             EffectIds = new MagicEffect[]
             {
-                reader.ReadBytes<MagicEffect>(base.Data),
-                reader.ReadBytes<MagicEffect>(base.Data),
-                reader.ReadBytes<MagicEffect>(base.Data),
-                reader.ReadBytes<MagicEffect>(base.Data),
+                reader.ReadBytes<MagicEffect>(Data),
+                reader.ReadBytes<MagicEffect>(Data),
+                reader.ReadBytes<MagicEffect>(Data),
+                reader.ReadBytes<MagicEffect>(Data),
             };
             SkillIds = new Skill[]
             {
-                reader.ReadBytes<Skill>(base.Data),
-                reader.ReadBytes<Skill>(base.Data),
-                reader.ReadBytes<Skill>(base.Data),
-                reader.ReadBytes<Skill>(base.Data),
+                reader.ReadBytes<Skill>(Data),
+                reader.ReadBytes<Skill>(Data),
+                reader.ReadBytes<Skill>(Data),
+                reader.ReadBytes<Skill>(Data),
             };
             AttributeIds = new Attribute[]
             {
-                reader.ReadBytes<Attribute>(base.Data),
-                reader.ReadBytes<Attribute>(base.Data),
-                reader.ReadBytes<Attribute>(base.Data),
-                reader.ReadBytes<Attribute>(base.Data),
+                reader.ReadBytes<Attribute>(Data),
+                reader.ReadBytes<Attribute>(Data),
+                reader.ReadBytes<Attribute>(Data),
+                reader.ReadBytes<Attribute>(Data),
             };
         }
 

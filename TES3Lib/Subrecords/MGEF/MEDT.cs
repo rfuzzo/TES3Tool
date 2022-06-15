@@ -31,15 +31,15 @@ namespace TES3Lib.Subrecords.MGEF
         public MEDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SpellSchool = (SpellSchool)reader.ReadBytes<int>(base.Data);
-            BaseCost = reader.ReadBytes<float>(base.Data);
-            Flags = reader.ReadBytes<int>(base.Data);
-            Red = reader.ReadBytes<int>(base.Data);
-            Green = reader.ReadBytes<int>(base.Data);
-            Blue = reader.ReadBytes<int>(base.Data);
-            SpeedMultiplier = reader.ReadBytes<float>(base.Data);
-            SizeMultiplier = reader.ReadBytes<float>(base.Data);
-            SizeCap = reader.ReadBytes<float>(base.Data);
+            SpellSchool = (SpellSchool)reader.ReadBytes<int>(Data);
+            BaseCost = reader.ReadBytes<float>(Data);
+            Flags = reader.ReadBytes<int>(Data);
+            Red = reader.ReadBytes<int>(Data);
+            Green = reader.ReadBytes<int>(Data);
+            Blue = reader.ReadBytes<int>(Data);
+            SpeedMultiplier = reader.ReadBytes<float>(Data);
+            SizeMultiplier = reader.ReadBytes<float>(Data);
+            SizeCap = reader.ReadBytes<float>(Data);
         }
     }
 }

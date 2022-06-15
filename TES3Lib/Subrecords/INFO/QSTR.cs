@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.INFO
         public QSTR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            IsRestart = reader.ReadBytes<bool>(base.Data);
+            IsRestart = reader.ReadBytes<bool>(Data);
         }
     }
 }

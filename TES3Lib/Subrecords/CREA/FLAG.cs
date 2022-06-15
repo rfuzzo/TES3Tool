@@ -24,7 +24,7 @@ namespace TES3Lib.Subrecords.CREA
 
         public FLAG(byte[] rawData) : base(rawData)
         {
-            (Flags, BloodType) = ReadFlagBytes(base.Data);
+            (Flags, BloodType) = ReadFlagBytes(Data);
         }
 
         private (HashSet<CreatureFlag>, BloodType) ReadFlagBytes(byte[] data)

@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.CONT
         public FLAG(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Flags = reader.ReadFlagBytes<ContainerFlag>(base.Data);
+            Flags = reader.ReadFlagBytes<ContainerFlag>(Data);
         }
     }
 }

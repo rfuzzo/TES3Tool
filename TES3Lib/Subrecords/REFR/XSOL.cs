@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.REFR
         public XSOL(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CreatureId = reader.ReadBytes<string>(base.Data, base.Size);
+            CreatureId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

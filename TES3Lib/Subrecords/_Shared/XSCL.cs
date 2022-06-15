@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.Shared
         public XSCL(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Scale = reader.ReadBytes<float>(base.Data);
+            Scale = reader.ReadBytes<float>(Data);
         }
     }
 }

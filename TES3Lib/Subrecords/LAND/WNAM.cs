@@ -27,7 +27,7 @@ namespace TES3Lib.Subrecords.LAND
             {
                 for (int x = 0; x < 9; x++)
                 {
-                    LowLodHeightMap[y, x] = reader.ReadBytes<byte>(base.Data);
+                    LowLodHeightMap[y, x] = reader.ReadBytes<byte>(Data);
                 }
             }
         }

@@ -21,10 +21,10 @@ namespace TES3Lib.Subrecords.APPA
         public AADT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Type = reader.ReadBytes<ApparatusType>(base.Data);
-            Quality = reader.ReadBytes<float>(base.Data);
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
+            Type = reader.ReadBytes<ApparatusType>(Data);
+            Quality = reader.ReadBytes<float>(Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
         }
     }
 }

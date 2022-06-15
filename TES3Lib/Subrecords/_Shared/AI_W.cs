@@ -32,11 +32,11 @@ namespace TES3Lib.Subrecords.Shared
         public AI_W(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Distance = reader.ReadBytes<short>(base.Data);
-            Duration = reader.ReadBytes<short>(base.Data);
-            TimeOfDay = reader.ReadBytes<byte>(base.Data);
-            Idle = reader.ReadBytes<byte[]>(base.Data, 8);
-            Unknown = reader.ReadBytes<byte>(base.Data);
+            Distance = reader.ReadBytes<short>(Data);
+            Duration = reader.ReadBytes<short>(Data);
+            TimeOfDay = reader.ReadBytes<byte>(Data);
+            Idle = reader.ReadBytes<byte[]>(Data, 8);
+            Unknown = reader.ReadBytes<byte>(Data);
         }
     }
 }

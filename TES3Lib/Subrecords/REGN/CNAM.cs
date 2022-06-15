@@ -20,10 +20,10 @@ namespace TES3Lib.Subrecords.REGN
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Red = reader.ReadBytes<byte>(base.Data);
-            Green = reader.ReadBytes<byte>(base.Data);
-            Blue = reader.ReadBytes<byte>(base.Data);
-            Null = reader.ReadBytes<byte>(base.Data);
+            Red = reader.ReadBytes<byte>(Data);
+            Green = reader.ReadBytes<byte>(Data);
+            Blue = reader.ReadBytes<byte>(Data);
+            Null = reader.ReadBytes<byte>(Data);
         }
     }
 }

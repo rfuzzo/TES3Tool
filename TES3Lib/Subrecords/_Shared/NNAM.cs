@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.Shared
         public NNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ChanceNone = reader.ReadBytes<byte>(base.Data);
+            ChanceNone = reader.ReadBytes<byte>(Data);
         }
     }
 }

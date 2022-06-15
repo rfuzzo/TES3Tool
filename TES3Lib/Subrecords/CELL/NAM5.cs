@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.CELL
         public NAM5(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            MapColor = reader.ReadBytes<int>(base.Data);
+            MapColor = reader.ReadBytes<int>(Data);
         }
     }
 }

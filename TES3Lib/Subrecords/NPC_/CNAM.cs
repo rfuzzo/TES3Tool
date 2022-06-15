@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.NPC_
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            ClassName = reader.ReadBytes<string>(base.Data, base.Size);
+            ClassName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -32,26 +32,26 @@ namespace TES3Lib.Subrecords.FACT
         {
             var reader = new ByteReader();
 
-            FirstAttribute = reader.ReadBytes<Attribute>(base.Data);
-            SecondAttributre = reader.ReadBytes<Attribute>(base.Data);
+            FirstAttribute = reader.ReadBytes<Attribute>(Data);
+            SecondAttributre = reader.ReadBytes<Attribute>(Data);
 
             RankData = new RankRequirement[10];
             for (int i = 0; i < RankData.Length; i++)
             {
-                RankData[i].FirstAttribute = reader.ReadBytes<int>(base.Data);
-                RankData[i].SecondAttribute = reader.ReadBytes<int>(base.Data);
-                RankData[i].FirstSkill = reader.ReadBytes<int>(base.Data);
-                RankData[i].SecondSkill = reader.ReadBytes<int>(base.Data);
-                RankData[i].Reputation = reader.ReadBytes<int>(base.Data);
+                RankData[i].FirstAttribute = reader.ReadBytes<int>(Data);
+                RankData[i].SecondAttribute = reader.ReadBytes<int>(Data);
+                RankData[i].FirstSkill = reader.ReadBytes<int>(Data);
+                RankData[i].SecondSkill = reader.ReadBytes<int>(Data);
+                RankData[i].Reputation = reader.ReadBytes<int>(Data);
             }
 
             FavoredSkills = new Skill[7];
             for (int i = 0; i < FavoredSkills.Length; i++)
             {
-                FavoredSkills[i] = reader.ReadBytes<Skill>(base.Data);
+                FavoredSkills[i] = reader.ReadBytes<Skill>(Data);
             }
 
-            IsHiddenFromPlayer = reader.ReadBytes<int>(base.Data) == 0 ? false : true;
+            IsHiddenFromPlayer = reader.ReadBytes<int>(Data) == 0 ? false : true;
         }
 
         public override byte[] SerializeSubrecord()

@@ -10,7 +10,7 @@ namespace TES3Lib.Subrecords.MGEF
         public HSND(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            HitSoundId = reader.ReadBytes<string>(base.Data, base.Size);
+            HitSoundId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

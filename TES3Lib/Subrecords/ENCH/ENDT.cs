@@ -25,10 +25,10 @@ namespace TES3Lib.Subrecords.ENCH
         public ENDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Type = reader.ReadBytes<EnchantmentType>(base.Data);
-            EnchantCost = reader.ReadBytes<int>(base.Data);
-            Charge = reader.ReadBytes<int>(base.Data);
-            AutoCalculate = reader.ReadBytes<AutoCalculateFlag>(base.Data);
+            Type = reader.ReadBytes<EnchantmentType>(Data);
+            EnchantCost = reader.ReadBytes<int>(Data);
+            Charge = reader.ReadBytes<int>(Data);
+            AutoCalculate = reader.ReadBytes<AutoCalculateFlag>(Data);
         }
     }
 }

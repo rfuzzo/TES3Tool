@@ -97,9 +97,9 @@ namespace TES3Lib.Records
         public override byte[] SerializeRecord()
         {
             var properties = GetType()
-                .GetProperties(System.Reflection.BindingFlags.Public |
-                               System.Reflection.BindingFlags.Instance |
-                               System.Reflection.BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
+                .GetProperties(BindingFlags.Public |
+                               BindingFlags.Instance |
+                               BindingFlags.DeclaredOnly).OrderBy(x => x.MetadataToken).ToList();
 
             List<byte> data = new();
             foreach (PropertyInfo property in properties)

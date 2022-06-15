@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.CREA
         public CNDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CellName = reader.ReadBytes<string>(base.Data, base.Size);
+            CellName = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

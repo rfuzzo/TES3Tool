@@ -40,12 +40,12 @@ namespace TES3Lib.Subrecords.Shared
         public AI_F(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            DestinationX = reader.ReadBytes<float>(base.Data);
-            DestinationY = reader.ReadBytes<float>(base.Data);
-            DestinationZ = reader.ReadBytes<float>(base.Data);
-            Duration = reader.ReadBytes<short>(base.Data);
-            TargetEditorId = reader.ReadBytes<string>(base.Data, 32);
-            Unknown = reader.ReadBytes<short>(base.Data);
+            DestinationX = reader.ReadBytes<float>(Data);
+            DestinationY = reader.ReadBytes<float>(Data);
+            DestinationZ = reader.ReadBytes<float>(Data);
+            Duration = reader.ReadBytes<short>(Data);
+            TargetEditorId = reader.ReadBytes<string>(Data, 32);
+            Unknown = reader.ReadBytes<short>(Data);
         }
     }
 }

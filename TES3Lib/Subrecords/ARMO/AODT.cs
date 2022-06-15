@@ -42,12 +42,12 @@ namespace TES3Lib.Subrecords.ARMO
         public AODT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Type = reader.ReadBytes<ArmorType>(base.Data);
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Health = reader.ReadBytes<int>(base.Data);
-            EnchancmentPoints = reader.ReadBytes<int>(base.Data);
-            ArmorRating = reader.ReadBytes<int>(base.Data);
+            Type = reader.ReadBytes<ArmorType>(Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Health = reader.ReadBytes<int>(Data);
+            EnchancmentPoints = reader.ReadBytes<int>(Data);
+            ArmorRating = reader.ReadBytes<int>(Data);
         }
     }
 }

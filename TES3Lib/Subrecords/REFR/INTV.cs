@@ -15,7 +15,7 @@ namespace TES3Lib.Subrecords.REFR
         public INTV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            NumberOfUses = reader.ReadBytes<int>(base.Data);
+            NumberOfUses = reader.ReadBytes<int>(Data);
         }
     }
 }

@@ -35,11 +35,11 @@ namespace TES3Lib.Subrecords.BOOK
         public BKDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Weight = reader.ReadBytes<float>(base.Data);
-            Value = reader.ReadBytes<int>(base.Data);
-            Flag = reader.ReadBytes<BookFlag>(base.Data);
-            Skill = reader.ReadBytes<Skill>(base.Data);
-            EnchantPoints = reader.ReadBytes<int>(base.Data);
+            Weight = reader.ReadBytes<float>(Data);
+            Value = reader.ReadBytes<int>(Data);
+            Flag = reader.ReadBytes<BookFlag>(Data);
+            Skill = reader.ReadBytes<Skill>(Data);
+            EnchantPoints = reader.ReadBytes<int>(Data);
         }
 
         public override byte[] SerializeSubrecord()

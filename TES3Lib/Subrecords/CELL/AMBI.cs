@@ -24,10 +24,10 @@ namespace TES3Lib.Subrecords.CELL
         public AMBI(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            AmbientColor = reader.ReadBytes<int>(base.Data);
-            SunlightColor = reader.ReadBytes<int>(base.Data);
-            FogColor = reader.ReadBytes<int>(base.Data);
-            FogDensity = reader.ReadBytes<float>(base.Data);
+            AmbientColor = reader.ReadBytes<int>(Data);
+            SunlightColor = reader.ReadBytes<int>(Data);
+            FogColor = reader.ReadBytes<int>(Data);
+            FogDensity = reader.ReadBytes<float>(Data);
         }
     }
 }

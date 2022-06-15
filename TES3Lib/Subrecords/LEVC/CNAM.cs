@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.LEVC
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CreatureEditorId = reader.ReadBytes<string>(base.Data, base.Size);
+            CreatureEditorId = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace TES3Lib.Subrecords.GMTS
         public STRV(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            StringValue = reader.ReadBytes<string>(base.Data, base.Size);
+            StringValue = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

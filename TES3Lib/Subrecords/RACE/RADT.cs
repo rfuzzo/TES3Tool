@@ -42,44 +42,44 @@ namespace TES3Lib.Subrecords.RACE
             for (int i = 0; i < 7; i++)
             {
                 SkillBonuses[i] = new SkillBonus();
-                SkillBonuses[i].Skill = reader.ReadBytes<Skill>(base.Data);
-                SkillBonuses[i].Bonus = reader.ReadBytes<int>(base.Data);
+                SkillBonuses[i].Skill = reader.ReadBytes<Skill>(Data);
+                SkillBonuses[i].Bonus = reader.ReadBytes<int>(Data);
             }
 
             Male = new Attributes();
             Female = new Attributes();
 
-            Male.Strength = reader.ReadBytes<int>(base.Data);
-            Female.Strength = reader.ReadBytes<int>(base.Data);
+            Male.Strength = reader.ReadBytes<int>(Data);
+            Female.Strength = reader.ReadBytes<int>(Data);
 
-            Male.Intelligence = reader.ReadBytes<int>(base.Data);
-            Female.Intelligence = reader.ReadBytes<int>(base.Data);
+            Male.Intelligence = reader.ReadBytes<int>(Data);
+            Female.Intelligence = reader.ReadBytes<int>(Data);
 
-            Male.Willpower = reader.ReadBytes<int>(base.Data);
-            Female.Willpower = reader.ReadBytes<int>(base.Data);
+            Male.Willpower = reader.ReadBytes<int>(Data);
+            Female.Willpower = reader.ReadBytes<int>(Data);
 
-            Male.Agility = reader.ReadBytes<int>(base.Data);
-            Female.Agility = reader.ReadBytes<int>(base.Data);
+            Male.Agility = reader.ReadBytes<int>(Data);
+            Female.Agility = reader.ReadBytes<int>(Data);
 
-            Male.Speed = reader.ReadBytes<int>(base.Data);
-            Female.Speed = reader.ReadBytes<int>(base.Data);
+            Male.Speed = reader.ReadBytes<int>(Data);
+            Female.Speed = reader.ReadBytes<int>(Data);
 
-            Male.Endurance = reader.ReadBytes<int>(base.Data);
-            Female.Endurance = reader.ReadBytes<int>(base.Data);
+            Male.Endurance = reader.ReadBytes<int>(Data);
+            Female.Endurance = reader.ReadBytes<int>(Data);
 
-            Male.Personality = reader.ReadBytes<int>(base.Data);
-            Female.Personality = reader.ReadBytes<int>(base.Data);
+            Male.Personality = reader.ReadBytes<int>(Data);
+            Female.Personality = reader.ReadBytes<int>(Data);
 
-            Male.Luck = reader.ReadBytes<int>(base.Data);
-            Female.Luck = reader.ReadBytes<int>(base.Data);
+            Male.Luck = reader.ReadBytes<int>(Data);
+            Female.Luck = reader.ReadBytes<int>(Data);
 
-            Male.Height = reader.ReadBytes<float>(base.Data);
-            Female.Height = reader.ReadBytes<float>(base.Data);
+            Male.Height = reader.ReadBytes<float>(Data);
+            Female.Height = reader.ReadBytes<float>(Data);
 
-            Male.Weight = reader.ReadBytes<float>(base.Data);
-            Female.Weight = reader.ReadBytes<float>(base.Data);
+            Male.Weight = reader.ReadBytes<float>(Data);
+            Female.Weight = reader.ReadBytes<float>(Data);
 
-            Flags = reader.ReadFlagBytes<RaceFlags>(base.Data);
+            Flags = reader.ReadFlagBytes<RaceFlags>(Data);
         }
 
         public override byte[] SerializeSubrecord()

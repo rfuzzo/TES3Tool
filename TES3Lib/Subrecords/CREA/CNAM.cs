@@ -18,7 +18,7 @@ namespace TES3Lib.Subrecords.CREA
         public CNAM(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            SoundGen = reader.ReadBytes<string>(base.Data, base.Size);
+            SoundGen = reader.ReadBytes<string>(Data, Size);
         }
     }
 }

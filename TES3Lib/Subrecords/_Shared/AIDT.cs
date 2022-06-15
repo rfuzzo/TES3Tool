@@ -40,15 +40,15 @@ namespace TES3Lib.Subrecords.Shared
         public AIDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Hello = reader.ReadBytes<byte>(base.Data);
-            Unknown1 = reader.ReadBytes<byte>(base.Data);
-            Fight = reader.ReadBytes<byte>(base.Data);
-            Flee = reader.ReadBytes<byte>(base.Data);
-            Alarm = reader.ReadBytes<byte>(base.Data);
-            Unknown2 = reader.ReadBytes<byte>(base.Data);
-            Unknown3 = reader.ReadBytes<byte>(base.Data);
-            Unknown4 = reader.ReadBytes<byte>(base.Data);
-            Flags = reader.ReadFlagBytes<ServicesFlag>(base.Data);
+            Hello = reader.ReadBytes<byte>(Data);
+            Unknown1 = reader.ReadBytes<byte>(Data);
+            Fight = reader.ReadBytes<byte>(Data);
+            Flee = reader.ReadBytes<byte>(Data);
+            Alarm = reader.ReadBytes<byte>(Data);
+            Unknown2 = reader.ReadBytes<byte>(Data);
+            Unknown3 = reader.ReadBytes<byte>(Data);
+            Unknown4 = reader.ReadBytes<byte>(Data);
+            Flags = reader.ReadFlagBytes<ServicesFlag>(Data);
         }
 
         public override byte[] SerializeSubrecord()

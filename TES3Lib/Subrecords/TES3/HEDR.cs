@@ -30,11 +30,11 @@ namespace TES3Lib.Subrecords.TES3
         public HEDR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Version = reader.ReadBytes<float>(base.Data);
-            ESMFlag = reader.ReadBytes<int>(base.Data);
-            CompanyName = reader.ReadBytes<string>(base.Data, 32);
-            Description = reader.ReadBytes<string>(base.Data, 256);
-            NumRecords = reader.ReadBytes<int>(base.Data);
+            Version = reader.ReadBytes<float>(Data);
+            ESMFlag = reader.ReadBytes<int>(Data);
+            CompanyName = reader.ReadBytes<string>(Data, 32);
+            Description = reader.ReadBytes<string>(Data, 256);
+            NumRecords = reader.ReadBytes<int>(Data);
         }
 
         public override byte[] SerializeSubrecord()

@@ -20,7 +20,7 @@ namespace TES3Lib.Subrecords.SCPT
         public SCDT(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            CompiledScript = reader.ReadBytes<byte[]>(base.Data, base.Size);
+            CompiledScript = reader.ReadBytes<byte[]>(Data, Size);
         }
     }
 }

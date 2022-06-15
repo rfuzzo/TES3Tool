@@ -19,7 +19,7 @@ namespace TES3Lib.Subrecords.LEVI
         public DATA(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            Flag = reader.ReadFlagBytes<LeveledItemFlag>(base.Data);
+            Flag = reader.ReadFlagBytes<LeveledItemFlag>(Data);
         }
     }
 }
