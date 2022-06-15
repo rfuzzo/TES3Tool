@@ -102,25 +102,40 @@ namespace TES3Lib.Records
             List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name == "CRIT")
+                switch (property.Name)
                 {
-                    if (CRIT.Count > 0)
-                    {
-                        List<byte> containerItems = new();
-                        foreach (var crit in CRIT)
+                    case "INDX":
+                        if (CRIT is not null && CRIT.Count > 0)
                         {
-                            containerItems.AddRange(crit.CNAM.SerializeSubrecord());
-                            containerItems.AddRange(crit.INTV.SerializeSubrecord());
-
+                            if (INDX is null)
+                            {
+                                INDX = new();
+                            }
+                            INDX.CreatureCount = CRIT.Count;
+                            data.AddRange(INDX.SerializeSubrecord());
                         }
-                        data.AddRange(containerItems.ToArray());
-                    }
-                    continue;
-                }
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
+                        break;
+                    case "CRIT":
+                        if (CRIT is not null && CRIT.Count > 0)
+                        {
+                            List<byte> containerItems = new();
+                            foreach (var crit in CRIT)
+                            {
+                                containerItems.AddRange(crit.CNAM.SerializeSubrecord());
+                                containerItems.AddRange(crit.INTV.SerializeSubrecord());
 
-                data.AddRange(subrecord.SerializeSubrecord());
+                            }
+                            data.AddRange(containerItems.ToArray());
+                        }
+                        break;
+                    default:
+                        var subrecord = (Subrecord)property.GetValue(this);
+                        if (subrecord is not null)
+                        {
+                            data.AddRange(subrecord.SerializeSubrecord());
+                        }
+                        break;
+                }
             }
 
             uint flagSerialized = 0;
