@@ -144,7 +144,10 @@ namespace TES3Lib.Records
                 }
             }
 
-            NPDT.NPC = this;
+            if (NPDT is not null)
+            {
+                NPDT.NPC = this;
+            }
         }
 
         public override byte[] SerializeRecord()
