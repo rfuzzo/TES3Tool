@@ -203,7 +203,7 @@ namespace TES3Lib.Base
             if (name is not null)
             {
                 var NAME = (NAME)name.GetValue(this);
-                return NAME.EditorId;
+                return NAME?.EditorId;
             }
 
             return null;
