@@ -1,9 +1,27 @@
-﻿namespace Tes3EditX.MAUI;
+﻿using Tes3EditX.Maui.Services;
 
-public partial class AppShell : Shell
+namespace Tes3EditX.Maui
 {
-    public AppShell()
+    public partial class AppShell : Shell
     {
-        InitializeComponent();
+        private readonly INavigationService _navigationService;
+
+        public AppShell(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+
+            InitializeComponent();
+            
+        }
+
+        protected override async void OnParentSet()
+        {
+            base.OnParentSet();
+
+            if (Parent is not null)
+            {
+                await _navigationService.InitializeAsync();
+            }
+        }
     }
 }

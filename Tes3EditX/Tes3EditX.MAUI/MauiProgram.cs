@@ -1,24 +1,58 @@
 ﻿using Microsoft.Extensions.Logging;
+using Tes3EditX.Maui.Services;
 
-namespace Tes3EditX.MAUI;
-
-public static class MauiProgram
+namespace Tes3EditX.Maui
 {
-    public static MauiApp CreateMauiApp()
+    public static class MauiProgram
     {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                })
+                .RegisterAppServices()
+                .RegisterViewModels()
+                .RegisterViews();
 
 #if DEBUG
-        builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
-        return builder.Build();
+            return builder.Build();
+        }
+
+        public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<ISettingsService, SettingsService>();
+            mauiAppBuilder.Services.AddSingleton<INavigationService, MauiNavigationService>(); ;
+            mauiAppBuilder.Services.AddSingleton<ICompareService, CompareService>(); ;
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<ViewModels.MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<ViewModels.AboutViewModel>();
+            mauiAppBuilder.Services.AddTransient<ViewModels.PluginSelectViewModel>();
+           
+
+            return mauiAppBuilder;
+        }
+
+        public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
+        {
+            mauiAppBuilder.Services.AddSingleton<Views.MainPage>();
+            mauiAppBuilder.Services.AddSingleton<Views.AboutPage>();
+            mauiAppBuilder.Services.AddSingleton<Views.PluginSelectPage>();
+
+
+            return mauiAppBuilder;
+        }
     }
 }

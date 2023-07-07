@@ -1,11 +1,14 @@
-﻿namespace Tes3EditX.MAUI;
+﻿using Tes3EditX.Maui.Services;
 
-public partial class App : Application
+namespace Tes3EditX.Maui
 {
-    public App()
+    public partial class App : Application
     {
-        InitializeComponent();
+        public App(INavigationService navigationService)
+        {
+            InitializeComponent();
 
-        MainPage = new AppShell();
+            MainPage = new AppShell(navigationService);
+        }
     }
 }
