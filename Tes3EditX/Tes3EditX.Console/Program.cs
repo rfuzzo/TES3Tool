@@ -7,7 +7,6 @@ Console.WriteLine("Hello, World!");
 var testPlugin = "test.esp";
 if (Path.Exists(testPlugin))
 {
-    var bytes = File.ReadAllBytes(testPlugin);
     var plugin = TES3.TES3Load(testPlugin);
     
     Console.WriteLine($"{testPlugin}");

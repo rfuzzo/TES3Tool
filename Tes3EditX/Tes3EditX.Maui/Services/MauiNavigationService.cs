@@ -9,17 +9,20 @@ namespace Tes3EditX.Maui.Services
     public class MauiNavigationService : INavigationService
     {
         private readonly ISettingsService _settingsService;
+        private readonly ICompareService _compareService;
 
-        public MauiNavigationService(ISettingsService settingsService)
+        public MauiNavigationService(ISettingsService settingsService, ICompareService compareService)
         {
             _settingsService = settingsService;
+            _compareService = compareService;
         }
 
         public Task InitializeAsync()
-        {
-            return NavigateToAsync(_settingsService.GetWorkingDirectory().Exists
-                ? "//Main/About"
-                : "//Main/Main");
+        {   
+            // If any conflicts loaded, go to compare view
+            return NavigateToAsync(_compareService.Conflicts is not null && _compareService.Conflicts.Any()
+                ? "//Main/Main"
+                : "//Main/Select");
         }
 
         public Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null)

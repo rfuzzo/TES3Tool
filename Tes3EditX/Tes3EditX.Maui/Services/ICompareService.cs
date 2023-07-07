@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tes3EditX.Maui.ViewModels;
 
 namespace Tes3EditX.Maui.Services
 {
     public interface ICompareService
     {
+        public Dictionary<string, List<string>> Conflicts { get; set; }
+        public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
+
+        void SetConflicts();
     }
 }

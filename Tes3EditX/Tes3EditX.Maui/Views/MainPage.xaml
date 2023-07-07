@@ -4,39 +4,45 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-            <Image
-                HeightRequest="200"
-                HorizontalOptions="Center"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                Source="dotnet_bot.png" />
+        <StackLayout Grid.Row="0">
+            <SearchBar 
+                x:Name="searchBar"
+                SearchCommand="{Binding PerformSearchCommand}"
+                SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}" />
+            <Picker
+                Title="Select a conflict"
+                ItemDisplayBinding="{Binding Name}"
+                ItemsSource="{Binding Records}"
+                SelectedItem="{Binding SelectedRecord}" />
+        </StackLayout>
 
-            <Label
-                FontSize="32"
-                HorizontalOptions="Center"
-                SemanticProperties.HeadingLevel="Level1"
-                Text="Hello, World!" />
+        <!--  Conflicts View  -->
+        <CarouselView
+            Grid.Row="1"
+            ItemsSource="{Binding Conflicts}"
+            Loop="false">
 
-            <Label
-                FontSize="18"
-                HorizontalOptions="Center"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                SemanticProperties.HeadingLevel="Level2"
-                Text="Welcome to .NET Multi-platform App UI" />
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout ItemSpacing="20" Orientation="Horizontal" />
+            </CarouselView.ItemsLayout>
 
-            <Button
-                x:Name="CounterBtn"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Text="Click me" />
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding Name}" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        </CarouselView>
+    </Grid>
+
+
+
+
 
 </ContentPage>

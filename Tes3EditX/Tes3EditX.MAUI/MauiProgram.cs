@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
+using Microsoft.Extensions.Logging;
 using Tes3EditX.Maui.Services;
 
 namespace Tes3EditX.Maui
@@ -10,6 +12,7 @@ namespace Tes3EditX.Maui
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -29,15 +32,17 @@ namespace Tes3EditX.Maui
         public static MauiAppBuilder RegisterAppServices(this MauiAppBuilder mauiAppBuilder)
         {
             mauiAppBuilder.Services.AddSingleton<ISettingsService, SettingsService>();
-            mauiAppBuilder.Services.AddSingleton<INavigationService, MauiNavigationService>(); ;
-            mauiAppBuilder.Services.AddSingleton<ICompareService, CompareService>(); ;
+            mauiAppBuilder.Services.AddSingleton<INavigationService, MauiNavigationService>();
+            mauiAppBuilder.Services.AddSingleton<ICompareService, CompareService>();
+
+            mauiAppBuilder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
 
             return mauiAppBuilder;
         }
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddSingleton<ViewModels.MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<ViewModels.MainViewModel>();
             mauiAppBuilder.Services.AddTransient<ViewModels.AboutViewModel>();
             mauiAppBuilder.Services.AddTransient<ViewModels.PluginSelectViewModel>();
            

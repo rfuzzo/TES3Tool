@@ -12,7 +12,7 @@ namespace Tes3EditX.Maui.Services
 
         public DirectoryInfo GetWorkingDirectory()
         {
-            return Preferences.Default.Get(WDIR, new DirectoryInfo(Directory.GetCurrentDirectory()));
+            return Preferences.Default.Get(WDIR, new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
         }
 
         public void SetWorkingDirectory(DirectoryInfo value)
