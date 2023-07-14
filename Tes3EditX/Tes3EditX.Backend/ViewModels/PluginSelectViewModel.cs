@@ -9,10 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tes3EditX.Backend.Services;
 using Tes3EditX.Maui.Extensions;
-using Tes3EditX.Maui.Services;
 using TES3Lib;
 
-namespace Tes3EditX.Maui.ViewModels;
+namespace Tes3EditX.Backend.ViewModels;
 
 public partial class PluginSelectViewModel : ObservableObject
 {

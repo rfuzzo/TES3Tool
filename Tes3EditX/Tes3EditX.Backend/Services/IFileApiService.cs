@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tes3EditX.Backend.Services
+namespace Tes3EditX.Backend.Services;
+
+public interface IFileApiService
 {
-    public interface IFileApiService
-    {
-        Task<string> PickAsync(CancellationToken none);
-    }
+    Task<string> PickAsync(CancellationToken none);
 }

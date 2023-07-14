@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tes3EditX.Backend.ViewModels;
 using Tes3EditX.Maui.Extensions;
-using Tes3EditX.Maui.ViewModels;
 using TES3Lib;
 using TES3Lib.Base;
 
-namespace Tes3EditX.Maui.Services;
+namespace Tes3EditX.Backend.Services;
 
 public class CompareService : ICompareService
 {
@@ -46,7 +46,7 @@ public class CompareService : ICompareService
         {
             foreach (var record in recordMap[pluginKey])
             {
-                for (int i = idx + 1; i < recordMap.Count; i++)
+                for (var i = idx + 1; i < recordMap.Count; i++)
                 {
                     var (otherPluginKey, otherRecords) = recordMap.ElementAt(i);
                     if (otherRecords.Contains(record))
@@ -66,7 +66,7 @@ public class CompareService : ICompareService
             }
             idx++;
         }
-        
+
         Conflicts = conflict_map;
     }
 }

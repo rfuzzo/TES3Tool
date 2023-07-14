@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tes3EditX.Backend.Services;
 
-namespace Tes3EditX.Maui.Services;
+namespace Tes3EditX.Winui.Services;
 
 public class MauiNavigationService : INavigationService
 {
@@ -28,10 +28,11 @@ public class MauiNavigationService : INavigationService
 
     public Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null)
     {
-        return
-            routeParameters != null
-                ? Shell.Current.GoToAsync(route, routeParameters)
-                : Shell.Current.GoToAsync(route);
+        //return
+        //    routeParameters != null
+        //        ? Shell.Current.GoToAsync(route, routeParameters)
+        //        : Shell.Current.GoToAsync(route);
+        throw new NotImplementedException();
     }
 
     public Task PopAsync()

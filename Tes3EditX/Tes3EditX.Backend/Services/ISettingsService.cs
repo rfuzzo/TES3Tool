@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tes3EditX.Maui.Services
-{
-    public interface ISettingsService
-    {
-        string Name { get; }
-        string VersionString { get; }
+namespace Tes3EditX.Backend.Services;
 
-        DirectoryInfo GetWorkingDirectory();
-        void SetWorkingDirectory(DirectoryInfo value);
-    }
+public interface ISettingsService
+{
+    string Name { get; }
+    string VersionString { get; }
+
+    DirectoryInfo GetWorkingDirectory();
+    void SetWorkingDirectory(DirectoryInfo value);
 }

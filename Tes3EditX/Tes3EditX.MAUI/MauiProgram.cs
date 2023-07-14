@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
 using Tes3EditX.Maui.Services;
 using Tes3EditX.Backend.Services;
+using Tes3EditX.Backend.ViewModels;
 
 namespace Tes3EditX.Maui
 {
@@ -44,9 +45,9 @@ namespace Tes3EditX.Maui
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddTransient<ViewModels.MainViewModel>();
-            mauiAppBuilder.Services.AddTransient<ViewModels.AboutViewModel>();
-            mauiAppBuilder.Services.AddTransient<ViewModels.PluginSelectViewModel>();
+            mauiAppBuilder.Services.AddTransient<MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<AboutViewModel>();
+            mauiAppBuilder.Services.AddTransient<PluginSelectViewModel>();
            
 
             return mauiAppBuilder;

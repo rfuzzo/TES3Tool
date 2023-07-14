@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tes3EditX.Maui.Services
+namespace Tes3EditX.Backend.Services;
+
+public interface INavigationService
 {
-    public interface INavigationService
-    {
-        Task InitializeAsync();
+    Task InitializeAsync();
 
-        Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null);
+    Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null);
 
-        Task PopAsync();
-    }
+    Task PopAsync();
 }

@@ -1,4 +1,4 @@
-using Tes3EditX.Maui.ViewModels;
+using Tes3EditX.Backend.ViewModels;
 
 namespace Tes3EditX.Maui.Views;
 

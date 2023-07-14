@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
-using Tes3EditX.Maui.Services;
+using Tes3EditX.Backend.Services;
 
-namespace Tes3EditX.Maui.ViewModels;
+namespace Tes3EditX.Backend.ViewModels;
 
 public class AboutViewModel
 {
