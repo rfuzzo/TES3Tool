@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
+using Tes3EditX.Winui;
 using WinRT.Interop;
 
 namespace AppUIBasics.Helper
@@ -27,7 +28,7 @@ namespace AppUIBasics.Helper
     {
         static public Window CreateWindow()
         {
-            Window newWindow = new Window
+            Window newWindow = new MainWindow
             {
                 SystemBackdrop = new MicaBackdrop()
             };

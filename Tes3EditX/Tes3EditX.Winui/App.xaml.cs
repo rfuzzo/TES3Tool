@@ -20,6 +20,7 @@ using Tes3EditX.Backend.Services;
 using Tes3EditX.Winui.Services;
 using AppUIBasics.Helper;
 using System.Reflection;
+using Tes3EditX.Winui.Pages;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -58,7 +59,7 @@ public partial class App : Application
 
         MainRoot = StartupWindow.Content as FrameworkElement;
 
-        //(StartupWindow as MainWindow).Navigate(typeof(InstalledPage), "");
+        (StartupWindow as MainWindow).Navigate(typeof(SettingsPage), "");
 
         // Ensure the current window is active
         StartupWindow.Activate();
