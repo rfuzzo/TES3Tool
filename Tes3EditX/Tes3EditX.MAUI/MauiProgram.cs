@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.Extensions.Logging;
 using Tes3EditX.Maui.Services;
+using Tes3EditX.Backend.Services;
 
 namespace Tes3EditX.Maui
 {
@@ -35,6 +36,7 @@ namespace Tes3EditX.Maui
             mauiAppBuilder.Services.AddSingleton<INavigationService, MauiNavigationService>();
             mauiAppBuilder.Services.AddSingleton<ICompareService, CompareService>();
 
+            mauiAppBuilder.Services.AddSingleton<IFileApiService, FileApiService>();
             mauiAppBuilder.Services.AddSingleton<IFolderPicker>(FolderPicker.Default);
 
             return mauiAppBuilder;

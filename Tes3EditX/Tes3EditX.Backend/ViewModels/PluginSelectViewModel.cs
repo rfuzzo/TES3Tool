@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Storage;
+﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tes3EditX.Backend.Services;
 using Tes3EditX.Maui.Extensions;
 using Tes3EditX.Maui.Services;
 using TES3Lib;
@@ -19,7 +19,7 @@ public partial class PluginSelectViewModel : ObservableObject
     private readonly INavigationService _navigationService;
     private readonly ICompareService _compareService;
     private readonly ISettingsService _settingsService;
-    private readonly IFolderPicker _folderPicker;
+    private readonly IFileApiService _folderPicker;
 
     [ObservableProperty]
     private List<PluginItemViewModel> _plugins;
@@ -30,8 +30,8 @@ public partial class PluginSelectViewModel : ObservableObject
     public PluginSelectViewModel(
         INavigationService navigationService,
         ICompareService compareService, 
-        ISettingsService settingsService, 
-        IFolderPicker folderPicker)
+        ISettingsService settingsService,
+        IFileApiService folderPicker)
     {
         _navigationService = navigationService;
         _compareService = compareService;
@@ -59,9 +59,8 @@ public partial class PluginSelectViewModel : ObservableObject
     private async Task SelectFolder()
     {
         var result = await _folderPicker.PickAsync(CancellationToken.None);
-        result.EnsureSuccess();
 
-        FolderPath = new DirectoryInfo(result.Folder.Path);
+        FolderPath = new DirectoryInfo(result);
 
         InitPlugins();
     }

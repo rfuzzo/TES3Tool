@@ -8,6 +8,9 @@ namespace Tes3EditX.Maui.Services
 {
     public interface ISettingsService
     {
+        string Name { get; }
+        string VersionString { get; }
+
         DirectoryInfo GetWorkingDirectory();
         void SetWorkingDirectory(DirectoryInfo value);
     }

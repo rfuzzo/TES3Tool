@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "..\Utility\Utili
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{C8EA0A6D-9BA3-4981-8AA1-E517BF31BEC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tes3EditX.Maui", "Tes3EditX.Maui\Tes3EditX.Maui.csproj", "{09DA59DE-2E48-4AF4-BC29-3E50D4526B9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tes3EditX.Maui", "Tes3EditX.Maui\Tes3EditX.Maui.csproj", "{09DA59DE-2E48-4AF4-BC29-3E50D4526B9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tes3EditX.Backend", "Tes3EditX.Backend\Tes3EditX.Backend.csproj", "{1D40C8C6-8D99-432B-A2A4-4C87AF5A49F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{09DA59DE-2E48-4AF4-BC29-3E50D4526B9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09DA59DE-2E48-4AF4-BC29-3E50D4526B9C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{09DA59DE-2E48-4AF4-BC29-3E50D4526B9C}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1D40C8C6-8D99-432B-A2A4-4C87AF5A49F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D40C8C6-8D99-432B-A2A4-4C87AF5A49F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D40C8C6-8D99-432B-A2A4-4C87AF5A49F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D40C8C6-8D99-432B-A2A4-4C87AF5A49F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

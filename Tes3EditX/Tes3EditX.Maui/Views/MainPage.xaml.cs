@@ -2,7 +2,7 @@
 
 namespace Tes3EditX.Maui.Views;
 
-public partial class MainPage : FlyoutPage
+public partial class MainPage : ContentPage
 {
     int count = 0;
 
