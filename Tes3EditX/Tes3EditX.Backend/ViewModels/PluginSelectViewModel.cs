@@ -75,7 +75,7 @@ public partial class PluginSelectViewModel : ObservableObject
     private async Task Compare()
     {
         _compareService.Selectedplugins = SelectedPlugins;
-        _compareService.SetConflicts(); // todo make async
+        _compareService.CalculateConflicts(); // todo make async
         // navigate away
         await _navigationService.NavigateToAsync("//Main/Main");
     }

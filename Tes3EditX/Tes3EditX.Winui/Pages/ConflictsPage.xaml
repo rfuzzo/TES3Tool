@@ -52,7 +52,7 @@
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="FILTER" />
 
-                    <!--  Text="{x:Bind ViewModel.FilterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  -->
+                    <!--    -->
                     <TextBox
                         Width="200"
                         Margin="12"
@@ -64,7 +64,7 @@
                         Margin="12"
                         Header="Record Tag"
                         ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}"
-                        SelectedItem="{x:Bind ViewModel.SelectedTag}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedTag, Mode=TwoWay}" />
 
                 </StackPanel>
 

@@ -12,5 +12,5 @@ public interface ICompareService
     public Dictionary<string, List<string>> Conflicts { get; set; }
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
 
-    void SetConflicts();
+    void CalculateConflicts();
 }

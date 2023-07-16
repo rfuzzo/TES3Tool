@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.ObjectModel;
+using Tes3EditX.Backend.Extensions;
 using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.Services;
 
@@ -19,13 +20,12 @@ public partial class MainViewModel : ObservableRecipient
     private ObservableCollection<GroupInfoList> _groupedRecords;
 
     [ObservableProperty]
-    private object _selectedRecord = null;
+    private object? _selectedRecord = null;
 
     [ObservableProperty]
     private ObservableCollection<ConflictItemViewModel> _conflicts;
 
-    [ObservableProperty]
-    private string _filterName;
+    public string FilterName { get; set; } = "";
 
     [ObservableProperty]
     private ObservableCollection<string> _tags;
@@ -43,10 +43,9 @@ public partial class MainViewModel : ObservableRecipient
         _settingsService = settingsService;
 
         // init
-        FilterName = "";
         Conflicts = new();
         GroupedRecords = new();
-        Tags = new();
+        Tags = new ObservableCollection<string>(Tes3Extensions.GetAllTags());
 
         RegenerateRecords(_compareService.Conflicts);
 
@@ -73,17 +72,28 @@ public partial class MainViewModel : ObservableRecipient
             _records.Add(new RecordItemViewModel(name, plugins, tag));
         }
 
-        FilterRecords("");
+        FilterRecords();
     }
 
-    public void FilterRecords(string filter)
+    public void FilterRecords()
     {
-        var query = _records
-            .Where( x =>
+        IEnumerable<GroupInfoList> query = _records
+            .Where(x =>
             {
-                if (!string.IsNullOrEmpty(filter))
+                if (!string.IsNullOrEmpty(SelectedTag))
                 {
-                    return x.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
+                    return x.Tag.Equals(SelectedTag, StringComparison.CurrentCultureIgnoreCase);
+                }
+                else
+                {
+                    return true;
+                }
+            })
+            .Where(x =>
+            {
+                if (!string.IsNullOrEmpty(FilterName))
+                {
+                    return x.Name.Contains(FilterName, StringComparison.CurrentCultureIgnoreCase);
                 }
                 else
                 {
@@ -92,15 +102,14 @@ public partial class MainViewModel : ObservableRecipient
             })
             .GroupBy(x => x.Tag)
             .OrderBy(x => x.Key)
-            .Select(g => new GroupInfoList(g) { Key = g.Key });
+            .Select(g => new GroupInfoList(g, g.Key));
 
         GroupedRecords = new ObservableCollection<GroupInfoList>(query);
 
-        // regenerate tags
-        Tags = new ObservableCollection<string>(query.Select(x => x.Key.ToString()!));
+
     }
 
-    partial void OnSelectedRecordChanged(object value)
+    partial void OnSelectedRecordChanged(object? value)
     {
         if (value is RecordItemViewModel vm)
         {
@@ -113,15 +122,15 @@ public partial class MainViewModel : ObservableRecipient
         }
     }
 
-    partial void OnFilterNameChanged(string value)
+    partial void OnSelectedTagChanged(string value)
     {
-        FilterRecords(value);
+        FilterRecords();
     }
 
     [RelayCommand]
     private void PerformSearch(string value)
     {
-        FilterRecords(value);
+        FilterRecords();
     }
 
 

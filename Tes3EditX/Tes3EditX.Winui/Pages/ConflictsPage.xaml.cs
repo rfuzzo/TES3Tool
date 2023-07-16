@@ -26,7 +26,8 @@ public sealed partial class ConflictsPage : Page
     {
         if (sender is TextBox textBox)
         {
-            ViewModel.FilterRecords(textBox.Text);
+            ViewModel.FilterName = textBox.Text;
+            ViewModel.FilterRecords();
         }
        
     }

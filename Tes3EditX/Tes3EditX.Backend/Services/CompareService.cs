@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tes3EditX.Backend.Extensions;
 using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.ViewModels;
-using Tes3EditX.Maui.Extensions;
 using TES3Lib;
 using TES3Lib.Base;
 
@@ -18,7 +18,7 @@ public partial class CompareService : ObservableObject, ICompareService
     [ObservableProperty]
     private Dictionary<string, List<string>> _conflicts;
 
-    public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
+    public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; } = new List<PluginItemViewModel>();
 
     public CompareService()
     {
@@ -27,7 +27,7 @@ public partial class CompareService : ObservableObject, ICompareService
 
     // todo get load order right
     // todo use hashes
-    public void SetConflicts()
+    public void CalculateConflicts()
     {
         if (Selectedplugins is null)
         {

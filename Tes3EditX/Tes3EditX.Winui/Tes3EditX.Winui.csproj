@@ -10,7 +10,9 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
+  
   <ItemGroup>
     <None Remove="Pages\ComparePage.xaml" />
     <None Remove="Pages\ComparePluginPage.xaml" />

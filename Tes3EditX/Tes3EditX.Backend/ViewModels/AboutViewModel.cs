@@ -22,6 +22,7 @@ public class AboutViewModel
 
     async Task ShowMoreInfo()
     {
+        await Task.CompletedTask;
         // TODO
         //await Launcher.Default.OpenAsync(MoreInfoUrl);
     }
