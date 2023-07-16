@@ -15,19 +15,16 @@
         Grid.Row="3"
         AlwaysShowHeader="True"
         Canvas.ZIndex="1"
-        PaneDisplayMode="Top"
+        PaneDisplayMode="LeftCompact"
         SelectionChanged="NavigationViewControl_SelectionChanged">
 
         <NavigationView.MenuItems>
             <NavigationViewItem
-                Content="Installed"
-                Icon="Library"
-                Tag="InstalledPage" />
+                Content="Compare"
+                Icon="TwoPage"
+                Tag="ComparePage" />
 
-            <NavigationViewItem
-                Content="Available"
-                Icon="Download"
-                Tag="AvailablePage" />
+
         </NavigationView.MenuItems>
 
         <!--  Navigation Area  -->

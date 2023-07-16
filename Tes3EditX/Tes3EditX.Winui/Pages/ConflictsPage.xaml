@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="Tes3EditX.Winui.Pages.ConflictsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Tes3EditX.Winui.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:Tes3EditX.Backend.ViewModels"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ConflictListViewTemplate" x:DataType="viewmodels:ConflictItemViewModel">
+            <TextBlock
+                Margin="0,5,0,5"
+                x:Phase="1"
+                Text="{x:Bind Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="RecordListViewTemplate" x:DataType="viewmodels:RecordItemViewModel">
+            <TextBlock
+                Margin="0,5,0,5"
+                x:Phase="1"
+                Text="{x:Bind Name}" />
+        </DataTemplate>
+    </Page.Resources>
+
+    <SplitView
+        x:Name="conflictView"
+        CompactPaneLength="48"
+        DisplayMode="Inline"
+        IsPaneOpen="True"
+        PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+
+        <!--  PANE  -->
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock
+                    x:Name="PaneHeader"
+                    Margin="60,12,0,0"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="SELECT CONFLICT" />
+
+
+                <TextBlock
+                    Grid.Row="1"
+                    MaxWidth="200"
+                    Margin="12,0,0,0"
+                    HorizontalAlignment="Left"
+                    Text="TODO SEARCH BAR" />
+
+
+                <ListView
+                    x:Name="conflictlistview"
+                    Grid.Row="2"
+                    Margin="12,12,0,0"
+                    ItemTemplate="{StaticResource RecordListViewTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedRecord}" />
+
+            </Grid>
+
+        </SplitView.Pane>
+
+        <!--  CONTENT  -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+
+
+
+
+        </Grid>
+    </SplitView>
+
+
+
+
+</Page>

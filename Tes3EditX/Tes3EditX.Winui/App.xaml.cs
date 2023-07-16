@@ -21,6 +21,7 @@ using Tes3EditX.Winui.Services;
 using AppUIBasics.Helper;
 using System.Reflection;
 using Tes3EditX.Winui.Pages;
+using Tes3EditX.Backend.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -59,7 +60,7 @@ public partial class App : Application
 
         MainRoot = StartupWindow.Content as FrameworkElement;
 
-        (StartupWindow as MainWindow).Navigate(typeof(SettingsPage), "");
+        (StartupWindow as MainWindow).Navigate(typeof(ComparePage), "");
 
         // Ensure the current window is active
         StartupWindow.Activate();
@@ -88,15 +89,27 @@ public partial class App : Application
     {
         var services = new ServiceCollection();
 
+        // Appservices
         services.AddSingleton<ISettingsService, SettingsService>();
-        services.AddSingleton<INavigationService, MauiNavigationService>();
+        services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<ICompareService, CompareService>();
 
         services.AddSingleton<IFileApiService, FileApiService>();
 
+        // ViewModels
+        services.AddTransient<PluginSelectViewModel>();
+        services.AddTransient<MainViewModel>();
+
+
+        // Views
+        services.AddSingleton<ComparePluginPage>();
+        services.AddSingleton<ComparePage>();
+
 
         return services.BuildServiceProvider();
     }
+
+   
 
     public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
     {

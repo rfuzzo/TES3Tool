@@ -1,30 +1,33 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.Services;
 using Tes3EditX.Maui.Extensions;
 using TES3Lib;
 
 namespace Tes3EditX.Backend.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : ObservableRecipient
 {
     private readonly INavigationService _navigationService;
     private readonly ICompareService _compareService;
     private readonly ISettingsService _settingsService;
 
     [ObservableProperty]
-    private List<RecordItemViewModel> _records;
+    private ObservableCollection<RecordItemViewModel> _records;
 
     [ObservableProperty]
-    private RecordItemViewModel _selectedRecord;
+    private object _selectedRecord;
 
     [ObservableProperty]
-    private List<ConflictItemViewModel> _conflicts;
+    private ObservableCollection<ConflictItemViewModel> _conflicts;
 
     public MainViewModel(
         INavigationService navigationService,
@@ -36,16 +39,28 @@ public partial class MainViewModel : ObservableObject
         _settingsService = settingsService;
 
         // init
-        Conflicts = new List<ConflictItemViewModel>();
+        Conflicts = new();
+        Records = new();
 
-        RegenerateRecords(compareService);
+        RegenerateRecords(_compareService.Conflicts);
 
+        // Register a message in some module
+        WeakReferenceMessenger.Default.Register<ConflictsChangedMessage>(this, (r, m) =>
+        {
+            // Handle the message here, with r being the recipient and m being the
+            // input message. Using the recipient passed as input makes it so that
+            // the lambda expression doesn't capture "this", improving performance.
+            if (r is MainViewModel vm)
+            {
+                vm.RegenerateRecords(m.Value);
+            }
+        });
     }
 
-    private void RegenerateRecords(ICompareService compareService, string query = "")
+    public void RegenerateRecords(Dictionary<string, List<string>> conflicts, string query = "")
     {
         var records = new List<RecordItemViewModel>();
-        foreach (var (id, plugins) in compareService.Conflicts)
+        foreach (var (id, plugins) in conflicts)
         {
             if (!string.IsNullOrEmpty(query))
             {
@@ -59,22 +74,33 @@ public partial class MainViewModel : ObservableObject
                 records.Add(new RecordItemViewModel(id, plugins));
             }
         }
-        Records = records;
+
+        Records.Clear();
+        foreach (var item in records)
+        {
+            Records.Add(item);
+        }
+        
     }
 
-    partial void OnSelectedRecordChanged(RecordItemViewModel value)
+    partial void OnSelectedRecordChanged(object value)
     {
-        if (value is null)
+        if (value is RecordItemViewModel vm)
         {
-            return;
+            // todo refactor?
+            Conflicts.Clear();
+            foreach (var item in vm.Plugins.Select(x => new ConflictItemViewModel(x)))
+            {
+                Conflicts.Add(item);
+            }
         }
-        // todo refactor?
-        Conflicts = value.Plugins.Select(x => new ConflictItemViewModel(x)).ToList();
+       
+        
     }
 
     [RelayCommand]
     private void PerformSearch(string query)
     {
-        RegenerateRecords(_compareService, query);
+        RegenerateRecords(_compareService.Conflicts, query);
     }
 }

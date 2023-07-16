@@ -12,6 +12,9 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Pages\ComparePage.xaml" />
+    <None Remove="Pages\ComparePluginPage.xaml" />
+    <None Remove="Pages\ConflictsPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
   </ItemGroup>
 
@@ -43,6 +46,21 @@
   <ItemGroup>
     <ProjectReference Include="..\..\TES3Lib\TES3Lib.csproj" />
     <ProjectReference Include="..\Tes3EditX.Backend\Tes3EditX.Backend.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ConflictsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ComparePluginPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ComparePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\SettingsPage.xaml">

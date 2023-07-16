@@ -50,24 +50,17 @@ public sealed partial class MainWindow : Window
             var selectedItem = args.SelectedItemContainer;
             var selectedTagStr = selectedItem.Tag as string;
 
-            //if (selectedTagStr == "InstalledPage")
-            //{
-            //    if (rootFrame.CurrentSourcePageType != typeof(InstalledPage))
-            //    {
-            //        Navigate(typeof(InstalledPage));
-            //    }
-            //}
-            //else if (selectedTagStr == "AvailablePage")
-            //{
-            //    if (rootFrame.CurrentSourcePageType != typeof(AvailablePage))
-            //    {
-            //        Navigate(typeof(AvailablePage));
-            //    }
-            //}
-            //else
-            //{
-            //    throw new NotImplementedException();
-            //}
+            if (selectedTagStr == nameof(ComparePage))
+            {
+                if (rootFrame.CurrentSourcePageType != typeof(ComparePage))
+                {
+                    Navigate(typeof(ComparePage));
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 

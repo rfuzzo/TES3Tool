@@ -39,7 +39,7 @@
                         Tag="Default" />
                 </StackPanel>
 
-                <TextBlock
+                <!--<TextBlock
                     Margin="0,40,0,0"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="Installer" />
@@ -51,7 +51,7 @@
                         OffContent="No"
                         OnContent="Yes"
                         Toggled="installerToggle_Toggled" />
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
 
         </ScrollViewer>

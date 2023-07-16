@@ -1,15 +1,8 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using Tes3EditX.Backend.Services;
-using Tes3EditX.Maui.Extensions;
-using TES3Lib;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -21,14 +14,17 @@ public partial class PluginSelectViewModel : ObservableObject
     private readonly IFileApiService _folderPicker;
 
     [ObservableProperty]
-    private List<PluginItemViewModel> _plugins;
+    private ObservableCollection<PluginItemViewModel> _plugins;
+
+    [ObservableProperty]
+    private List<PluginItemViewModel> _selectedPlugins;
 
     [ObservableProperty]
     private DirectoryInfo _folderPath;
 
     public PluginSelectViewModel(
         INavigationService navigationService,
-        ICompareService compareService, 
+        ICompareService compareService,
         ISettingsService settingsService,
         IFileApiService folderPicker)
     {
@@ -40,18 +36,23 @@ public partial class PluginSelectViewModel : ObservableObject
         _folderPath = settingsService.GetWorkingDirectory();
 
         // get plugins
+        Plugins = new();
+        SelectedPlugins = new();
         InitPlugins();
     }
 
     private void InitPlugins()
     {
-
-
-        var pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-            .Where(x => 
-                x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) || 
+        IEnumerable<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+            .Where(x =>
+                x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) ||
                 x.Extension.Equals(".esm", StringComparison.OrdinalIgnoreCase));
-        Plugins = pluginPaths.Select(x => new PluginItemViewModel(x)).ToList();
+
+        Plugins.Clear();
+        foreach (var item in pluginPaths.Select(x => new PluginItemViewModel(x)))
+        {
+            Plugins.Add(item);
+        }
     }
 
     [RelayCommand]
@@ -59,15 +60,21 @@ public partial class PluginSelectViewModel : ObservableObject
     {
         var result = await _folderPicker.PickAsync(CancellationToken.None);
 
-        FolderPath = new DirectoryInfo(result);
+        if (!string.IsNullOrEmpty(result))
+        {
+            FolderPath = new DirectoryInfo(result);
 
-        InitPlugins();
+            if (FolderPath.Exists)
+            {
+                InitPlugins();
+            }
+        }
     }
 
     [RelayCommand]
     private async Task Compare()
     {
-        _compareService.Selectedplugins = Plugins.Where(x => x.Enabled);
+        _compareService.Selectedplugins = SelectedPlugins;
         _compareService.SetConflicts(); // todo make async
         // navigate away
         await _navigationService.NavigateToAsync("//Main/Main");

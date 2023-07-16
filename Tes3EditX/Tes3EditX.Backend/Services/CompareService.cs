@@ -1,8 +1,11 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.ViewModels;
 using Tes3EditX.Maui.Extensions;
 using TES3Lib;
@@ -10,11 +13,17 @@ using TES3Lib.Base;
 
 namespace Tes3EditX.Backend.Services;
 
-public class CompareService : ICompareService
+public partial class CompareService : ObservableObject, ICompareService
 {
-    public Dictionary<string, List<string>> Conflicts { get; set; } = new();
+    [ObservableProperty]
+    private Dictionary<string, List<string>> _conflicts;
 
-    public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
+    public IEnumerable<PluginItemViewModel>? Selectedplugins { get; set; }
+
+    public CompareService()
+    {
+        Conflicts = new();
+    }
 
     // todo get load order right
     // todo use hashes
@@ -28,45 +37,58 @@ public class CompareService : ICompareService
         Conflicts.Clear();
 
         // map plugin records
-        var recordMap = new Dictionary<string, HashSet<string>>();
+       
+        var pluginMap = new Dictionary<string, HashSet<string>>();
         foreach (var model in Selectedplugins)
         {
             var plugin = TES3.TES3Load(model.FileInfo.FullName);
-            recordMap.Add(plugin.Path, plugin.Records
+            var records = plugin.Records
                 .Where(x => x is not null)
                 .Select(x => x.GetUniqueId())
-                .ToHashSet()
-                );
+                .ToHashSet();
+
+            
+            pluginMap.Add(plugin.Path, records);
         }
 
-        // parse current folder and determine conflicts
+
         Dictionary<string, List<string>> conflict_map = new();
-        var idx = 0;
-        foreach (var pluginKey in recordMap.Keys)
+        foreach (var (pluginKey, records) in pluginMap)
         {
-            foreach (var record in recordMap[pluginKey])
+            List<string> newrecords = new();
+            foreach (var record in records)
             {
-                for (var i = idx + 1; i < recordMap.Count; i++)
+                // then we have a conflict
+                if (conflict_map.ContainsKey(record))
                 {
-                    var (otherPluginKey, otherRecords) = recordMap.ElementAt(i);
-                    if (otherRecords.Contains(record))
-                    {
-                        // add to map
-                        if (conflict_map.ContainsKey(record))
-                        {
-                            conflict_map[record].Add(otherPluginKey);
-                        }
-                        else
-                        {
-                            conflict_map.Add(record, new List<string> { pluginKey, otherPluginKey });
-                        }
-                    }
+                    conflict_map[record].Add(pluginKey);
                 }
-
+                // no conflict, store for later adding
+                else
+                {
+                    newrecords.Add(record);
+                }
             }
-            idx++;
+
+            foreach (var item in newrecords)
+            {
+                conflict_map.Add(item, new() { pluginKey });
+            }
         }
+
+        // TODO dedup?
+        var singleRecords = conflict_map.Where(x => x.Value.Count < 2).Select(x => x.Key);
+        foreach (var item in singleRecords)
+        {
+            conflict_map.Remove(item);
+        }
+
 
         Conflicts = conflict_map;
+    }
+
+    partial void OnConflictsChanged(Dictionary<string, List<string>> value)
+    {
+        WeakReferenceMessenger.Default.Send(new ConflictsChangedMessage(value));
     }
 }

@@ -35,7 +35,7 @@ public class FileApiService : IFileApiService
 
         if (folder != null)
         {
-            return folder.Name;
+            return folder.Path;
         }
         else
         { 
