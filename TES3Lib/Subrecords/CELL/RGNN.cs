@@ -1,10 +1,18 @@
 ﻿using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.CELL
 {
-    public class RGNN : Subrecord
+    public class RGNN : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => RegionName;
+            set => RegionName = value;
+        }
+
+
         /// <summary>
         /// Cells region name
         /// </summary>

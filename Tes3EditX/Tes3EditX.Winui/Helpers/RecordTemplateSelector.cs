@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TES3Lib.Interfaces;
 using TES3Lib.Subrecords.Shared;
 using Utility;
 
@@ -12,19 +13,21 @@ namespace Tes3EditX.Winui.Helpers
 {
     public class RecordTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate NAME { get; set; }
-        public DataTemplate MODL { get; set; }
+        public DataTemplate StringTemplate { get; set; }
+        public DataTemplate IntegerTemplate { get; set; }
+      
+
         public DataTemplate Common { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (item is NAME)
+            if (item is IStringView)
             {
-                return NAME;
+                return StringTemplate;
             }
-            else if (item is MODL)
+            else if (item is IIntegerView)
             {
-                return MODL;
+                return IntegerTemplate;
             }
             else
             {

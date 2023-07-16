@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.ARMO
@@ -8,8 +9,13 @@ namespace TES3Lib.Subrecords.ARMO
     /// Male part name
     /// </summary>
     [DebuggerDisplay("{MalePartName}")]
-    public class BNAM : Subrecord
+    public class BNAM : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => MalePartName;
+            set => MalePartName = value;
+        }
         /// <summary>
         /// Male tagged bodpart id
         /// </summary>

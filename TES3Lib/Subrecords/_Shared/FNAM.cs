@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -9,8 +10,14 @@ namespace TES3Lib.Subrecords.Shared
     /// Used in BODY record to assign body part to race
     /// </summary>
     [DebuggerDisplay("{Name}")]
-    public class FNAM : Subrecord
+    public class FNAM : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => FileName;
+            set => FileName = value;
+        }
+
         public string FileName { get; set; }
 
         public FNAM()

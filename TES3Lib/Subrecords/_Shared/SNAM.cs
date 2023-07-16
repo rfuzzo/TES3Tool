@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -8,8 +9,13 @@ namespace TES3Lib.Subrecords.Shared
     /// EditorId of sound reference
     /// </summary>
     [DebuggerDisplay("{EditorId}")]
-    public class SNAM : Subrecord
+    public class SNAM : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => SoundEditorId;
+            set => SoundEditorId = value;
+        }
         public string SoundEditorId { get; set; }
 
         public SNAM()

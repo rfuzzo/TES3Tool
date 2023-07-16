@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using TES3Lib.Base;
-using TES3Lib.Records;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -25,12 +18,18 @@ public class ConflictItemViewModel
 
         // get properties with reflection
         var members = record.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
-        foreach (var prop in members)
+        foreach (PropertyInfo? prop in members)
         {
+            if (prop.Name is (nameof(Record.Size)) or (nameof(Record.Name)) or (nameof(Record.Header))
+                or (nameof(Record.DELE)))
+            {
+                continue;
+            }
+
             var v = prop.GetValue(record);
             if (v != null)
             {
-                Fields.Add( v);
+                Fields.Add(v);
             }
         }
     }

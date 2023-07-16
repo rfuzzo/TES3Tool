@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -8,9 +9,16 @@ namespace TES3Lib.Subrecords.Shared
     /// Editor Id
     /// </summary>
     [DebuggerDisplay("{EditorId}")]
-    public class NAME : Subrecord
+    public class NAME : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => EditorId;
+            set => EditorId = value;
+        }
+
         public string EditorId { get; set; }
+       
 
         public NAME()
         {

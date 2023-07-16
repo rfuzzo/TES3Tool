@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helpers="using:Tes3EditX.Winui.Helpers"
+    xmlns:interfaces="using:TES3Lib.Interfaces"
     xmlns:local="using:Tes3EditX.Winui.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Tes3EditX.Backend.Models"
@@ -25,7 +26,10 @@
 
             <StackPanel>
                 <!--  Header with Plugin name  -->
-                <TextBlock Text="{x:Bind Name}" />
+                <TextBlock
+                    Margin="12"
+                    FontWeight="Bold"
+                    Text="{x:Bind Name}" />
 
                 <!--  Content with a list  -->
                 <ListView ItemTemplateSelector="{StaticResource RecordTemplateSelector}" ItemsSource="{x:Bind Fields}" />
@@ -39,15 +43,21 @@
             IsSourceGrouped="True"
             Source="{x:Bind ViewModel.GroupedRecords, Mode=OneWay}" />
 
+        <!--  Editor Templates  -->
+        <DataTemplate x:Key="StringTemplate" x:DataType="interfaces:IStringView">
+            <TextBox Text="{x:Bind Text}" />
+        </DataTemplate>
+        <DataTemplate x:Key="IntegerTemplate" x:DataType="interfaces:IIntegerView">
+            <NumberBox
+                LargeChange="100"
+                SmallChange="10"
+                SpinButtonPlacementMode="Compact"
+                Value="{x:Bind Value}" />
+        </DataTemplate>
 
-        <DataTemplate x:Key="NAMETemplate" x:DataType="shared:NAME">
-            <TextBox Text="{x:Bind EditorId}" />
-        </DataTemplate>
-        <DataTemplate x:Key="MODLTemplate" x:DataType="shared:MODL">
-            <TextBox Text="{x:Bind ModelPath}" />
-        </DataTemplate>
+
         <DataTemplate x:Key="CommonTemplate">
-            <TextBlock Text="NONE" />
+            <TextBlock Text="{Binding}" />
         </DataTemplate>
 
 
@@ -55,8 +65,8 @@
         <helpers:RecordTemplateSelector
             x:Key="RecordTemplateSelector"
             Common="{StaticResource CommonTemplate}"
-            MODL="{StaticResource MODLTemplate}"
-            NAME="{StaticResource NAMETemplate}" />
+            IntegerTemplate="{StaticResource IntegerTemplate}"
+            StringTemplate="{StaticResource StringTemplate}" />
     </Page.Resources>
 
     <SplitView
