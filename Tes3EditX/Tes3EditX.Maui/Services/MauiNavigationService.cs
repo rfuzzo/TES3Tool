@@ -26,7 +26,7 @@ public class MauiNavigationService : INavigationService
             : "//Main/Select");
     }
 
-    public Task NavigateToAsync(string route, IDictionary<string, object> routeParameters = null)
+    public Task NavigateToAsync(string route, IDictionary<string, object>? routeParameters = null)
     {
         return
             routeParameters != null

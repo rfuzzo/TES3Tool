@@ -20,4 +20,15 @@ public sealed partial class ConflictsPage : Page
     }
 
     public MainViewModel ViewModel => (MainViewModel)DataContext;
+
+    // Whenever text changes in any of the filtering text boxes, the following function is called:
+    private void OnFilterChanged(object sender, TextChangedEventArgs args)
+    {
+        if (sender is TextBox textBox)
+        {
+            ViewModel.FilterRecords(textBox.Text);
+        }
+       
+    }
+
 }

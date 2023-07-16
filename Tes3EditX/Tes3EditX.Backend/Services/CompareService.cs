@@ -18,7 +18,7 @@ public partial class CompareService : ObservableObject, ICompareService
     [ObservableProperty]
     private Dictionary<string, List<string>> _conflicts;
 
-    public IEnumerable<PluginItemViewModel>? Selectedplugins { get; set; }
+    public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
 
     public CompareService()
     {

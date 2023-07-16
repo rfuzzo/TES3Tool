@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Tes3EditX.Winui.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Tes3EditX.Backend.Models"
     xmlns:viewmodels="using:Tes3EditX.Backend.ViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -22,6 +23,11 @@
                 x:Phase="1"
                 Text="{x:Bind Name}" />
         </DataTemplate>
+
+        <CollectionViewSource
+            x:Name="ConflictsCVS"
+            IsSourceGrouped="True"
+            Source="{x:Bind ViewModel.GroupedRecords, Mode=OneWay}" />
     </Page.Resources>
 
     <SplitView
@@ -36,32 +42,67 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock
-                    x:Name="PaneHeader"
-                    Margin="60,12,0,0"
-                    Style="{StaticResource BaseTextBlockStyle}"
-                    Text="SELECT CONFLICT" />
+                <StackPanel Grid.Row="0">
+                    <TextBlock
+                        x:Name="PaneHeader"
+                        Margin="60,12,0,0"
+                        Style="{StaticResource BaseTextBlockStyle}"
+                        Text="FILTER" />
+
+                    <!--  Text="{x:Bind ViewModel.FilterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  -->
+                    <TextBox
+                        Width="200"
+                        Margin="12"
+                        HorizontalAlignment="Left"
+                        Header="Record ID"
+                        TextChanged="OnFilterChanged" />
+                    <ComboBox
+                        Width="200"
+                        Margin="12"
+                        Header="Record Tag"
+                        ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTag}" />
+
+                </StackPanel>
 
 
-                <TextBlock
-                    Grid.Row="1"
-                    MaxWidth="200"
-                    Margin="12,0,0,0"
-                    HorizontalAlignment="Left"
-                    Text="TODO SEARCH BAR" />
 
 
+                <!--  ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}"  -->
+                <!--  ItemTemplate="{StaticResource RecordListViewTemplate}"  -->
                 <ListView
                     x:Name="conflictlistview"
-                    Grid.Row="2"
+                    Grid.Row="1"
                     Margin="12,12,0,0"
-                    ItemTemplate="{StaticResource RecordListViewTemplate}"
-                    ItemsSource="{x:Bind ViewModel.Records, Mode=OneWay}"
-                    SelectedItem="{x:Bind ViewModel.SelectedRecord}" />
+                    ItemsSource="{x:Bind ConflictsCVS.View, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.SelectedRecord}">
+
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate x:DataType="models:GroupInfoList">
+                                    <Border AutomationProperties.AccessibilityView="Raw">
+                                        <TextBlock
+                                            AutomationProperties.AccessibilityView="Raw"
+                                            Style="{ThemeResource TitleTextBlockStyle}"
+                                            Text="{x:Bind Key}" />
+                                    </Border>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+
+
+                </ListView>
 
             </Grid>
 

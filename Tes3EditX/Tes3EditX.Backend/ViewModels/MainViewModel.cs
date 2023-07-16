@@ -1,16 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.Services;
-using Tes3EditX.Maui.Extensions;
-using TES3Lib;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -20,14 +13,25 @@ public partial class MainViewModel : ObservableRecipient
     private readonly ICompareService _compareService;
     private readonly ISettingsService _settingsService;
 
-    [ObservableProperty]
-    private ObservableCollection<RecordItemViewModel> _records;
+    private readonly List<RecordItemViewModel> _records = new();
 
     [ObservableProperty]
-    private object _selectedRecord;
+    private ObservableCollection<GroupInfoList> _groupedRecords;
+
+    [ObservableProperty]
+    private object _selectedRecord = null;
 
     [ObservableProperty]
     private ObservableCollection<ConflictItemViewModel> _conflicts;
+
+    [ObservableProperty]
+    private string _filterName;
+
+    [ObservableProperty]
+    private ObservableCollection<string> _tags;
+
+    [ObservableProperty]
+    private string _selectedTag = "";
 
     public MainViewModel(
         INavigationService navigationService,
@@ -39,8 +43,10 @@ public partial class MainViewModel : ObservableRecipient
         _settingsService = settingsService;
 
         // init
+        FilterName = "";
         Conflicts = new();
-        Records = new();
+        GroupedRecords = new();
+        Tags = new();
 
         RegenerateRecords(_compareService.Conflicts);
 
@@ -57,30 +63,41 @@ public partial class MainViewModel : ObservableRecipient
         });
     }
 
-    public void RegenerateRecords(Dictionary<string, List<string>> conflicts, string query = "")
+    public void RegenerateRecords(Dictionary<string, List<string>> conflicts)
     {
-        var records = new List<RecordItemViewModel>();
-        foreach (var (id, plugins) in conflicts)
+        _records.Clear();
+        foreach ((var id, List<string> plugins) in conflicts)
         {
-            if (!string.IsNullOrEmpty(query))
-            {
-                if (id.Contains(query, StringComparison.OrdinalIgnoreCase))
-                {
-                    records.Add(new RecordItemViewModel(id, plugins));
-                }
-            }
-            else
-            {
-                records.Add(new RecordItemViewModel(id, plugins));
-            }
+            var tag = id.Split(',').First();
+            var name = id.Split(',').Last();
+            _records.Add(new RecordItemViewModel(name, plugins, tag));
         }
 
-        Records.Clear();
-        foreach (var item in records)
-        {
-            Records.Add(item);
-        }
-        
+        FilterRecords("");
+    }
+
+    public void FilterRecords(string filter)
+    {
+        var query = _records
+            .Where( x =>
+            {
+                if (!string.IsNullOrEmpty(filter))
+                {
+                    return x.Name.Contains(filter, StringComparison.CurrentCultureIgnoreCase);
+                }
+                else
+                {
+                    return true;
+                }
+            })
+            .GroupBy(x => x.Tag)
+            .OrderBy(x => x.Key)
+            .Select(g => new GroupInfoList(g) { Key = g.Key });
+
+        GroupedRecords = new ObservableCollection<GroupInfoList>(query);
+
+        // regenerate tags
+        Tags = new ObservableCollection<string>(query.Select(x => x.Key.ToString()!));
     }
 
     partial void OnSelectedRecordChanged(object value)
@@ -94,13 +111,18 @@ public partial class MainViewModel : ObservableRecipient
                 Conflicts.Add(item);
             }
         }
-       
-        
+    }
+
+    partial void OnFilterNameChanged(string value)
+    {
+        FilterRecords(value);
     }
 
     [RelayCommand]
-    private void PerformSearch(string query)
+    private void PerformSearch(string value)
     {
-        RegenerateRecords(_compareService.Conflicts, query);
+        FilterRecords(value);
     }
+
+
 }
