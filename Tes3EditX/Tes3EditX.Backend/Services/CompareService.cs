@@ -15,8 +15,10 @@ namespace Tes3EditX.Backend.Services;
 
 public partial class CompareService : ObservableObject, ICompareService
 {
+    public Dictionary<FileInfo,TES3> Plugins { get; } = new();
+
     [ObservableProperty]
-    private Dictionary<string, List<string>> _conflicts;
+    private Dictionary<string, List<FileInfo>> _conflicts;
 
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; } = new List<PluginItemViewModel>();
 
@@ -35,24 +37,27 @@ public partial class CompareService : ObservableObject, ICompareService
         }
 
         Conflicts.Clear();
+        // TODO optimize load
+        Plugins.Clear();
 
         // map plugin records
-       
-        var pluginMap = new Dictionary<string, HashSet<string>>();
+
+        var pluginMap = new Dictionary<FileInfo, HashSet<string>>();
         foreach (var model in Selectedplugins)
         {
-            var plugin = TES3.TES3Load(model.FileInfo.FullName);
+            var plugin = TES3.TES3Load(model.Info.FullName);
             var records = plugin.Records
                 .Where(x => x is not null)
                 .Select(x => x.GetUniqueId())
                 .ToHashSet();
 
             
-            pluginMap.Add(plugin.Path, records);
+            pluginMap.Add(model.Info, records);
+            Plugins.Add(model.Info, plugin);
         }
 
 
-        Dictionary<string, List<string>> conflict_map = new();
+        Dictionary<string, List<FileInfo>> conflict_map = new();
         foreach (var (pluginKey, records) in pluginMap)
         {
             List<string> newrecords = new();
@@ -87,7 +92,7 @@ public partial class CompareService : ObservableObject, ICompareService
         Conflicts = conflict_map;
     }
 
-    partial void OnConflictsChanged(Dictionary<string, List<string>> value)
+    partial void OnConflictsChanged(Dictionary<string, List<FileInfo>> value)
     {
         WeakReferenceMessenger.Default.Send(new ConflictsChangedMessage(value));
     }

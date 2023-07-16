@@ -14,6 +14,8 @@ public partial class MainViewModel : ObservableRecipient
     private readonly ICompareService _compareService;
     private readonly ISettingsService _settingsService;
 
+
+    // Record Selet View
     private readonly List<RecordItemViewModel> _records = new();
 
     [ObservableProperty]
@@ -22,9 +24,6 @@ public partial class MainViewModel : ObservableRecipient
     [ObservableProperty]
     private object? _selectedRecord = null;
 
-    [ObservableProperty]
-    private ObservableCollection<ConflictItemViewModel> _conflicts;
-
     public string FilterName { get; set; } = "";
 
     [ObservableProperty]
@@ -32,6 +31,13 @@ public partial class MainViewModel : ObservableRecipient
 
     [ObservableProperty]
     private string _selectedTag = "";
+
+    // Conflicts view
+    [ObservableProperty]
+    private ObservableCollection<ConflictItemViewModel> _conflicts;
+
+    [ObservableProperty]
+    private List<string> _currentFieldNames = new();
 
     public MainViewModel(
         INavigationService navigationService,
@@ -62,14 +68,14 @@ public partial class MainViewModel : ObservableRecipient
         });
     }
 
-    public void RegenerateRecords(Dictionary<string, List<string>> conflicts)
+    public void RegenerateRecords(Dictionary<string, List<FileInfo>> conflicts)
     {
         _records.Clear();
-        foreach ((var id, List<string> plugins) in conflicts)
+        foreach ((var id, List<FileInfo> plugins) in conflicts)
         {
             var tag = id.Split(',').First();
             var name = id.Split(',').Last();
-            _records.Add(new RecordItemViewModel(name, plugins, tag));
+            _records.Add(new RecordItemViewModel(tag, name, plugins));
         }
 
         FilterRecords();
@@ -80,7 +86,7 @@ public partial class MainViewModel : ObservableRecipient
         IEnumerable<GroupInfoList> query = _records
             .Where(x =>
             {
-                if (!string.IsNullOrEmpty(SelectedTag))
+                if (!string.IsNullOrEmpty(SelectedTag) || SelectedTag == "_")
                 {
                     return x.Tag.Equals(SelectedTag, StringComparison.CurrentCultureIgnoreCase);
                 }
@@ -109,16 +115,33 @@ public partial class MainViewModel : ObservableRecipient
 
     }
 
+    /// <summary>
+    /// Populate conflicts view
+    /// </summary>
+    /// <param name="value"></param>
     partial void OnSelectedRecordChanged(object? value)
     {
-        if (value is RecordItemViewModel vm)
+        if (value is not RecordItemViewModel recordViewModel)
         {
-            // todo refactor?
-            Conflicts.Clear();
-            foreach (var item in vm.Plugins.Select(x => new ConflictItemViewModel(x)))
-            {
-                Conflicts.Add(item);
-            }
+            return;
+        }
+
+        var recordId = recordViewModel.GetUniqueId();
+
+        Conflicts.Clear();
+        foreach (var pluginPath in recordViewModel.Plugins)
+        {
+            // get plugin
+            if (_compareService.Plugins.TryGetValue(pluginPath, out var plugin))
+            {   
+                // get record
+                var record = plugin.Records.First(x => x is not null && x.GetUniqueId() == recordId);
+                if (record != null)
+                {
+                    var item = new ConflictItemViewModel(pluginPath, record);
+                    Conflicts.Add(item);
+                }
+            } 
         }
     }
 

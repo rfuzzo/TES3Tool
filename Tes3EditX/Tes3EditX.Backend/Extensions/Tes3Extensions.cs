@@ -23,7 +23,7 @@ public static class Tes3Extensions
     {
         return new List<string>()
     {
-        "",
+        "_",
         "TES3",
         "GMST",
         "GLOB",

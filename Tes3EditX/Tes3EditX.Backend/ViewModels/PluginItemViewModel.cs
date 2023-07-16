@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 
 namespace Tes3EditX.Backend.ViewModels;
 
+/// <summary>
+/// This viewmodel wraps a TES3 record's fileinfo
+/// </summary>
 public partial class PluginItemViewModel : ObservableObject
 {
     [ObservableProperty]
     private bool _enabled;
 
     [ObservableProperty]
-    private FileInfo _fileInfo;
+    private FileInfo _info;
 
-    public string Name => FileInfo.Name;
+    public string Name => Info.Name;
 
     public PluginItemViewModel(FileInfo item)
     {
-        _fileInfo = item;
+        _info = item;
     }
 }

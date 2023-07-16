@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Tes3EditX.Backend.Models
 {
-    public class ConflictsChangedMessage : ValueChangedMessage<Dictionary<string, List<string>>>
+    public class ConflictsChangedMessage : ValueChangedMessage<Dictionary<string, List<FileInfo>>>
     {
-        public ConflictsChangedMessage(Dictionary<string, List<string>> conflicts) : base(conflicts)
+        public ConflictsChangedMessage(Dictionary<string, List<FileInfo>> conflicts) : base(conflicts)
         {
             // 
         }
