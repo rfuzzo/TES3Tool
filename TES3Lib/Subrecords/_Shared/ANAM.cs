@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
+using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -8,8 +9,13 @@ namespace TES3Lib.Subrecords.Shared
     /// EditorId of reference or text data
     /// </summary>
     [DebuggerDisplay("{EditorId}")]
-    public class ANAM : Subrecord
+    public class ANAM : Subrecord, IStringView
     {
+        public string Text
+        {
+            get => EditorId;
+            set => EditorId = value;
+        }
         public string EditorId { get; set; }
 
         public ANAM()

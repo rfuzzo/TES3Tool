@@ -22,6 +22,42 @@
                 Text="{x:Bind Name}" />
         </DataTemplate>
 
+        <CollectionViewSource
+            x:Name="ConflictsCVS"
+            IsSourceGrouped="True"
+            Source="{x:Bind ViewModel.GroupedRecords, Mode=OneWay}" />
+
+        <!--  Editor Templates  -->
+        <!--<DataTemplate x:Key="StringTemplate" x:DataType="interfaces:IStringView">
+            <TextBox Text="{x:Bind Text}" />
+        </DataTemplate>
+        <DataTemplate x:Key="IntegerTemplate" x:DataType="interfaces:IIntegerView">
+            <NumberBox
+                LargeChange="100"
+                SmallChange="10"
+                SpinButtonPlacementMode="Compact"
+                Value="{x:Bind Value}" />
+        </DataTemplate>-->
+
+        <helpers:BooleanToColorConverter x:Key="ColorConverter" />
+
+        <!--  read only  -->
+        <DataTemplate x:Key="CommonTemplate" x:DataType="viewmodels:RecordFieldViewModel">
+            <Border>
+                <TextBlock Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}" Text="{Binding}" />
+            </Border>
+        </DataTemplate>
+
+
+
+        <!--<helpers:RecordTemplateSelector
+            x:Key="RecordTemplateSelector"
+            Common="{StaticResource CommonTemplate}"
+            IntegerTemplate="{StaticResource IntegerTemplate}"
+            StringTemplate="{StaticResource StringTemplate}" />-->
+
+        <helpers:RecordViewTemplateSelector x:Key="RecordViewTemplateSelector" Common="{StaticResource CommonTemplate}" />
+
         <DataTemplate x:Key="ConflictsTemplate" x:DataType="viewmodels:ConflictItemViewModel">
 
             <StackPanel>
@@ -32,41 +68,10 @@
                     Text="{x:Bind Name}" />
 
                 <!--  Content with a list  -->
-                <ListView ItemTemplateSelector="{StaticResource RecordTemplateSelector}" ItemsSource="{x:Bind Fields}" />
+                <ListView ItemTemplateSelector="{StaticResource RecordViewTemplateSelector}" ItemsSource="{x:Bind Fields}" />
 
             </StackPanel>
         </DataTemplate>
-
-
-        <CollectionViewSource
-            x:Name="ConflictsCVS"
-            IsSourceGrouped="True"
-            Source="{x:Bind ViewModel.GroupedRecords, Mode=OneWay}" />
-
-        <!--  Editor Templates  -->
-        <DataTemplate x:Key="StringTemplate" x:DataType="interfaces:IStringView">
-            <TextBox Text="{x:Bind Text}" />
-        </DataTemplate>
-        <DataTemplate x:Key="IntegerTemplate" x:DataType="interfaces:IIntegerView">
-            <NumberBox
-                LargeChange="100"
-                SmallChange="10"
-                SpinButtonPlacementMode="Compact"
-                Value="{x:Bind Value}" />
-        </DataTemplate>
-
-
-        <DataTemplate x:Key="CommonTemplate">
-            <TextBlock Text="{Binding}" />
-        </DataTemplate>
-
-
-
-        <helpers:RecordTemplateSelector
-            x:Key="RecordTemplateSelector"
-            Common="{StaticResource CommonTemplate}"
-            IntegerTemplate="{StaticResource IntegerTemplate}"
-            StringTemplate="{StaticResource StringTemplate}" />
     </Page.Resources>
 
     <SplitView

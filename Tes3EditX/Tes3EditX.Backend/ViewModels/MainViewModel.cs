@@ -51,7 +51,7 @@ public partial class MainViewModel : ObservableRecipient
         // init
         Conflicts = new();
         GroupedRecords = new();
-        Tags = new ObservableCollection<string>(Tes3Extensions.GetAllTags());
+        Tags = new ObservableCollection<string>(Tes3Extensions.GetAllTags().Order());
 
         RegenerateRecords(_compareService.Conflicts);
 
@@ -143,6 +143,56 @@ public partial class MainViewModel : ObservableRecipient
                 }
             } 
         }
+
+        // get field equality
+        var anyConflict = false;
+        for (var i = 1; i < Conflicts.Count; i++)
+        {
+            ConflictItemViewModel c = Conflicts[i];
+            ConflictItemViewModel c_last = Conflicts[i-1];
+
+            for (var j = 0; j < c.Fields.Count; j++)
+            {
+                RecordFieldViewModel f = c.Fields[j];
+                if (j > c_last.Fields.Count)
+                {
+                    f.IsConflict = true;
+                    anyConflict = true;
+                }
+                else
+                {
+                    RecordFieldViewModel f_last = c_last.Fields[j];
+                    if (f_last.WrappedField is not null && f.WrappedField is not null)
+                    {
+                        if (!f_last.WrappedField.Equals(f.WrappedField))
+                        {
+                            f.IsConflict = true;
+                            anyConflict = true;
+                        }
+                    }
+                    else if (f_last.WrappedField is null && f.WrappedField is null)
+                    {
+                        // do nothing
+                    }
+                    else
+                    {
+                        f.IsConflict = true;
+                        anyConflict = true;
+                    }
+                    
+                }
+               
+
+            }
+        }
+
+        // if no visible conflicts found, do not display it
+        if (!anyConflict)
+        {
+            // do not display this record
+
+        }
+
     }
 
     partial void OnSelectedTagChanged(string value)

@@ -17,19 +17,32 @@ public class ConflictItemViewModel
         Record = record;
 
         // get properties with reflection
-        var members = record.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
+        var members = record.GetType().GetProperties(
+            BindingFlags.Public | 
+            BindingFlags.Instance | 
+            BindingFlags.DeclaredOnly
+            ).ToList();
         foreach (PropertyInfo? prop in members)
         {
-            if (prop.Name is (nameof(Record.Size)) or (nameof(Record.Name)) or (nameof(Record.Header))
-                or (nameof(Record.DELE)))
+            if (
+                prop.Name is
+                (nameof(Record.Name)) or
+                (nameof(Record.Size)) or 
+                (nameof(Record.Header)) or 
+                (nameof(Record.Flags)) or 
+                (nameof(Record.DELE)))
             {
                 continue;
             }
 
             var v = prop.GetValue(record);
-            if (v != null)
+            if (v is Subrecord subrecord)
             {
-                Fields.Add(v);
+                Fields.Add(new(subrecord));
+            }
+            else
+            {
+                Fields.Add(new(null));
             }
         }
     }
@@ -38,5 +51,5 @@ public class ConflictItemViewModel
 
     public Record Record { get; }
 
-    public List<object> Fields { get; set; } = new();
+    public List<RecordFieldViewModel> Fields { get; set; } = new();
 }
