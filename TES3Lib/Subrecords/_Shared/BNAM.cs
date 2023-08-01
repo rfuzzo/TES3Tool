@@ -9,13 +9,8 @@ namespace TES3Lib.Subrecords.Shared
     /// EditorId of reference or text data
     /// </summary>
     [DebuggerDisplay("{EditorId}")]
-    public class BNAM : Subrecord, IStringView
+    public class BNAM : Subrecord
     {
-        public string Text
-        {
-            get => EditorId;
-            set => EditorId = value;
-        }
         public string EditorId { get; set; }
 
         public BNAM()

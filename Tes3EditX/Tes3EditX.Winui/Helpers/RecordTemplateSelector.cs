@@ -21,15 +21,15 @@ namespace Tes3EditX.Winui.Helpers
         {
             if (value is RecordFieldViewModel vm)
             {
-                if (vm.WrappedField is IStringView)
-                {
-                    return StringTemplate;
-                }
-                else if (vm.WrappedField is IIntegerView)
-                {
-                    return IntegerTemplate;
-                }
-                else
+                //if (vm.WrappedField is IStringView)
+                //{
+                //    return StringTemplate;
+                //}
+                //else if (vm.WrappedField is IIntegerView)
+                //{
+                //    return IntegerTemplate;
+                //}
+                //else
                 {
                     return Common;
                 }

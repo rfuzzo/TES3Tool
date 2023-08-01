@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Tes3EditX.Backend.Extensions;
 using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.Services;
+using TES3Lib.Base;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -86,7 +87,7 @@ public partial class MainViewModel : ObservableRecipient
         IEnumerable<GroupInfoList> query = _records
             .Where(x =>
             {
-                if (!string.IsNullOrEmpty(SelectedTag) || SelectedTag == "_")
+                if (!string.IsNullOrEmpty(SelectedTag) && SelectedTag != "_")
                 {
                     return x.Tag.Equals(SelectedTag, StringComparison.CurrentCultureIgnoreCase);
                 }
@@ -128,7 +129,10 @@ public partial class MainViewModel : ObservableRecipient
 
         var recordId = recordViewModel.GetUniqueId();
 
+        Type? type = null;
+
         Conflicts.Clear();
+        // loop through plugins to get a vm for each plugin
         foreach (var pluginPath in recordViewModel.Plugins)
         {
             // get plugin
@@ -138,13 +142,23 @@ public partial class MainViewModel : ObservableRecipient
                 var record = plugin.Records.First(x => x is not null && x.GetUniqueId() == recordId);
                 if (record != null)
                 {
+                    if (type is null)
+                    {
+                        type = record.GetType();
+                    }
+
                     var item = new ConflictItemViewModel(pluginPath, record);
                     Conflicts.Add(item);
                 }
             } 
         }
 
-        // get field equality
+        // instantiate one record with all properties
+        // TODO
+        var obj = (Record?)Activator.CreateInstance(type!);
+        var names = obj!.GetPropertyNames();
+
+        // loop again to get field equality
         var anyConflict = false;
         for (var i = 1; i < Conflicts.Count; i++)
         {

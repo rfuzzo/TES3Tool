@@ -255,5 +255,35 @@ namespace TES3Lib.Base
 
             return hash;
         }
+
+        public List<string> GetPropertyNames()
+        {
+            var list = new List<string>();
+            var recordProperties = GetType().GetProperties(
+               BindingFlags.Public |
+               BindingFlags.Instance |
+               BindingFlags.DeclaredOnly).ToList();
+            foreach (PropertyInfo prop in recordProperties)
+            {
+                var v = prop.GetValue(this);
+
+                v ??= Activator.CreateInstance(prop.PropertyType);
+
+                if (v is Subrecord subrecord)
+                {
+                    var subRecordProperties = subrecord.GetType().GetProperties(
+                        BindingFlags.Public |
+                        BindingFlags.Instance |
+                        BindingFlags.DeclaredOnly).ToList();
+                    foreach (PropertyInfo subProp in subRecordProperties)
+                    {
+                        list.Add(subProp.Name);
+                    }
+                }
+                
+            }
+
+            return list;
+        }
     }
 }

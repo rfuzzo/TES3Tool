@@ -11,34 +11,37 @@ namespace Tes3EditX.Backend.ViewModels
 {
     public class RecordFieldViewModel : ObservableObject
     {
-        public RecordFieldViewModel(Subrecord? wrappedField)
+        public RecordFieldViewModel(object? wrappedField, string name)
         {
             WrappedField = wrappedField;
+            Name = name;
         }
 
-        public Subrecord? WrappedField { get; init; }
-
+        public object? WrappedField { get; init; }
+        public string Name { get; }
         public bool IsConflict { get; set; }
 
+        // we display only the text in the normal compare view 
+        // and double click opens an editor
         public override string ToString()
         {
-            if (WrappedField is IStringView s)
-            {
-                return s.Text;
-            }
-            else if (WrappedField is IIntegerView i)
-            {
-                return i.Value.ToString();
-            }
-            else if (WrappedField is IFloatView f)
-            {
-                return f.Value.ToString();
-            }
-            else
-            {
-                var str = WrappedField?.ToString();
-                return !string.IsNullOrEmpty(str) ? str : "NULL";
-            }
+            //    if (WrappedSubrecord is IStringView s)
+            //    {
+            //        return s.Text;
+            //    }
+            //    else if (WrappedSubrecord is IIntegerView i)
+            //    {
+            //        return i.Value.ToString();
+            //    }
+            //    else if (WrappedSubrecord is IFloatView f)
+            //    {
+            //        return f.Value.ToString();
+            //    }
+            //    else
+            //    {
+            var str = WrappedField?.ToString();
+            return !string.IsNullOrEmpty(str) ? str : "NULL";
+            //    }
         }
     }
 }

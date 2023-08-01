@@ -47,9 +47,12 @@ public partial class PluginSelectViewModel : ObservableObject
             .Where(x =>
                 x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) ||
                 x.Extension.Equals(".esm", StringComparison.OrdinalIgnoreCase));
+        // sort by load order
+        var final = pluginPaths.OrderBy(x => x.Extension).ThenBy(x => x.LastWriteTime);
+
 
         Plugins.Clear();
-        foreach (var item in pluginPaths.Select(x => new PluginItemViewModel(x)))
+        foreach (var item in final.Select(x => new PluginItemViewModel(x)))
         {
             Plugins.Add(item);
         }

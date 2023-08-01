@@ -6,17 +6,23 @@ using System.Threading.Tasks;
 
 namespace TES3Lib.Interfaces
 {
-    public interface IStringView
-    {
-        public string Text { get; set; }
-    }
+    //public interface IStringView
+    //{
+    //    public string Text { get; set; }
+    //}
 
-    public interface IIntegerView
+    //public interface IIntegerView
+    //{
+    //    public int Value { get; set; }
+    //}
+    
+    //public interface IFloatView
+    //{
+    //    public float Value { get; set; }
+    //}
+    
+    public interface IDataView
     {
-        public int Value { get; set; }
-    }
-    public interface IFloatView
-    {
-        public float Value { get; set; }
+        public Dictionary<string, object> GetData();
     }
 }
