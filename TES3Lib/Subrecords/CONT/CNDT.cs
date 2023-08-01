@@ -7,10 +7,10 @@ namespace TES3Lib.Subrecords.CONT
     /// <summary>
     /// Container weight
     /// </summary>
-    public class CNDT : Subrecord, IFloatView
+    public class CNDT : Subrecord
     {
         public float Weight { get; set; }
-        public float Value { get => Weight; set => Weight = value; }
+
         public CNDT()
         {
 

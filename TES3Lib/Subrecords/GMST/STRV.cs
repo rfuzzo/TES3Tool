@@ -7,13 +7,8 @@ namespace TES3Lib.Subrecords.GMTS
     /// <summary>
     /// String Value
     /// </summary>
-    public class STRV : Subrecord, IStringView
+    public class STRV : Subrecord
     {
-        public string Text
-        {
-            get => StringValue;
-            set => StringValue = value;
-        }
         public string StringValue { get; set; }
 
         public STRV()

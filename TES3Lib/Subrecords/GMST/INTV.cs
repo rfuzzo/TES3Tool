@@ -1,5 +1,4 @@
 ﻿using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.GMTS
@@ -7,9 +6,8 @@ namespace TES3Lib.Subrecords.GMTS
     /// <summary>
     /// Integer value (4 bytes)
     /// </summary>
-    public class INTV : Subrecord, IIntegerView
+    public class INTV : Subrecord
     {
-        public int Value { get => IntegerValue; set => IntegerValue = value; }
         public int IntegerValue { get; set; }
 
         public INTV()

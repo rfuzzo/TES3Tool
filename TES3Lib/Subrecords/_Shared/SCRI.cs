@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -9,14 +8,8 @@ namespace TES3Lib.Subrecords.Shared
     /// Script
     /// </summary>
     [DebuggerDisplay("{ScriptName}")]
-    public class SCRI : Subrecord, IStringView
+    public class SCRI : Subrecord
     {
-        public string Text
-        {
-            get => ScriptName;
-            set => ScriptName = value;
-        }
-
         public string ScriptName { get; set; }
 
         public SCRI()

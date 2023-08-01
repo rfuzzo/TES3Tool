@@ -1,5 +1,4 @@
 ﻿using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.ALCH
@@ -7,14 +6,8 @@ namespace TES3Lib.Subrecords.ALCH
     /// <summary>
     /// Icon path (32 characters max!)
     /// </summary>
-    public class TEXT : Subrecord, IStringView
+    public class TEXT : Subrecord
     {
-        public string Text
-        {
-            get => IconPath;
-            set => IconPath = value;
-        }
-
         public string IconPath { get; set; }
 
         public TEXT()

@@ -1,6 +1,5 @@
 ﻿using TES3Lib.Base;
 using TES3Lib.Enums;
-using TES3Lib.Interfaces;
 using Utility;
 using Utility.Attributes;
 using Attribute = TES3Lib.Enums.Attribute;
@@ -12,14 +11,8 @@ namespace TES3Lib.Subrecords.Shared
         /// <summary>
         /// Enchantment ID string
         /// </summary>
-        public class ENAM : Subrecord, IStringView
+        public class ENAM : Subrecord
         {
-            public string Text
-            {
-                get => EnchantmentId;
-                set => EnchantmentId = value;
-            }
-
             public string EnchantmentId { get; set; }
 
             public ENAM()

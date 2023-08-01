@@ -1,5 +1,4 @@
 ﻿using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.CELL
@@ -8,9 +7,8 @@ namespace TES3Lib.Subrecords.CELL
     /// Interior only
     /// Contains water level in cell
     /// </summary>
-    public class WHGT : Subrecord, IFloatView
+    public class WHGT : Subrecord
     {
-        public float Value { get => WaterHeight; set => WaterHeight = value; }
         public float WaterHeight { get; set; }
 
         public WHGT()

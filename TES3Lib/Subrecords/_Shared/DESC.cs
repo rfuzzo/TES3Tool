@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.Shared
@@ -9,15 +8,8 @@ namespace TES3Lib.Subrecords.Shared
     /// Description
     /// </summary>
     [DebuggerDisplay("{Description}")]
-    public class DESC : Subrecord, IStringView
+    public class DESC : Subrecord
     {
-        public string Text
-        {
-            get => Description;
-            set => Description = value;
-        }
-
-
         /// <summary>
         /// Text description
         /// </summary>

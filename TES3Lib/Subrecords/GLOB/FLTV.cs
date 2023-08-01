@@ -1,5 +1,4 @@
 ﻿using TES3Lib.Base;
-using TES3Lib.Interfaces;
 using Utility;
 
 namespace TES3Lib.Subrecords.GLOB
@@ -7,9 +6,8 @@ namespace TES3Lib.Subrecords.GLOB
     /// <summary>
     /// Float value (4 bytes)
     /// </summary>
-    public class FLTV : Subrecord, IFloatView
+    public class FLTV : Subrecord
     {
-        public float Value { get => FloatValue; set => FloatValue = value; }
         public float FloatValue { get; set; }
 
         public FLTV()
