@@ -35,7 +35,10 @@ public partial class MainViewModel : ObservableRecipient
 
     // Conflicts view
     [ObservableProperty]
-    private ObservableCollection<ConflictItemViewModel> _conflicts;
+    private ObservableCollection<ConflictItemViewModel> _conflicts = new();
+
+    [ObservableProperty]
+    private ObservableCollection<string> _names = new();
 
     [ObservableProperty]
     private List<string> _currentFieldNames = new();
@@ -50,7 +53,6 @@ public partial class MainViewModel : ObservableRecipient
         _settingsService = settingsService;
 
         // init
-        Conflicts = new();
         GroupedRecords = new();
         Tags = new ObservableCollection<string>(Tes3Extensions.GetAllTags().Order());
 
@@ -129,7 +131,7 @@ public partial class MainViewModel : ObservableRecipient
 
         var recordId = recordViewModel.GetUniqueId();
 
-        Type? type = null;
+        Names.Clear();
 
         Conflicts.Clear();
         // loop through plugins to get a vm for each plugin
@@ -142,21 +144,18 @@ public partial class MainViewModel : ObservableRecipient
                 var record = plugin.Records.First(x => x is not null && x.GetUniqueId() == recordId);
                 if (record != null)
                 {
-                    if (type is null)
+                    if (!Names.Any())
                     {
-                        type = record.GetType();
+                        var type = record.GetType();
+                        var obj = (Record?)Activator.CreateInstance(type!);
+                        Names = new(obj!.GetPropertyNames());
                     }
 
-                    var item = new ConflictItemViewModel(pluginPath, record);
+                    var item = new ConflictItemViewModel(pluginPath, record, Names.ToList());
                     Conflicts.Add(item);
                 }
             } 
         }
-
-        // instantiate one record with all properties
-        // TODO
-        var obj = (Record?)Activator.CreateInstance(type!);
-        var names = obj!.GetPropertyNames();
 
         // loop again to get field equality
         var anyConflict = false;

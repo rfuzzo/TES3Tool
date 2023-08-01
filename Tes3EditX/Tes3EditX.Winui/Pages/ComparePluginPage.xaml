@@ -24,6 +24,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  Data Files Folder  -->
         <StackPanel Margin="12,0,0,0" Orientation="Horizontal">
 
             <Button Command="{x:Bind ViewModel.SelectFolderCommand}" Content="..." />
@@ -31,12 +32,12 @@
                 MaxWidth="200"
                 Margin="12,0,0,0"
                 VerticalAlignment="Center"
-                Text="{x:Bind ViewModel.FolderPath.Name}"
+                Text="{x:Bind ViewModel.FolderPath.Name, Mode=OneWay}"
                 ToolTipService.ToolTip="{x:Bind ViewModel.FolderPath.FullName}" />
-
 
         </StackPanel>
 
+        <!--  Plugins list  -->
         <ListView
             x:Name="listview"
             Grid.Row="1"
@@ -48,6 +49,7 @@
             SelectionChanged="ListView_SelectionChanged"
             SelectionMode="Multiple" />
 
+        <!--  Compare  -->
         <Button
             Grid.Row="2"
             Margin="20,0,0,0"

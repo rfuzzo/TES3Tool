@@ -15,11 +15,12 @@
 
     <Page.Resources>
 
+        <DataTemplate x:Key="FieldNameTemplate" x:DataType="x:String">
+            <TextBlock Margin="0,5,0,5" Text="{Binding}" />
+        </DataTemplate>
+
         <DataTemplate x:Key="RecordListViewTemplate" x:DataType="viewmodels:RecordItemViewModel">
-            <TextBlock
-                Margin="0,5,0,5"
-                x:Phase="1"
-                Text="{x:Bind Name}" />
+            <TextBlock Margin="0,5,0,5" Text="{x:Bind Name}" />
         </DataTemplate>
 
         <CollectionViewSource
@@ -43,9 +44,16 @@
 
         <!--  read only  -->
         <DataTemplate x:Key="CommonTemplate" x:DataType="viewmodels:RecordFieldViewModel">
-            <Border>
-                <TextBlock Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}" Text="{Binding}" />
-            </Border>
+            <StackPanel>
+                <TextBlock
+                    FontWeight="Light"
+                    Foreground="DimGray"
+                    Text="{x:Bind Name}" />
+                <TextBlock
+                    Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}"
+                    Text="{x:Bind Text}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
         </DataTemplate>
 
 
@@ -68,7 +76,8 @@
                     Text="{x:Bind Name}" />
 
                 <!--  Content with a list  -->
-                <ListView ItemTemplateSelector="{StaticResource RecordViewTemplateSelector}" ItemsSource="{x:Bind Fields}" />
+                <ListView ItemTemplate="{StaticResource CommonTemplate}" ItemsSource="{x:Bind Fields}" />
+
 
             </StackPanel>
         </DataTemplate>
@@ -81,7 +90,7 @@
         IsPaneOpen="True"
         PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
 
-        <!--  PANE  -->
+        <!--  RECORDS PANE  -->
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
@@ -154,11 +163,31 @@
         <!--  CONFLICT VIEW  -->
         <Grid>
 
-            <GridView
-                x:Name="BasicGridView"
-                ItemTemplate="{StaticResource ConflictsTemplate}"
-                ItemsSource="{x:Bind ViewModel.Conflicts}"
-                SelectionMode="None" />
+            <!--<Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>-->
+
+            <!--  Names  -->
+            <!--<ListView
+                Grid.Column="0"
+                Margin="0,46,0,0"
+                ItemTemplate="{StaticResource FieldNameTemplate}"
+                ItemsSource="{x:Bind ViewModel.Names, Mode=TwoWay}" />-->
+
+
+            <!--  Conflicts  -->
+            <!--  Grid.Column="1"  -->
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled">
+
+                <GridView
+                    x:Name="BasicGridView"
+                    ItemTemplate="{StaticResource ConflictsTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Conflicts}"
+                    SelectionMode="None" />
+            </ScrollViewer>
+
+
 
         </Grid>
     </SplitView>

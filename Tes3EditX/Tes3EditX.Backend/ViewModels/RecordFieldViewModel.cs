@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,33 +16,37 @@ namespace Tes3EditX.Backend.ViewModels
         {
             WrappedField = wrappedField;
             Name = name;
+            Text = ToString();
         }
 
         public object? WrappedField { get; init; }
         public string Name { get; }
+        public string Text { get; }
         public bool IsConflict { get; set; }
 
         // we display only the text in the normal compare view 
         // and double click opens an editor
         public override string ToString()
         {
-            //    if (WrappedSubrecord is IStringView s)
-            //    {
-            //        return s.Text;
-            //    }
-            //    else if (WrappedSubrecord is IIntegerView i)
-            //    {
-            //        return i.Value.ToString();
-            //    }
-            //    else if (WrappedSubrecord is IFloatView f)
-            //    {
-            //        return f.Value.ToString();
-            //    }
-            //    else
-            //    {
-            var str = WrappedField?.ToString();
-            return !string.IsNullOrEmpty(str) ? str : "NULL";
-            //    }
+            if (WrappedField is null)
+            {
+                return "NULL";
+            }
+            else
+            {
+                if ( WrappedField is not string && WrappedField is IEnumerable enumerable)
+                {
+                    var result = "";
+                    foreach (var item in enumerable)
+                    {
+                        result += $"{item}|";
+                    }
+                    var r1 = result.TrimEnd('|');
+                    return r1;
+                }
+
+                return WrappedField.ToString()!;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using TES3Lib.Base;
 using TES3Lib.Interfaces;
 
@@ -11,70 +12,54 @@ namespace Tes3EditX.Backend.ViewModels;
 public class ConflictItemViewModel
 {
     private readonly FileInfo _path;
+    private readonly Dictionary<string, object?> _map = new();
 
-    public ConflictItemViewModel(FileInfo info, Record record)
+    public ConflictItemViewModel(FileInfo info, Record record, List<string> names)
     {
         _path = info;
         Record = record;
 
-        // get properties with reflection recursively
-
-        var recordProperties = record.GetType().GetProperties(
-            BindingFlags.Public | 
-            BindingFlags.Instance | 
-            BindingFlags.DeclaredOnly
-            ).ToList();
-        foreach (PropertyInfo? prop in recordProperties)
+        
+        foreach (var name in names)
         {
-            // unneeded with DeclaredOnly
-            if (
-                prop.Name is
-                (nameof(Record.Name)) or
-                (nameof(Record.Size)) or 
-                (nameof(Record.Header)) or 
-                (nameof(Record.Flags)) or 
-                (nameof(Record.DELE)))
-            {
-                continue;
-            }
-
-            //var v = prop.GetValue(record);
-            //if (v is Subrecord subrecord)
-            //{
-            //    // flatten data records
-            //    if (subrecord is IDataView data)
-            //    {
-            //        // add multiple
-            //        // TODO
-            //        foreach (var kvp in data.GetData())
-            //        {
-            //            Fields.Add(new(kvp.Value, kvp.Key));
-            //        }
-            //    }
-            //    else if (subrecord is IStringView s)
-            //    {
-            //        Fields.Add(new(s.Text, prop.Name));
-            //    }
-            //    else if (subrecord is IIntegerView i)
-            //    {
-            //        Fields.Add(new(i.Value, prop.Name));
-            //    }
-            //    else if (subrecord is IFloatView f)
-            //    {
-            //        Fields.Add(new(f.Value, prop.Name));
-            //    }
-            //    else
-            //    {
-            //        Fields.Add(new(subrecord, prop.Name));
-            //    }
-            //}
-            //else
-            //{
-            //    Fields.Add(new(null, prop.Name));
-            //}
+            _map.Add(name, null);
         }
 
+        // get properties with reflection recursively
+        var recordProperties = record.GetType().GetProperties(
+               BindingFlags.Public |
+               BindingFlags.Instance |
+               BindingFlags.DeclaredOnly).ToList();
+        foreach (PropertyInfo prop in recordProperties)
+        {
+            var v = prop.GetValue(record);
 
+            if (v is Subrecord subrecord)
+            {
+                var subRecordProperties = subrecord.GetType().GetProperties(
+                    BindingFlags.Public |
+                    BindingFlags.Instance |
+                    BindingFlags.DeclaredOnly).ToList();
+                foreach (PropertyInfo subProp in subRecordProperties)
+                {
+                    if (_map.ContainsKey($"{subrecord.Name}.{subProp.Name}"))
+                    {
+                        _map[$"{subrecord.Name}.{subProp.Name}"] = subProp.GetValue(subrecord);
+                    }
+                    else if (_map.ContainsKey(subProp.Name))
+                    {
+                        _map[subProp.Name] = subProp.GetValue(subrecord);
+                    }
+                }
+            }
+        }
+
+        // fill fields
+        // todo to refactor
+        foreach (var (name, field) in _map)
+        {
+            Fields.Add(new(field, name));
+        }
 
     }
 

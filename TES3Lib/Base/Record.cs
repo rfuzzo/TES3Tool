@@ -277,7 +277,15 @@ namespace TES3Lib.Base
                         BindingFlags.DeclaredOnly).ToList();
                     foreach (PropertyInfo subProp in subRecordProperties)
                     {
-                        list.Add(subProp.Name);
+                        if (list.Contains(subProp.Name))
+                        {
+                            list.Add($"{subrecord.Name}.{subProp.Name}");
+                        }
+                        else
+                        {
+                            list.Add(subProp.Name);
+                        }
+                        
                     }
                 }
                 
