@@ -20,6 +20,9 @@ public partial class CompareService : ObservableObject, ICompareService
     [ObservableProperty]
     private Dictionary<string, List<FileInfo>> _conflicts = new();
 
+    [ObservableProperty]
+    private int _minConflictNum = 2;
+
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; } = new List<PluginItemViewModel>();
 
     public CompareService()
@@ -82,10 +85,16 @@ public partial class CompareService : ObservableObject, ICompareService
         }
 
         // TODO dedup?
-        var singleRecords = conflict_map.Where(x => x.Value.Count < 2).Select(x => x.Key);
+        var singleRecords = conflict_map.Where(x => x.Value.Count < MinConflictNum).Select(x => x.Key);
         foreach (var item in singleRecords)
         {
             conflict_map.Remove(item);
+        }
+
+        // check for false positives
+        foreach (var (key, value) in conflict_map)
+        {
+
         }
 
 

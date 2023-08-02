@@ -66,22 +66,6 @@
 
         <helpers:RecordViewTemplateSelector x:Key="RecordViewTemplateSelector" Common="{StaticResource CommonTemplate}" />
 
-        <DataTemplate x:Key="ConflictsTemplate" x:DataType="viewmodels:ConflictItemViewModel">
-
-            <StackPanel>
-                <!--  Header with Plugin name  -->
-                <TextBlock
-                    Margin="12"
-                    FontWeight="Bold"
-                    Text="{x:Bind Name}" />
-
-                <!--  Content with a list  -->
-                <ListView ItemTemplate="{StaticResource CommonTemplate}" ItemsSource="{x:Bind Fields}" />
-
-
-            </StackPanel>
-        </DataTemplate>
-
 
 
 
@@ -106,8 +90,17 @@
                     ItemTemplate="{StaticResource StringOrFieldTemplateSelector}"
                     ItemsSource="{x:Bind FieldByPlugins}">
 
+                    <!--  <UniformGridLayout MinItemHeight="40" MinItemWidth="200" />-->
+                    <!--  <StackLayout
+     x:Name="HorizontalStackLayout"
+     Orientation="Horizontal"
+     Spacing="8" />-->
                     <ItemsRepeater.Layout>
-                        <UniformGridLayout MinItemHeight="40" MinItemWidth="200" />
+
+                        <StackLayout
+                            x:Name="HorizontalStackLayout"
+                            Orientation="Horizontal"
+                            Spacing="8" />
 
                     </ItemsRepeater.Layout>
 
@@ -124,6 +117,8 @@
 
         <DataTemplate x:Key="FieldDataTemplate" x:DataType="viewmodels:RecordFieldViewModel">
             <TextBlock
+                MinWidth="200"
+                Margin="4"
                 Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}"
                 Text="{x:Bind Text}"
                 TextWrapping="Wrap" />
@@ -132,6 +127,7 @@
         <DataTemplate x:Key="StringDataTemplate" x:DataType="x:String">
             <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                 <TextBlock
+                    MinWidth="200"
                     HorizontalAlignment="Center"
                     Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
                     Text="{x:Bind}" />

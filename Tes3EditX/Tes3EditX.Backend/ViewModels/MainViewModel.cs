@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using Tes3EditX.Backend.Extensions;
 using Tes3EditX.Backend.Models;
 using Tes3EditX.Backend.Services;
@@ -17,9 +18,8 @@ public partial class MainViewModel : ObservableRecipient
     private readonly ISettingsService _settingsService;
 
 
-    // Record Selet View
+    // Record Select View
     private readonly List<RecordItemViewModel> _records = new();
-    private List<ConflictItemViewModel> _conflicts = new();
 
     [ObservableProperty]
     private ObservableCollection<GroupInfoList> _groupedRecords;
@@ -118,7 +118,7 @@ public partial class MainViewModel : ObservableRecipient
     // TODO refactor this shit
 
     /// <summary>
-    /// Populate conflicts view
+    /// Populate conflicts view when a record is selected
     /// </summary>
     /// <param name="value"></param>
     partial void OnSelectedRecordChanged(object? value)
@@ -132,59 +132,60 @@ public partial class MainViewModel : ObservableRecipient
 
         Fields.Clear();
 
-        //Conflicts.Clear();
-        var Conflicts = new List<ConflictItemViewModel>();
-        var Names = new List<string>();
+        // fields by plugin
+        var conflicts = new Dictionary<string,List<RecordFieldViewModel>>();
+        // field names of the record type
+        var names = new List<string>();
+        var plugins = new List<string>();
 
         // loop through plugins to get a vm for each plugin
-        List<object> plugins = new();
         foreach (var pluginPath in recordViewModel.Plugins)
         {
             // get plugin
             if (_compareService.Plugins.TryGetValue(pluginPath, out var plugin))
             {
-                // recordViewModel.Plugins.Select(p => p.Name).Cast<object>().ToList(); 
-                plugins.Add(pluginPath.Name);
-
                 // get record
                 var record = plugin.Records.FirstOrDefault(x => x is not null && x.GetUniqueId() == recordId);
                 if (record != null)
                 {
-                    if (!Names.Any())
+                    if (!names.Any())
                     {
                         var type = record.GetType();
                         var obj = (Record?)Activator.CreateInstance(type!);
-                        Names = new(obj!.GetPropertyNames());
+                        names = new(obj!.GetPropertyNames());
                     }
 
-                    var item = new ConflictItemViewModel(pluginPath, record, Names.ToList());
-                    Conflicts.Add(item);
+                    var fields = GetFieldVms(record, names);
+                    conflicts.Add(pluginPath.Name, fields);
+                    plugins.Add(pluginPath.Name);
                 }
                 else
                 {
-                    // 
+                    // TODO ignore?
                 }
             } 
         }
 
         // loop again to get field equality
         var anyConflict = false;
-        for (var i = 1; i < Conflicts.Count; i++)
+        for (var i = 1; i < plugins.Count; i++)
         {
-            ConflictItemViewModel c = Conflicts[i];
-            ConflictItemViewModel c_last = Conflicts[i-1];
+            var key = plugins[i];
+            var key_last = plugins[i-1];
+            var c = conflicts[key];
+            var c_last = conflicts[key_last];
 
-            for (var j = 0; j < c.Fields.Count; j++)
+            for (var j = 0; j < c.Count; j++)
             {
-                RecordFieldViewModel f = c.Fields[j];
-                if (j > c_last.Fields.Count)
+                RecordFieldViewModel f = c[j];
+                if (j > c_last.Count)
                 {
                     f.IsConflict = true;
                     anyConflict = true;
                 }
                 else
                 {
-                    RecordFieldViewModel f_last = c_last.Fields[j];
+                    RecordFieldViewModel f_last = c_last[j];
                     if (f_last.WrappedField is not null && f.WrappedField is not null)
                     {
                         if (!f_last.WrappedField.Equals(f.WrappedField))
@@ -223,15 +224,15 @@ public partial class MainViewModel : ObservableRecipient
 
            
         // hack
-        Fields.Add(new("Plugins", plugins));
+        Fields.Add(new("Plugins", plugins.Cast<object>().ToList()));
 
-        foreach (var name in Names)
+        foreach (var name in names)
         {
             List<object> list = new();
 
-            foreach (var c in Conflicts)
+            foreach (var c in plugins)
             {
-                var f = c.Fields.FirstOrDefault(x => x.Name.Equals(name));
+                var f = conflicts[c].FirstOrDefault(x => x.Name.Equals(name));
                 if (f is not null)
                 {
                     list.Add(f);
@@ -257,5 +258,52 @@ public partial class MainViewModel : ObservableRecipient
         FilterRecords();
     }
 
+    private static List<RecordFieldViewModel> GetFieldVms(Record record, List<string> names)
+    {
+        Dictionary<string, object?> map = new();
+        List<RecordFieldViewModel> fields = new();
 
+        foreach (var name in names)
+        {
+            map.Add(name, null);
+        }
+
+        // get properties with reflection recursively
+        var recordProperties = record.GetType().GetProperties(
+               BindingFlags.Public |
+               BindingFlags.Instance |
+               BindingFlags.DeclaredOnly).ToList();
+        foreach (PropertyInfo prop in recordProperties)
+        {
+            var v = prop.GetValue(record);
+
+            if (v is Subrecord subrecord)
+            {
+                var subRecordProperties = subrecord.GetType().GetProperties(
+                    BindingFlags.Public |
+                    BindingFlags.Instance |
+                    BindingFlags.DeclaredOnly).ToList();
+                foreach (PropertyInfo subProp in subRecordProperties)
+                {
+                    if (map.ContainsKey($"{subrecord.Name}.{subProp.Name}"))
+                    {
+                        map[$"{subrecord.Name}.{subProp.Name}"] = subProp.GetValue(subrecord);
+                    }
+                    else if (map.ContainsKey(subProp.Name))
+                    {
+                        map[subProp.Name] = subProp.GetValue(subrecord);
+                    }
+                }
+            }
+        }
+
+        // fill fields
+        // todo to refactor
+        foreach (var (name, field) in map)
+        {
+            fields.Add(new(field, name));
+        }
+
+        return fields;
+    }
 }
