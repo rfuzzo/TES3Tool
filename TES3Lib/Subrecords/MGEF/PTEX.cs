@@ -15,5 +15,9 @@ namespace TES3Lib.Subrecords.MGEF
             var reader = new ByteReader();
             ParticleTexturePath = reader.ReadBytes<string>(Data, Size);
         }
+
+        public PTEX()
+        {
+        }
     }
 }

@@ -38,6 +38,10 @@ namespace TES3Lib.Records
             BuildSubrecords();
         }
 
+        public MGEF()
+        {
+        }
+
         public override string GetEditorId()
         {
             return INDX is not null ? $"MagicEffect#{INDX.EffectId}" : null;

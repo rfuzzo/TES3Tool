@@ -45,5 +45,9 @@ namespace TES3Lib.Records
         {
             BuildSubrecords();
         }
+
+        public LOCK()
+        {
+        }
     }
 }

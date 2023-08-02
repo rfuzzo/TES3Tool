@@ -28,6 +28,10 @@ namespace TES3Lib.Subrecords.SKILL
             }
         }
 
+        public SKDT()
+        {
+        }
+
         public override byte[] SerializeSubrecord()
         {
             var properties = GetType()

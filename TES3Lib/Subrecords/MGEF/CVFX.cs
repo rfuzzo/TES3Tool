@@ -12,5 +12,9 @@ namespace TES3Lib.Subrecords.MGEF
             var reader = new ByteReader();
             CastingVisual = reader.ReadBytes<string>(Data, Size);
         }
+
+        public CVFX()
+        {
+        }
     }
 }

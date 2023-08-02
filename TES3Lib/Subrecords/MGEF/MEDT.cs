@@ -41,5 +41,9 @@ namespace TES3Lib.Subrecords.MGEF
             SizeMultiplier = reader.ReadBytes<float>(Data);
             SizeCap = reader.ReadBytes<float>(Data);
         }
+
+        public MEDT()
+        {
+        }
     }
 }
