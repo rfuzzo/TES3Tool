@@ -13,6 +13,7 @@ namespace Tes3EditX.Backend.Services
         public int Maximum { get; set; }
 
         public string Text { get; set; }
+        public bool Enabled { get; set; }
     }
 
     public partial class NotificationService : ObservableObject, INotificationService
@@ -25,5 +26,8 @@ namespace Tes3EditX.Backend.Services
 
         [ObservableProperty]
         private string _text = "";
+
+        [ObservableProperty]
+        private bool _enabled;
     }
 }

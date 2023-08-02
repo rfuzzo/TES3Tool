@@ -80,17 +80,36 @@ public static class ThemeHelper
         }
     }
 
+    // TODO Super dumb
+    public static bool IsPackaged()
+    {
+        try
+        {
+            var current = ApplicationData.Current;
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public static void Initialize()
     {
 #if !UNPACKAGED
         // Save reference as this might be null when the user is in another app
         CurrentApplicationWindow = App.StartupWindow;
-        var savedTheme = ApplicationData.Current.LocalSettings.Values[SelectedAppThemeKey]?.ToString();
 
-        if (savedTheme != null)
+        if (IsPackaged())
         {
-            RootTheme = App.GetEnum<ElementTheme>(savedTheme);
+            var savedTheme = ApplicationData.Current.LocalSettings.Values[SelectedAppThemeKey]?.ToString();
+
+            if (savedTheme != null)
+            {
+                RootTheme = App.GetEnum<ElementTheme>(savedTheme);
+            }
         }
+       
 #endif
     }
 

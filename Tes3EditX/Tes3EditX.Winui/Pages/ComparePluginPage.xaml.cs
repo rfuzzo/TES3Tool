@@ -29,11 +29,17 @@ public sealed partial class ComparePluginPage : Page
     public ComparePluginPage()
     {
         this.InitializeComponent();
+        Loaded += ComparePluginPage_Loaded;
 
-        this.DataContext = App.Current.Services.GetService<PluginSelectViewModel>();
+        this.DataContext = App.Current.Services.GetService<ComparePluginViewModel>();
     }
 
-    public PluginSelectViewModel ViewModel => (PluginSelectViewModel)DataContext;
+    private async void ComparePluginPage_Loaded(object sender, RoutedEventArgs e)
+    {
+        await ViewModel.InitPluginsAsync();
+    }
+
+    public ComparePluginViewModel ViewModel => (ComparePluginViewModel)DataContext;
 
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

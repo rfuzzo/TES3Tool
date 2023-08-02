@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppUIBasics.Helper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +25,15 @@ public class SettingsService : ISettingsService
     public DirectoryInfo GetWorkingDirectory()
     {
         //return Preferences.Default.Get(WDIR, new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory));
-        return new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+        if (ThemeHelper.IsPackaged())
+        {
+            return new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+        }
+        else
+        {
+            return new DirectoryInfo(Directory.GetCurrentDirectory());
+        }
+        
     }
 
     public void SetWorkingDirectory(DirectoryInfo value)

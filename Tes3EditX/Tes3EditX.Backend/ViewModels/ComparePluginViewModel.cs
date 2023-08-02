@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace Tes3EditX.Backend.ViewModels;
 
-public partial class PluginSelectViewModel : ObservableObject
+public partial class ComparePluginViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
     private readonly INotificationService _notificationService;
@@ -29,9 +29,9 @@ public partial class PluginSelectViewModel : ObservableObject
     [ObservableProperty]
     private DirectoryInfo _folderPath;
 
-   
+    private bool _loadOnce;
 
-    public PluginSelectViewModel(
+    public ComparePluginViewModel(
         INavigationService navigationService,
         INotificationService notificationService,
         ICompareService compareService,
@@ -44,14 +44,18 @@ public partial class PluginSelectViewModel : ObservableObject
         _settingsService = settingsService;
         _folderPicker = folderPicker;
 
-        _folderPath = settingsService.GetWorkingDirectory();
-
-        // get plugins
-        //InitPlugins();
+        FolderPath = settingsService.GetWorkingDirectory();
     }
 
-    private async Task InitPlugins()
+
+
+    public async Task InitPluginsAsync()
     {
+        if (_loadOnce)
+        {
+            return;
+        }
+
         var stopwatch = Stopwatch.StartNew();
 
         List<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
@@ -61,6 +65,7 @@ public partial class PluginSelectViewModel : ObservableObject
         
         _notificationService.Progress = 0;
         _notificationService.Maximum = pluginPaths.Count;
+        _notificationService.Enabled = false;
 
         var plugins = new List<PluginItemViewModel>();
 
@@ -93,6 +98,8 @@ public partial class PluginSelectViewModel : ObservableObject
 
         stopwatch.Stop();
         _notificationService.Text = stopwatch.Elapsed.TotalSeconds.ToString();
+        _notificationService.Enabled = true;
+        _loadOnce = true;
     }
 
     [RelayCommand]
@@ -106,7 +113,8 @@ public partial class PluginSelectViewModel : ObservableObject
 
             if (FolderPath.Exists)
             {
-               await InitPlugins();
+                _loadOnce = false;
+               await InitPluginsAsync();
             }
         }
     }

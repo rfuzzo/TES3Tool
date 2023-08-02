@@ -98,7 +98,7 @@ public partial class App : Application
         services.AddSingleton<IFileApiService, FileApiService>();
 
         // ViewModels
-        services.AddSingleton<PluginSelectViewModel>();
+        services.AddSingleton<ComparePluginViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<CompareViewModel>();
         services.AddSingleton<ConflictsViewModel>();

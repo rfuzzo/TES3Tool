@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tes3EditX.Console", "Tes3EditX.Console\Tes3EditX.Console.csproj", "{28AF2623-DC75-44FC-AF15-65A9E498A765}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TES3Lib", "..\TES3Lib\TES3Lib.csproj", "{F59D3033-0157-4B07-BBD5-DC44DA5176F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utility", "..\Utility\Utility.csproj", "{575DA76E-AF08-4CB5-9749-EB20B519B672}"
@@ -27,22 +25,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|x64.Build.0 = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Debug|x86.Build.0 = Debug|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|ARM64.Build.0 = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|x64.ActiveCfg = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|x64.Build.0 = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|x86.ActiveCfg = Release|Any CPU
-		{28AF2623-DC75-44FC-AF15-65A9E498A765}.Release|x86.Build.0 = Release|Any CPU
 		{F59D3033-0157-4B07-BBD5-DC44DA5176F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F59D3033-0157-4B07-BBD5-DC44DA5176F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F59D3033-0157-4B07-BBD5-DC44DA5176F1}.Debug|ARM64.ActiveCfg = Debug|Any CPU

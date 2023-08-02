@@ -101,10 +101,11 @@ public partial class CompareService : ObservableObject, ICompareService
         // TODO cache field names
         _notificationService.Progress = 0;
         _notificationService.Maximum = conflict_map.Count;
+        _notificationService.Enabled = false;
 
         // check for false positives
         // TODO why is that necessary?
-      
+
 
         if (_settingsService.CullConflicts)
         {
@@ -134,6 +135,7 @@ public partial class CompareService : ObservableObject, ICompareService
 
             stopwatch.Stop();
             _notificationService.Text = stopwatch.Elapsed.TotalSeconds.ToString();
+            _notificationService.Enabled = true;
 
             foreach (var item in toRemove)
             {

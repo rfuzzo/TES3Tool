@@ -14,6 +14,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  IsEnabled="{x:Bind ViewModel.NotificationService.Enabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  -->
         <SplitView
             x:Name="splitView"
             CompactPaneLength="48"
