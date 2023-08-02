@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using Tes3EditX.Backend.Services;
+using TES3Lib;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -14,13 +15,19 @@ public partial class PluginSelectViewModel : ObservableObject
     private readonly IFileApiService _folderPicker;
 
     [ObservableProperty]
-    private ObservableCollection<PluginItemViewModel> _plugins;
+    private ObservableCollection<PluginItemViewModel> _plugins = new();
 
     [ObservableProperty]
-    private List<PluginItemViewModel> _selectedPlugins;
+    private List<PluginItemViewModel> _selectedPlugins = new();
 
     [ObservableProperty]
     private DirectoryInfo _folderPath;
+
+    [ObservableProperty]
+    private int _progress = 0;
+
+    [ObservableProperty]
+    private int _maximum = 0;
 
     public PluginSelectViewModel(
         INavigationService navigationService,
@@ -36,26 +43,34 @@ public partial class PluginSelectViewModel : ObservableObject
         _folderPath = settingsService.GetWorkingDirectory();
 
         // get plugins
-        Plugins = new();
-        SelectedPlugins = new();
-        InitPlugins();
+        //InitPlugins();
     }
 
-    private void InitPlugins()
+    private async Task InitPlugins()
     {
-        IEnumerable<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+        Progress = 0;
+        
+
+        List<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
             .Where(x =>
                 x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) ||
-                x.Extension.Equals(".esm", StringComparison.OrdinalIgnoreCase));
-        // sort by load order
-        var final = pluginPaths.OrderBy(x => x.Extension).ThenBy(x => x.LastWriteTime);
+                x.Extension.Equals(".esm", StringComparison.OrdinalIgnoreCase)).ToList();
+        
+        
+        Maximum = pluginPaths.Count;
 
-
-        Plugins.Clear();
-        foreach (var item in final.Select(x => new PluginItemViewModel(x)))
+        var plugins = new List<PluginItemViewModel>();
+        foreach (var item in pluginPaths)
         {
-            Plugins.Add(item);
+            var plugin = await Task.Run(() => TES3.TES3Load(item.FullName));
+            plugins.Add(new(item, plugin));
+            
+            Progress += 1;
         }
+
+        // sort by load order
+        var final = plugins.OrderBy(x => x.Info.Extension.ToLower()).ThenBy(x => x.Info.LastWriteTime).ToList();
+        Plugins = new(final);
     }
 
     [RelayCommand]
@@ -69,7 +84,7 @@ public partial class PluginSelectViewModel : ObservableObject
 
             if (FolderPath.Exists)
             {
-                InitPlugins();
+               await InitPlugins();
             }
         }
     }

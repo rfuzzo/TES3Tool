@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,32 +12,28 @@ using Utility;
 
 namespace Tes3EditX.Winui.Helpers
 {
-    public class RecordTemplateSelector : DataTemplateSelector
+    public class StringOrFieldTemplateSelector : DataTemplateSelector
     {
+        // Define the (currently empty) data templates to return
+        // These will be "filled-in" in the XAML code.
         public DataTemplate StringTemplate { get; set; }
-        public DataTemplate IntegerTemplate { get; set; }
-        public DataTemplate Common { get; set; }
 
-        protected override DataTemplate SelectTemplateCore(object value)
+        public DataTemplate FieldDataTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
         {
-            if (value is RecordFieldViewModel vm)
+            // Return the correct data template based on the item's type.
+            if (item.GetType() == typeof(string))
             {
-                //if (vm.WrappedField is IStringView)
-                //{
-                //    return StringTemplate;
-                //}
-                //else if (vm.WrappedField is IIntegerView)
-                //{
-                //    return IntegerTemplate;
-                //}
-                //else
-                {
-                    return Common;
-                }
+                return StringTemplate;
+            }
+            else if (item.GetType() == typeof(RecordFieldViewModel))
+            {
+                return FieldDataTemplate;
             }
             else
-            { 
-                return Common;
+            {
+                return null;
             }
         }
     }

@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!--  Data Files Folder  -->
@@ -38,6 +39,7 @@
         </StackPanel>
 
         <!--  Plugins list  -->
+        <!--  SelectedItems="{x:Bind ViewModel.SelectedPlugins, Mode=TwoWay}"  -->
         <ListView
             x:Name="listview"
             Grid.Row="1"
@@ -55,5 +57,12 @@
             Margin="20,0,0,0"
             Command="{x:Bind ViewModel.CompareCommand}"
             Content="Compare" />
+
+        <ProgressBar
+            Grid.Row="3"
+            Height="20"
+            Margin="0,10,0,0"
+            Maximum="{x:Bind ViewModel.Maximum, Mode=TwoWay}"
+            Value="{x:Bind ViewModel.Progress, Mode=TwoWay}" />
     </Grid>
 </Page>

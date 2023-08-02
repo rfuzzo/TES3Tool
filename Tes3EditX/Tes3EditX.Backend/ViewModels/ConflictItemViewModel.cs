@@ -5,6 +5,19 @@ using TES3Lib.Interfaces;
 
 namespace Tes3EditX.Backend.ViewModels;
 
+public class ConflictRecordFieldViewModel
+{
+    public ConflictRecordFieldViewModel(string fieldName, List<object> fieldByRecords)
+    {
+        FieldName = fieldName;
+        FieldByPlugins = fieldByRecords;
+    }
+
+    public string FieldName { get; }
+    public List<object> FieldByPlugins { get; }
+}
+
+
 /// <summary>
 /// This viewmodel wraps a TES3 record's fileinfo
 /// and a plugin name 

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Tes3EditX.Backend.Extensions;
 using Tes3EditX.Backend.Models;
@@ -18,6 +19,7 @@ public partial class MainViewModel : ObservableRecipient
 
     // Record Selet View
     private readonly List<RecordItemViewModel> _records = new();
+    private List<ConflictItemViewModel> _conflicts = new();
 
     [ObservableProperty]
     private ObservableCollection<GroupInfoList> _groupedRecords;
@@ -34,14 +36,9 @@ public partial class MainViewModel : ObservableRecipient
     private string _selectedTag = "";
 
     // Conflicts view
-    [ObservableProperty]
-    private ObservableCollection<ConflictItemViewModel> _conflicts = new();
 
     [ObservableProperty]
-    private ObservableCollection<string> _names = new();
-
-    [ObservableProperty]
-    private List<string> _currentFieldNames = new();
+    private ObservableCollection<ConflictRecordFieldViewModel> _fields = new();
 
     public MainViewModel(
         INavigationService navigationService,
@@ -118,6 +115,8 @@ public partial class MainViewModel : ObservableRecipient
 
     }
 
+    // TODO refactor this shit
+
     /// <summary>
     /// Populate conflicts view
     /// </summary>
@@ -131,17 +130,24 @@ public partial class MainViewModel : ObservableRecipient
 
         var recordId = recordViewModel.GetUniqueId();
 
-        Names.Clear();
+        Fields.Clear();
 
-        Conflicts.Clear();
+        //Conflicts.Clear();
+        var Conflicts = new List<ConflictItemViewModel>();
+        var Names = new List<string>();
+
         // loop through plugins to get a vm for each plugin
+        List<object> plugins = new();
         foreach (var pluginPath in recordViewModel.Plugins)
         {
             // get plugin
             if (_compareService.Plugins.TryGetValue(pluginPath, out var plugin))
-            {   
+            {
+                // recordViewModel.Plugins.Select(p => p.Name).Cast<object>().ToList(); 
+                plugins.Add(pluginPath.Name);
+
                 // get record
-                var record = plugin.Records.First(x => x is not null && x.GetUniqueId() == recordId);
+                var record = plugin.Records.FirstOrDefault(x => x is not null && x.GetUniqueId() == recordId);
                 if (record != null)
                 {
                     if (!Names.Any())
@@ -153,6 +159,10 @@ public partial class MainViewModel : ObservableRecipient
 
                     var item = new ConflictItemViewModel(pluginPath, record, Names.ToList());
                     Conflicts.Add(item);
+                }
+                else
+                {
+                    // 
                 }
             } 
         }
@@ -205,6 +215,34 @@ public partial class MainViewModel : ObservableRecipient
             // do not display this record
 
         }
+
+
+        // -----------------------------------------
+
+        Fields.Clear();
+
+           
+        // hack
+        Fields.Add(new("Plugins", plugins));
+
+        foreach (var name in Names)
+        {
+            List<object> list = new();
+
+            foreach (var c in Conflicts)
+            {
+                var f = c.Fields.FirstOrDefault(x => x.Name.Equals(name));
+                if (f is not null)
+                {
+                    list.Add(f);
+                }
+            }
+
+            Fields.Add(new ConflictRecordFieldViewModel(name, list));
+
+        }
+
+
 
     }
 

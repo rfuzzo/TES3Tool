@@ -81,6 +81,65 @@
 
             </StackPanel>
         </DataTemplate>
+
+
+
+
+
+
+
+        <!--  Item Repeaters  -->
+
+        <DataTemplate x:Key="CategoryTemplate" x:DataType="viewmodels:ConflictRecordFieldViewModel">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock
+                    Width="200"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Top"
+                    FontStyle="Italic"
+                    FontWeight="Light"
+                    Foreground="CornflowerBlue"
+                    Text="{x:Bind FieldName}" />
+
+                <ItemsRepeater
+                    x:Name="innerRepeater"
+                    ItemTemplate="{StaticResource StringOrFieldTemplateSelector}"
+                    ItemsSource="{x:Bind FieldByPlugins}">
+
+                    <ItemsRepeater.Layout>
+                        <UniformGridLayout MinItemHeight="40" MinItemWidth="200" />
+
+                    </ItemsRepeater.Layout>
+
+                </ItemsRepeater>
+
+            </StackPanel>
+        </DataTemplate>
+
+        <helpers:StringOrFieldTemplateSelector
+            x:Key="StringOrFieldTemplateSelector"
+            FieldDataTemplate="{StaticResource FieldDataTemplate}"
+            StringTemplate="{StaticResource StringDataTemplate}" />
+
+
+        <DataTemplate x:Key="FieldDataTemplate" x:DataType="viewmodels:RecordFieldViewModel">
+            <TextBlock
+                Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}"
+                Text="{x:Bind Text}"
+                TextWrapping="Wrap" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="StringDataTemplate" x:DataType="x:String">
+            <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
+                    Text="{x:Bind}" />
+            </Grid>
+        </DataTemplate>
+
+
+
     </Page.Resources>
 
     <SplitView
@@ -178,13 +237,20 @@
 
             <!--  Conflicts  -->
             <!--  Grid.Column="1"  -->
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Enabled">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" HorizontalScrollMode="Auto">
 
-                <GridView
-                    x:Name="BasicGridView"
-                    ItemTemplate="{StaticResource ConflictsTemplate}"
-                    ItemsSource="{x:Bind ViewModel.Conflicts}"
-                    SelectionMode="None" />
+                <ItemsRepeater
+                    x:Name="outerRepeater"
+                    VerticalAlignment="Top"
+                    ItemTemplate="{StaticResource CategoryTemplate}"
+                    ItemsSource="{x:Bind ViewModel.Fields}">
+
+                    <ItemsRepeater.Layout>
+                        <StackLayout Orientation="Vertical" />
+                    </ItemsRepeater.Layout>
+
+                </ItemsRepeater>
+
             </ScrollViewer>
 
 

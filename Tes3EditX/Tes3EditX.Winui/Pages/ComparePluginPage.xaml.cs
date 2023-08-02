@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Tes3EditX.Backend.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using TES3Lib.Records;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -36,8 +37,40 @@ public sealed partial class ComparePluginPage : Page
 
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        // activate masters
+        var toActivate = new List<string>();
+        foreach (var item in e.AddedItems)
+        {
+            if (item is PluginItemViewModel vm)
+            {
+                var header = vm.Plugin.Records.FirstOrDefault(x => x.Name == "TES3");
+                if (header is not null && header is TES3 tes3)
+                {
+                    var masters = tes3.Masters.ToList();
+                    foreach (var (master, _) in masters)
+                    {
+                        var m = master.Filename;
+                        toActivate.Add(m.TrimEnd('\0'));
+                    }
+                }
+            }
+        }
+
+        foreach (var item in toActivate)
+        {
+            var x = ViewModel.Plugins.FirstOrDefault(x => x.Name == item);
+            if (x is not null)
+            {
+                var i = ViewModel.Plugins.IndexOf(x);
+                listview.SelectRange(new ItemIndexRange(i, 1));
+            }
+            
+        }
+
+        // sort them again
         ViewModel.SelectedPlugins = listview.SelectedItems
             .Cast<PluginItemViewModel>()
+            .OrderBy(x => x.Info.Extension.ToLower()).ThenBy(x => x.Info.LastWriteTime)
             .ToList();
     }
 }

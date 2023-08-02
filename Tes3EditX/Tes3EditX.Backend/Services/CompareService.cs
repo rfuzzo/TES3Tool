@@ -18,13 +18,13 @@ public partial class CompareService : ObservableObject, ICompareService
     public Dictionary<FileInfo,TES3> Plugins { get; } = new();
 
     [ObservableProperty]
-    private Dictionary<string, List<FileInfo>> _conflicts;
+    private Dictionary<string, List<FileInfo>> _conflicts = new();
 
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; } = new List<PluginItemViewModel>();
 
     public CompareService()
     {
-        Conflicts = new();
+       
     }
 
     // todo get load order right
@@ -45,7 +45,7 @@ public partial class CompareService : ObservableObject, ICompareService
         var pluginMap = new Dictionary<FileInfo, HashSet<string>>();
         foreach (var model in Selectedplugins)
         {
-            var plugin = TES3.TES3Load(model.Info.FullName);
+            var plugin = model.Plugin;
             var records = plugin.Records
                 .Where(x => x is not null)
                 .Select(x => x.GetUniqueId())
