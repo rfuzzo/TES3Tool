@@ -11,6 +11,8 @@ namespace Tes3EditX.Backend.Services
     {
         public int Progress { get; set; }
         public int Maximum { get; set; }
+
+        public string Text { get; set; }
     }
 
     public partial class NotificationService : ObservableObject, INotificationService
@@ -20,5 +22,8 @@ namespace Tes3EditX.Backend.Services
 
         [ObservableProperty]
         private int _maximum = 0;
+
+        [ObservableProperty]
+        private string _text = "";
     }
 }

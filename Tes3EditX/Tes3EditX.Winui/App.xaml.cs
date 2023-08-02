@@ -98,10 +98,11 @@ public partial class App : Application
         services.AddSingleton<IFileApiService, FileApiService>();
 
         // ViewModels
-        services.AddTransient<PluginSelectViewModel>();
-        services.AddTransient<MainViewModel>();
-        services.AddTransient<CompareViewModel>();
-        services.AddTransient<ConflictsViewModel>();
+        services.AddSingleton<PluginSelectViewModel>();
+        services.AddSingleton<MainViewModel>();
+        services.AddSingleton<CompareViewModel>();
+        services.AddSingleton<ConflictsViewModel>();
+        services.AddTransient<SettingsViewModel>();
 
 
         // Views

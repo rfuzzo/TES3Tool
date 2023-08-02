@@ -10,6 +10,8 @@ public interface ISettingsService
 {
     string Name { get; }
     string VersionString { get; }
+    int MinConflicts { get; set; }
+    bool CullConflicts { get; set; }
 
     DirectoryInfo GetWorkingDirectory();
     void SetWorkingDirectory(DirectoryInfo value);

@@ -39,19 +39,29 @@
                         Tag="Default" />
                 </StackPanel>
 
-                <!--<TextBlock
+                <TextBlock
                     Margin="0,40,0,0"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="Installer" />
+                    Text="Conflicts" />
                 <StackPanel Margin="0,10,0,0">
                     <ToggleSwitch
                         x:Name="installerToggle"
                         Margin="0,0,0,4"
-                        Header="Extract apps as zip instead of using the built-in installer"
+                        Header="Check conflicts for false positives (slow)"
+                        IsOn="{x:Bind ViewModel.CullConflicts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent="No"
-                        OnContent="Yes"
-                        Toggled="installerToggle_Toggled" />
-                </StackPanel>-->
+                        OnContent="Yes" />
+
+                    <Slider
+                        Width="200"
+                        Margin="0,0,0,4"
+                        AutomationProperties.Name="simple slider"
+                        Header="Check conflicts for false positives (slow)"
+                        Maximum="10"
+                        Minimum="2"
+                        Value="{x:Bind ViewModel.MinConflicts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                </StackPanel>
             </StackPanel>
 
         </ScrollViewer>

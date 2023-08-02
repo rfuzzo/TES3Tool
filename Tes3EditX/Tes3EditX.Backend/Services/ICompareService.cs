@@ -14,7 +14,7 @@ public interface ICompareService
     public Dictionary<string, List<FileInfo>> Conflicts { get; set; }
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
 
-    void CalculateConflicts();
+    Task CalculateConflicts();
     List<(string, List<RecordFieldViewModel>)> GetConflictMap(List<FileInfo> plugins, string recordId, List<string> names);
     List<string> GetNames(string tag);
 }

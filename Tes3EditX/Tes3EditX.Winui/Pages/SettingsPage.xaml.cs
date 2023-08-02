@@ -14,6 +14,8 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using AppUIBasics.Helper;
 using Microsoft.UI;
+using Microsoft.Extensions.DependencyInjection;
+using Tes3EditX.Backend.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,7 +31,12 @@ namespace Tes3EditX.Winui.Pages
         {
             this.InitializeComponent();
             Loaded += OnSettingsPageLoaded;
+
+            this.DataContext = App.Current.Services.GetService<SettingsViewModel>();
+
         }
+
+        public SettingsViewModel ViewModel => (SettingsViewModel)DataContext;
 
         private void OnSettingsPageLoaded(object sender, RoutedEventArgs e)
         {

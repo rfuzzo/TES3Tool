@@ -1,10 +1,14 @@
-﻿
+﻿#define PARALLEL
+
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Tes3EditX.Backend.Services;
 using TES3Lib;
+using System.Diagnostics.Metrics;
+using System.Diagnostics;
 
 namespace Tes3EditX.Backend.ViewModels;
 
@@ -48,6 +52,8 @@ public partial class PluginSelectViewModel : ObservableObject
 
     private async Task InitPlugins()
     {
+        var stopwatch = Stopwatch.StartNew();
+
         List<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
             .Where(x =>
                 x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) ||
@@ -57,17 +63,36 @@ public partial class PluginSelectViewModel : ObservableObject
         _notificationService.Maximum = pluginPaths.Count;
 
         var plugins = new List<PluginItemViewModel>();
-        foreach (var item in pluginPaths)
+
+
+
+#if PARALLEL
+        var progress = new Progress<int>(_ => _notificationService.Progress++) as IProgress<int>;
+
+        await Task.Run(() =>
         {
+            Parallel.ForEach(pluginPaths, (item, token) =>
+            {
+                var plugin = TES3.TES3Load(item.FullName);
+                plugins.Add(new(item, plugin));
+                progress.Report(0);
+            });
+        });
+#else
+         foreach (var item in pluginPaths)
+         {
             var plugin = await Task.Run(() => TES3.TES3Load(item.FullName));
             plugins.Add(new(item, plugin));
-
-            _notificationService.Progress += 1;
-        }
+            _notificationService.Progress++;
+         }
+#endif
 
         // sort by load order
         var final = plugins.OrderBy(x => x.Info.Extension.ToLower()).ThenBy(x => x.Info.LastWriteTime).ToList();
         Plugins = new(final);
+
+        stopwatch.Stop();
+        _notificationService.Text = stopwatch.Elapsed.TotalSeconds.ToString();
     }
 
     [RelayCommand]
@@ -90,7 +115,7 @@ public partial class PluginSelectViewModel : ObservableObject
     private async Task Compare()
     {
         _compareService.Selectedplugins = SelectedPlugins;
-        _compareService.CalculateConflicts(); // todo make async
+        await _compareService.CalculateConflicts(); // todo make async
         // navigate away
         await _navigationService.NavigateToAsync("//Main/Main");
     }

@@ -117,7 +117,8 @@
 
         <DataTemplate x:Key="FieldDataTemplate" x:DataType="viewmodels:RecordFieldViewModel">
             <TextBlock
-                MinWidth="200"
+                MinWidth="300"
+                MaxWidth="300"
                 Margin="4"
                 Foreground="{x:Bind IsConflict, Mode=OneWay, Converter={StaticResource ColorConverter}}"
                 Text="{x:Bind Text}"
@@ -127,10 +128,14 @@
         <DataTemplate x:Key="StringDataTemplate" x:DataType="x:String">
             <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}">
                 <TextBlock
-                    MinWidth="200"
+                    MinWidth="300"
+                    MaxWidth="300"
+                    Margin="0,0,0,10"
                     HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
                     Foreground="{ThemeResource SystemControlForegroundChromeWhiteBrush}"
-                    Text="{x:Bind}" />
+                    Text="{x:Bind}"
+                    TextWrapping="Wrap" />
             </Grid>
         </DataTemplate>
 

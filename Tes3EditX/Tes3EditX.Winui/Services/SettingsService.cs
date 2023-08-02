@@ -31,4 +31,8 @@ public class SettingsService : ISettingsService
     {
         //Preferences.Default.Set(WDIR, value);
     }
+
+    public int MinConflicts { get; set; } = 2;
+
+    public bool CullConflicts { get; set; }
 }

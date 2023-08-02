@@ -1,7 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿#define PARALLEL
+
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,19 +24,20 @@ public partial class CompareService : ObservableObject, ICompareService
     [ObservableProperty]
     private Dictionary<string, List<FileInfo>> _conflicts = new();
 
-    [ObservableProperty]
-    private int _minConflictNum = 2;
+    private readonly INotificationService _notificationService;
+    private readonly ISettingsService _settingsService;
 
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; } = new List<PluginItemViewModel>();
 
-    public CompareService()
+    public CompareService(INotificationService notificationService, ISettingsService settingsService)
     {
-       
+        _notificationService = notificationService;
+        _settingsService = settingsService;
     }
 
     // todo get load order right
     // todo use hashes
-    public void CalculateConflicts()
+    public async Task CalculateConflicts()
     {
         if (Selectedplugins is null)
         {
@@ -88,35 +92,69 @@ public partial class CompareService : ObservableObject, ICompareService
         // TODO dedup?
         // remove single entries (no conflicts)
         // a true conflict is only at > 2 conflicting entries
-        var singleRecords = conflict_map.Where(x => x.Value.Count < MinConflictNum).Select(x => x.Key);
+        var singleRecords = conflict_map.Where(x => x.Value.Count < _settingsService.MinConflicts).Select(x => x.Key);
         foreach (var item in singleRecords)
         {
             conflict_map.Remove(item);
         }
 
         // TODO cache field names
+        _notificationService.Progress = 0;
+        _notificationService.Maximum = conflict_map.Count;
 
         // check for false positives
         // TODO why is that necessary?
-        var toRemove = new List<string>();
-        foreach (var (key, value) in conflict_map)
-        {
-            var tag = key.Split(',').First();
-            var names = GetNames(tag);
-            var conflicts = GetConflictMap(value, key, names);
-            var hasConflicts = SetConflictStatus(conflicts);
-            if (!hasConflicts)
-            {
-                toRemove.Add(key);
-            }
-        }
-        foreach (var item in toRemove)
-        {
-            conflict_map.Remove(item);
-        }
+      
 
+        if (_settingsService.CullConflicts)
+        {
+
+            var toRemove = new List<string>();
+
+            var stopwatch = Stopwatch.StartNew();
+
+#if PARALLEL
+            var progress = new Progress<int>(_ => _notificationService.Progress++) as IProgress<int>;
+
+            await Parallel.ForEachAsync(conflict_map, async (item, token) =>
+            {
+                //await Task.Run(() => CheckForConflict(toRemove, item.Key, item.Value));
+                CheckForConflict(toRemove, item.Key, item.Value);
+                progress.Report(0);
+
+                await Task.CompletedTask;
+            });
+#else
+         foreach (var item in conflict_map)
+         {
+            CheckForConflict(toRemove, item.Key, item.Value);
+            _notificationService.Progress++;
+         }
+#endif
+
+            stopwatch.Stop();
+            _notificationService.Text = stopwatch.Elapsed.TotalSeconds.ToString();
+
+            foreach (var item in toRemove)
+            {
+                conflict_map.Remove(item);
+            }
+
+        }
 
         Conflicts = conflict_map;
+    }
+
+    private void CheckForConflict(List<string> toRemove, string key, List<FileInfo> value)
+    {
+        var tag = key.Split(',').First();
+        var names = GetNames(tag);
+        var conflicts = GetConflictMap(value, key, names);
+        var hasConflicts = SetConflictStatus(conflicts);
+        if (!hasConflicts)
+        {
+            toRemove.Add(key);
+        }
     }
 
     partial void OnConflictsChanged(Dictionary<string, List<FileInfo>> value)
