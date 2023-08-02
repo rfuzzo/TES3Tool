@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tes3EditX.Backend.Extensions;
@@ -59,7 +60,7 @@ public partial class CompareService : ObservableObject, ICompareService
             Plugins.Add(model.Info, plugin);
         }
 
-
+        // map of record ids and according plugin paths
         Dictionary<string, List<FileInfo>> conflict_map = new();
         foreach (var (pluginKey, records) in pluginMap)
         {
@@ -85,16 +86,33 @@ public partial class CompareService : ObservableObject, ICompareService
         }
 
         // TODO dedup?
+        // remove single entries (no conflicts)
+        // a true conflict is only at > 2 conflicting entries
         var singleRecords = conflict_map.Where(x => x.Value.Count < MinConflictNum).Select(x => x.Key);
         foreach (var item in singleRecords)
         {
             conflict_map.Remove(item);
         }
 
+        // TODO cache field names
+
         // check for false positives
+        // TODO why is that necessary?
+        var toRemove = new List<string>();
         foreach (var (key, value) in conflict_map)
         {
-
+            var tag = key.Split(',').First();
+            var names = GetNames(tag);
+            var conflicts = GetConflictMap(value, key, names);
+            var hasConflicts = SetConflictStatus(conflicts);
+            if (!hasConflicts)
+            {
+                toRemove.Add(key);
+            }
+        }
+        foreach (var item in toRemove)
+        {
+            conflict_map.Remove(item);
         }
 
 
@@ -104,5 +122,152 @@ public partial class CompareService : ObservableObject, ICompareService
     partial void OnConflictsChanged(Dictionary<string, List<FileInfo>> value)
     {
         WeakReferenceMessenger.Default.Send(new ConflictsChangedMessage(value));
+    }
+
+    /// <summary>
+    ///  Get names of all fields for record
+    /// </summary>
+    /// <param name="compareService"></param>
+    /// <param name="recordViewModel"></param>
+    /// <param name="recordId"></param>
+    /// <returns></returns>
+    public List<string> GetNames(string tag)
+    {
+        // get the first record object that matches the tag
+        var record = Plugins.Values.SelectMany(x => x.Records).FirstOrDefault(x => x.Name.Equals(tag));
+        if (record is not null)
+        {
+            var instance = (Record?)Activator.CreateInstance(record.GetType()!);
+            return instance!.GetPropertyNames();
+        }
+
+        // should never happen
+        throw new ArgumentException();
+    }
+
+    public List<(string, List<RecordFieldViewModel>)> GetConflictMap(List<FileInfo> plugins, string recordId, List<string> names)
+    {
+        // fields by plugin
+        var conflictsMap = new List<(string, List<RecordFieldViewModel>)>();
+
+        // loop through plugins to get a vm with fields for each plugin
+        foreach (var pluginPath in plugins)
+        {
+            // get plugin
+            if (Plugins.TryGetValue(pluginPath, out var plugin))
+            {
+                // get record
+                var record = plugin.Records.FirstOrDefault(x => x is not null && x.GetUniqueId() == recordId);
+                if (record is not null)
+                {
+                    conflictsMap.Add((pluginPath.Name, GetFieldsOfRecord(record, names)));
+                }
+            }
+        }
+
+        return conflictsMap;
+    }
+
+    /// <summary>
+    /// Get all fields of record
+    /// </summary>
+    /// <param name="record"></param>
+    /// <param name="names"></param>
+    /// <returns></returns>
+    private static List<RecordFieldViewModel> GetFieldsOfRecord(Record record, List<string> names)
+    {
+        Dictionary<string, object?> map = new();
+        List<RecordFieldViewModel> fields = new();
+
+        foreach (var name in names)
+        {
+            map.Add(name, null);
+        }
+
+        // get properties with reflection recursively
+        var recordProperties = record.GetType().GetProperties(
+               BindingFlags.Public |
+               BindingFlags.Instance |
+               BindingFlags.DeclaredOnly).ToList();
+        foreach (PropertyInfo prop in recordProperties)
+        {
+            var v = prop.GetValue(record);
+
+            if (v is Subrecord subrecord)
+            {
+                var subRecordProperties = subrecord.GetType().GetProperties(
+                    BindingFlags.Public |
+                    BindingFlags.Instance |
+                    BindingFlags.DeclaredOnly).ToList();
+                foreach (PropertyInfo subProp in subRecordProperties)
+                {
+                    if (map.ContainsKey($"{subrecord.Name}.{subProp.Name}"))
+                    {
+                        map[$"{subrecord.Name}.{subProp.Name}"] = subProp.GetValue(subrecord);
+                    }
+                    else if (map.ContainsKey(subProp.Name))
+                    {
+                        map[subProp.Name] = subProp.GetValue(subrecord);
+                    }
+                }
+            }
+        }
+
+        // fill fields
+        // todo to refactor
+        foreach (var (name, field) in map)
+        {
+            fields.Add(new(field, name));
+        }
+
+        return fields;
+    }
+
+    /// <summary>
+    /// Loops through the conflict map and sets conflict status
+    /// </summary>
+    /// <param name="conflicts"></param>
+    public static bool SetConflictStatus(List<(string, List<RecordFieldViewModel>)> conflicts)
+    {
+        var anyConflict = false;
+
+        for (var i = 1; i < conflicts.Count; i++)
+        {
+            var c = conflicts[i].Item2;
+            var c_last = conflicts[i - 1].Item2;
+
+            for (var j = 0; j < c.Count; j++)
+            {
+                RecordFieldViewModel f = c[j];
+                if (j > c_last.Count)
+                {
+                    f.IsConflict = true;
+                    anyConflict = true;
+                }
+                else
+                {
+                    RecordFieldViewModel f_last = c_last[j];
+                    if (f_last.WrappedField is not null && f.WrappedField is not null)
+                    {
+                        if (!f_last.WrappedField.Equals(f.WrappedField))
+                        {
+                            f.IsConflict = true;
+                            anyConflict = true;
+                        }
+                    }
+                    else if (f_last.WrappedField is null && f.WrappedField is null)
+                    {
+                        // do nothing
+                    }
+                    else
+                    {
+                        f.IsConflict = true;
+                        anyConflict = true;
+                    }
+                }
+            }
+        }
+
+        return anyConflict;
     }
 }

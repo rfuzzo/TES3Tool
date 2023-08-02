@@ -91,6 +91,7 @@ public partial class App : Application
 
         // Appservices
         services.AddSingleton<ISettingsService, SettingsService>();
+        services.AddSingleton<INotificationService, NotificationService>();
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<ICompareService, CompareService>();
 
@@ -99,6 +100,8 @@ public partial class App : Application
         // ViewModels
         services.AddTransient<PluginSelectViewModel>();
         services.AddTransient<MainViewModel>();
+        services.AddTransient<CompareViewModel>();
+        services.AddTransient<ConflictsViewModel>();
 
 
         // Views

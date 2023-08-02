@@ -45,7 +45,7 @@ namespace Tes3EditX.Maui
 
         public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
         {
-            mauiAppBuilder.Services.AddTransient<MainViewModel>();
+            mauiAppBuilder.Services.AddTransient<ConflictsViewModel>();
             mauiAppBuilder.Services.AddTransient<AboutViewModel>();
             mauiAppBuilder.Services.AddTransient<PluginSelectViewModel>();
            

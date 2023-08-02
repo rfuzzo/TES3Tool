@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Tes3EditX.Backend.Services;
 using TES3Lib;
 
@@ -10,6 +11,7 @@ namespace Tes3EditX.Backend.ViewModels;
 public partial class PluginSelectViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
+    private readonly INotificationService _notificationService;
     private readonly ICompareService _compareService;
     private readonly ISettingsService _settingsService;
     private readonly IFileApiService _folderPicker;
@@ -23,19 +25,17 @@ public partial class PluginSelectViewModel : ObservableObject
     [ObservableProperty]
     private DirectoryInfo _folderPath;
 
-    [ObservableProperty]
-    private int _progress = 0;
-
-    [ObservableProperty]
-    private int _maximum = 0;
+   
 
     public PluginSelectViewModel(
         INavigationService navigationService,
+        INotificationService notificationService,
         ICompareService compareService,
         ISettingsService settingsService,
         IFileApiService folderPicker)
     {
         _navigationService = navigationService;
+        _notificationService = notificationService;
         _compareService = compareService;
         _settingsService = settingsService;
         _folderPicker = folderPicker;
@@ -48,24 +48,21 @@ public partial class PluginSelectViewModel : ObservableObject
 
     private async Task InitPlugins()
     {
-        Progress = 0;
-        
-
         List<FileInfo> pluginPaths = FolderPath.EnumerateFiles("*", SearchOption.TopDirectoryOnly)
             .Where(x =>
                 x.Extension.Equals(".esp", StringComparison.OrdinalIgnoreCase) ||
                 x.Extension.Equals(".esm", StringComparison.OrdinalIgnoreCase)).ToList();
         
-        
-        Maximum = pluginPaths.Count;
+        _notificationService.Progress = 0;
+        _notificationService.Maximum = pluginPaths.Count;
 
         var plugins = new List<PluginItemViewModel>();
         foreach (var item in pluginPaths)
         {
             var plugin = await Task.Run(() => TES3.TES3Load(item.FullName));
             plugins.Add(new(item, plugin));
-            
-            Progress += 1;
+
+            _notificationService.Progress += 1;
         }
 
         // sort by load order

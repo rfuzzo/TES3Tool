@@ -15,11 +15,11 @@ public sealed partial class ConflictsPage : Page
     public ConflictsPage()
     {
         InitializeComponent();
-        DataContext = App.Current.Services.GetService<MainViewModel>();
+        DataContext = App.Current.Services.GetService<ConflictsViewModel>();
 
     }
 
-    public MainViewModel ViewModel => (MainViewModel)DataContext;
+    public ConflictsViewModel ViewModel => (ConflictsViewModel)DataContext;
 
     // Whenever text changes in any of the filtering text boxes, the following function is called:
     private void OnFilterChanged(object sender, TextChangedEventArgs args)

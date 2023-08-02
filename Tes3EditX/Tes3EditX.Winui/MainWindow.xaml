@@ -8,11 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+
     <!--  Navigation View  -->
     <!--  IsEnabled="{x:Bind ViewModel.Loaded, Mode=OneWay}"  -->
     <NavigationView
         x:Name="NavigationViewControl"
-        Grid.Row="3"
         AlwaysShowHeader="True"
         Canvas.ZIndex="1"
         PaneDisplayMode="LeftCompact"
@@ -31,4 +31,8 @@
         <Frame x:Name="rootFrame" />
 
     </NavigationView>
+
+
+
+
 </Window>

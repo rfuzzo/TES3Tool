@@ -15,4 +15,6 @@ public interface ICompareService
     public IEnumerable<PluginItemViewModel> Selectedplugins { get; set; }
 
     void CalculateConflicts();
+    List<(string, List<RecordFieldViewModel>)> GetConflictMap(List<FileInfo> plugins, string recordId, List<string> names);
+    List<string> GetNames(string tag);
 }

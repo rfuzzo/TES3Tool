@@ -29,9 +29,10 @@ namespace Tes3EditX.Winui.Pages
         {
             this.InitializeComponent();
 
-
+            this.DataContext = App.Current.Services.GetService<CompareViewModel>();
         }
 
-        
+        public CompareViewModel ViewModel => (CompareViewModel)DataContext;
+
     }
 }
