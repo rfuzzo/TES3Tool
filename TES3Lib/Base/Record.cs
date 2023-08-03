@@ -231,6 +231,47 @@ namespace TES3Lib.Base
             return base.Equals(obj);
         }
 
+        public bool DeepEquals(Record other)
+        {
+            var values = new List<object>();
+            var properties = GetType()
+                .GetProperties(BindingFlags.Public |
+                               BindingFlags.Instance |
+                               BindingFlags.DeclaredOnly)
+                               .OrderBy(x => x.MetadataToken)
+                               .ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                var value = property.GetValue(this);
+                var otherValue = property.GetValue(other);
+                if (value is Subrecord s && otherValue is Subrecord sOther) {
+                    if (!value.Equals(sOther))
+                    {
+                        return false;
+                    }
+                }
+                else if (value is not null)
+                {
+                    if (value is IList list1 && otherValue is IList list2)
+                    {
+                        var l1 = list1.Cast<object>().ToList();
+                        var l2 = list2.Cast<object>().ToList();
+                        var same = l1.SequenceEqual(l2);
+                        if (!same)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (!value.Equals(otherValue))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public override int GetHashCode()
         {
             int hash = 0;
@@ -288,7 +329,10 @@ namespace TES3Lib.Base
                         
                     }
                 }
-                
+                else
+                {
+                    list.Add(prop.Name);
+                }
             }
 
             return list;

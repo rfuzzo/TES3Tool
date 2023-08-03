@@ -17,7 +17,7 @@ namespace TES3Lib.Records
     {
         public HEDR HEDR { get; set; }
 
-        public List<(MAST MAST, DATA DATA)> Masters;
+        public List<(MAST MAST, DATA DATA)> Masters { get; set; }
 
         public TES3()
         {
