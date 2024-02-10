@@ -144,7 +144,7 @@ namespace TES3Landgen
             {
                 LandTextures = new Dictionary<int, string>();
                 LandTextures.Add(0, "#222222"); //default land texture
-                foreach (LTEX texture in PluginRef.Records.Where(x => x.Name == "LTEX"))
+                foreach (LTEX texture in PluginRef.Records.Where(x => x.Name == "LTEX").Cast<LTEX>())
                 {
                     var hash = texture.NAME.EditorId.GetHashCode().ToString("X");
                     LandTextures.Add(texture.INTV.IndexNumber + 1, $"#{hash.Substring(0, hash.Length - 2)}");
@@ -168,7 +168,7 @@ namespace TES3Landgen
                 var merged = new HashSet<LAND>();
                 for (int i = PluginsRef.Count - 1; i >= 0; i--)
                 {
-                    foreach (LAND land in PluginsRef[i].Records.Where(x => x.Name == "LAND"))
+                    foreach (LAND land in PluginsRef[i].Records.Where(x => x.Name == "LAND").Cast<LAND>())
                     {
                         merged.Add(land);
                     }

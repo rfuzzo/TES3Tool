@@ -146,8 +146,11 @@ namespace TES3Lib.Base
             {
                 if (property.PropertyType.IsGenericType)
                 {
-                    var subrecordList = property.GetValue(this) as IEnumerable;
-                    if (subrecordList is null) continue;
+                    if (property.GetValue(this) is not IEnumerable subrecordList)
+                    {
+                        continue;
+                    }
+
                     foreach (var sub in subrecordList)
                     {
                         data.AddRange((sub as Subrecord).SerializeSubrecord());
