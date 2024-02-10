@@ -129,8 +129,7 @@ namespace TES3Lib.Records
                         }
                         break;
                     default:
-                        var subrecord = (Subrecord)property.GetValue(this);
-                        if (subrecord is not null)
+                        if (property.GetValue(this) is Subrecord subrecord)
                         {
                             data.AddRange(subrecord.SerializeSubrecord());
                         }

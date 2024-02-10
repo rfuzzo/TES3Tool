@@ -154,10 +154,12 @@ namespace TES3Lib.Base
                     }
                     continue;
                 }
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
-                var subbytes = subrecord.SerializeSubrecord();
-                data.AddRange(subbytes);
+
+                if (property.GetValue(this) is Subrecord subrecord)
+                {
+                    var subbytes = subrecord.SerializeSubrecord();
+                    data.AddRange(subbytes);
+                }
             }
 
             return Encoding.ASCII.GetBytes(GetType().Name)

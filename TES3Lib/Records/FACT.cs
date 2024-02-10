@@ -132,10 +132,10 @@ namespace TES3Lib.Records
                     continue;
                 }
 
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
-
-                data.AddRange(subrecord.SerializeSubrecord());
+                if (property.GetValue(this) is Subrecord subrecord)
+                {
+                    data.AddRange(subrecord.SerializeSubrecord());
+                }
             }
 
             uint flagSerialized = 0;

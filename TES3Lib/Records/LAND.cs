@@ -57,11 +57,6 @@ namespace TES3Lib.Records
 
         }
 
-        public override byte[] SerializeRecord()
-        {
-            return base.SerializeRecord();
-        }
-
         public override bool Equals(object obj)
         {
             if (obj is LAND)

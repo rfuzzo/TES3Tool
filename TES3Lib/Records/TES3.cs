@@ -76,10 +76,10 @@ namespace TES3Lib.Records
             List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
-
-                data.AddRange(subrecord.SerializeSubrecord());
+                if (property.GetValue(this) is Subrecord subrecord)
+                {
+                    data.AddRange(subrecord.SerializeSubrecord());
+                }
             }
 
             if (Masters is not null && Masters.Count > 0)
