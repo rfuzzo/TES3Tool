@@ -1,4 +1,5 @@
-﻿using TES3Lib.Base;
+﻿using System.Collections.Generic;
+using TES3Lib.Base;
 using TES3Lib.Enums.Flags;
 using Utility;
 
@@ -29,5 +30,12 @@ namespace TES3Lib.Subrecords.ALCH
             Value = reader.ReadBytes<int>(Data);
             Flags = reader.ReadBytes<AlchemyFlag>(Data);
         }
+
+        public Dictionary<string, object> GetData() => new()
+        {
+            {nameof(Weight), Weight },
+            {nameof(Value), Value }
+        };
+
     }
 }

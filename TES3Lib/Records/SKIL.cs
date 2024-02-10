@@ -18,6 +18,10 @@ namespace TES3Lib.Records
             BuildSubrecords();
         }
 
+        public SKIL()
+        {
+        }
+
         public override string GetEditorId()
         {
             return INDX is not null ? $"Skill#{INDX.Skill}" : null;

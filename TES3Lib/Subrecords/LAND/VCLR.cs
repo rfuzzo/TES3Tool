@@ -14,7 +14,7 @@ namespace TES3Lib.Subrecords.LAND
     {
         const int size = 65;
 
-        public vcol[,] VertexColors { get; set; }
+        public Vcol[,] VertexColors { get; set; }
 
         public VCLR()
         {
@@ -23,7 +23,7 @@ namespace TES3Lib.Subrecords.LAND
         public VCLR(byte[] rawData) : base(rawData)
         {
             var reader = new ByteReader();
-            VertexColors = new vcol[size, size];
+            VertexColors = new Vcol[size, size];
             for (int y = 0; y < size; y++)
             {
                 for (int x = 0; x < size; x++)
@@ -56,7 +56,7 @@ namespace TES3Lib.Subrecords.LAND
         }
     }
 
-    public struct vcol
+    public struct Vcol
     {
         public byte r;
         public byte g;

@@ -115,6 +115,11 @@ namespace TES3Lib.Base
 
         public override bool Equals(object obj)
         {
+            if (obj is not Subrecord)
+            {
+                return false;
+            }
+
             var properties = GetType()
                 .GetProperties(BindingFlags.Public |
                                BindingFlags.Instance |
@@ -126,10 +131,25 @@ namespace TES3Lib.Base
             {
                 var thisValue = property.GetValue(this);
                 var otherValue = property.GetValue(obj);
-                var objValue = obj is not null ? otherValue : null;
-                if (!thisValue.Equals(objValue))
+                if (thisValue is null && otherValue is null)
+                {
+                    continue;
+                }
+                else if (thisValue is null && otherValue is not null)
                 {
                     return false;
+                }
+                else if (thisValue is not null && otherValue is null)
+                {
+                    return false;
+                }
+                else
+                {
+                    var objValue = obj is not null ? otherValue : null;
+                    if (!thisValue.Equals(objValue))
+                    {
+                        return false;
+                    }
                 }
             }
 

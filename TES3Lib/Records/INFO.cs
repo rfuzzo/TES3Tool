@@ -108,6 +108,11 @@ namespace TES3Lib.Records
             BuildSubrecords();
         }
 
+        public INFO()
+        {
+            SCVR = new();
+        }
+
         // TODO deserializer/serializer
 
 

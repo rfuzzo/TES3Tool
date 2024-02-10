@@ -17,7 +17,7 @@ namespace TES3Lib.Records
     {
         public HEDR HEDR { get; set; }
 
-        public List<(MAST MAST, DATA DATA)> Masters;
+        public List<(MAST MAST, DATA DATA)> Masters { get; set; }
 
         public TES3()
         {
@@ -76,10 +76,10 @@ namespace TES3Lib.Records
             List<byte> data = new();
             foreach (PropertyInfo property in properties)
             {
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
-
-                data.AddRange(subrecord.SerializeSubrecord());
+                if (property.GetValue(this) is Subrecord subrecord)
+                {
+                    data.AddRange(subrecord.SerializeSubrecord());
+                }
             }
 
             if (Masters is not null && Masters.Count > 0)

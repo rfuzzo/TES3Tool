@@ -154,10 +154,12 @@ namespace TES3Lib.Base
                     }
                     continue;
                 }
-                var subrecord = (Subrecord)property.GetValue(this);
-                if (subrecord is null) continue;
-                var subbytes = subrecord.SerializeSubrecord();
-                data.AddRange(subbytes);
+
+                if (property.GetValue(this) is Subrecord subrecord)
+                {
+                    var subbytes = subrecord.SerializeSubrecord();
+                    data.AddRange(subbytes);
+                }
             }
 
             return Encoding.ASCII.GetBytes(GetType().Name)
@@ -231,6 +233,47 @@ namespace TES3Lib.Base
             return base.Equals(obj);
         }
 
+        public bool DeepEquals(Record other)
+        {
+            var values = new List<object>();
+            var properties = GetType()
+                .GetProperties(BindingFlags.Public |
+                               BindingFlags.Instance |
+                               BindingFlags.DeclaredOnly)
+                               .OrderBy(x => x.MetadataToken)
+                               .ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                var value = property.GetValue(this);
+                var otherValue = property.GetValue(other);
+                if (value is Subrecord s && otherValue is Subrecord sOther) {
+                    if (!value.Equals(sOther))
+                    {
+                        return false;
+                    }
+                }
+                else if (value is not null)
+                {
+                    if (value is IList list1 && otherValue is IList list2)
+                    {
+                        var l1 = list1.Cast<object>().ToList();
+                        var l2 = list2.Cast<object>().ToList();
+                        var same = l1.SequenceEqual(l2);
+                        if (!same)
+                        {
+                            return false;
+                        }
+                    }
+                    else if (!value.Equals(otherValue))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
         public override int GetHashCode()
         {
             int hash = 0;
@@ -254,6 +297,47 @@ namespace TES3Lib.Base
             }
 
             return hash;
+        }
+
+        public List<string> GetPropertyNames()
+        {
+            var list = new List<string>();
+            var recordProperties = GetType().GetProperties(
+               BindingFlags.Public |
+               BindingFlags.Instance |
+               BindingFlags.DeclaredOnly).ToList();
+            foreach (PropertyInfo prop in recordProperties)
+            {
+                var v = prop.GetValue(this);
+
+                v ??= Activator.CreateInstance(prop.PropertyType);
+
+                if (v is Subrecord subrecord)
+                {
+                    var subRecordProperties = subrecord.GetType().GetProperties(
+                        BindingFlags.Public |
+                        BindingFlags.Instance |
+                        BindingFlags.DeclaredOnly).ToList();
+                    foreach (PropertyInfo subProp in subRecordProperties)
+                    {
+                        if (list.Contains(subProp.Name))
+                        {
+                            list.Add($"{subrecord.Name}.{subProp.Name}");
+                        }
+                        else
+                        {
+                            list.Add(subProp.Name);
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    list.Add(prop.Name);
+                }
+            }
+
+            return list;
         }
     }
 }

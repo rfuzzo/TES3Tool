@@ -370,7 +370,7 @@ namespace TES3Landgen
 
         private VNML CreateVertexNormalSubrecord(int offsetX, int offsetY, float[,] importedHeightMap)
         {
-            var normals = new normal[HEIGHT_CELL_SIZE, HEIGHT_CELL_SIZE];
+            var normals = new Normal[HEIGHT_CELL_SIZE, HEIGHT_CELL_SIZE];
             for (int y = 0 - 1; y >= 0; y--)
             {
                 for (int x = normals.GetLength(1) - 1; x >= 0; x--)

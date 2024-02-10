@@ -12,5 +12,9 @@ namespace TES3Lib.Subrecords.MGEF
             var reader = new ByteReader();
             BoldSoundId = reader.ReadBytes<string>(Data, Size);
         }
+
+        public BSND()
+        {
+        }
     }
 }
